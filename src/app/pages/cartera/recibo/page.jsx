@@ -128,7 +128,7 @@ const ConsultarRecibo = () => {
  
   useEffect(() => {
     realizarBusqueda();
-  }, [criterio, valorBusqueda, auth.IDSaler]);
+  }, [criterio, valorBusqueda]);
 
   const realizarBusqueda = async () => {
     try {

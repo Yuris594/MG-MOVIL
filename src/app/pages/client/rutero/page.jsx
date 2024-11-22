@@ -103,7 +103,7 @@ const RealizarRutero = () => {
             <strong>Razón Social: </strong>{clienteV.RazonSocial} 
           </Box>
           <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
-            <strong>Usuario: </strong>{auth.UserFullName}
+            <strong>Usuario: </strong>{auth?.UserFullName}
           </Box>
         </Box>
 

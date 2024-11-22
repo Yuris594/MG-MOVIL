@@ -135,7 +135,7 @@ const DetallePedido = () => {
             <strong>MIGUEL GÓMEZ Y COMPAÑÍA S.A.S</strong>
           </Grid>
           <Grid size={{ xs: 12, sm: 8, md: 12 }}>
-            <strong>Nombre Vendedor: </strong>{auth.UserFullName}
+            <strong>Nombre Vendedor: </strong>{auth?.UserFullName}
           </Grid>
         </Grid>
         <Box sx={{ margin: 2 }}>

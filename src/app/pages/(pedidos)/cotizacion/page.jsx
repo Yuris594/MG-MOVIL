@@ -107,24 +107,22 @@ const Cotizacion = () => {
   return (
     <>
       <NavBar />
-      <Grid container direction="column" sx={{ minHeight: "100vh", backfroundColor: "#ffffff", padding: 2 }}>
+      <Grid container direction="column" sx={{ minHeight: "100vh", backfroundColor: "#ffffff", padding: 3 }}>
         <Grid size={12}>
-          <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center" }}>
+          <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center", justifyContent: "space-between", mb: 3 }}>
             <h2><strong>COTIZACIÓN</strong></h2>
-            <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center", marginLeft: isSmallScreen ? 0 : "auto", padding: 2  }}>
-              <TextField 
-                variant="outlined"
-                value={busqueda}
-                onChange={handleChange}
-                label="Buscar" 
-                sx={{ width: 350, heigth: 50  }} 
-              />
-            </Box>
+            <TextField 
+              variant="outlined"
+              value={busqueda}
+              onChange={handleChange}
+              label="Buscar" 
+              sx={{ width: isSmallScreen ? "100%" : 350, backgroundColor: "#fff", borderRadius: 2 }} 
+            />
           </Box>
         </Grid>
           
-        <Grid size={12} sx={{ flexGrow: 1, marginBottom: 2 }}>
-          <Box sx={{ width: "100%", heigth: isSmallScreen ? 500 : 750 }}>
+        <Grid size={12} sx={{ flexGrow: 1 }}>
+          <Box sx={{ width: "100%", heigth: isSmallScreen ? 500 : 750, borderRadius: 2 }}>
             <DataGrid
               rows={pedidos}
               columns={columns}
@@ -136,9 +134,9 @@ const Cotizacion = () => {
                   },
                 },
               }}
-              pageSizeOptions={[10]}
+              pageSizeOptions={[5, 10, 15]}
               onRowDoubleClick={(params) => handleOpen(params.row)} 
-            />
+            /> 
           </Box>
         </Grid>
       </Grid>
@@ -147,9 +145,7 @@ const Cotizacion = () => {
       <Modal 
         open={open} 
         onClose={handleClose} 
-        BackdropProps={{
-          onClick: (event) => event.stopPropagation()
-        }}
+    
         aria-labelledby="modal-modal-title" 
         aria-describedby="modal-modal-description">
         <Box sx={style}>

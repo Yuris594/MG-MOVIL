@@ -33,6 +33,7 @@ const DetallesPedido = ({ pedido, handleClose }) => {
   const [notas, setNotas] = useState("");
   const [total, setTotal] = useState("");
   const [fecha, setFecha] = useState("");
+  //const [email, setEmail] = useState("");
   const [open, setOpen] = useState(false);
   const [nombre, setNombre] = useState("");
   const [telefono, setTelefono] = useState("");
@@ -58,6 +59,7 @@ const DetallesPedido = ({ pedido, handleClose }) => {
       if (pedidoSeleccionado) {
         setNit(pedidoSeleccionado.NitC);
         setNotas(pedidoSeleccionado.Notas);
+        //setEmail(pedidoSeleccionado.email);
         setTotal(pedidoSeleccionado.total);
         setNombre(pedidoSeleccionado.nombreC);
         setImpuesto(pedidoSeleccionado.impuesto);
@@ -139,6 +141,9 @@ const DetallesPedido = ({ pedido, handleClose }) => {
   const calcularTotales = (articulos) => {
     let total = 0;
     let subTotal = 0;
+    let totalDescuento = 0;
+    let totalImpuesto = 0;
+
     articulos.forEach((art) => {
       const cantidad = parseFloat(art.cantped) || 0;
       const precio = parseFloat(art.Precio) || 0;
@@ -146,14 +151,19 @@ const DetallesPedido = ({ pedido, handleClose }) => {
       const iva = (parseFloat(art.Iva) || 0) / 100;
 
       const totalArt = cantidad * precio;
-      const totalDescuento = totalArt * descuento;
-      const totalIva = (totalArt - totalDescuento) * iva;
+      const Descuento = totalArt * descuento;
+      const Iva = (totalArt - Descuento) * iva;
 
-      total += totalArt - totalDescuento + totalIva;
-      subTotal += totalArt - totalDescuento;
+      totalDescuento += precio * cantidad * descuento;
+      totalImpuesto += precio * cantidad * iva;
+      total += totalArt - Descuento + Iva;
+      subTotal += totalArt - Descuento;
     });
+    
     setTotal(total.toFixed(0));
     setSubTotal(subTotal.toFixed(0));
+    setImpuesto(totalImpuesto.toFixed(0));
+    setDescuento(totalDescuento.toFixed(0));
   };
 
 
@@ -356,63 +366,50 @@ const DetallesPedido = ({ pedido, handleClose }) => {
   };
 
 
-  const enviarPDF = async () => {
-    if(!consecutivo || !nit) {
-      Swal.fire({
-        icon: "warning",
-        title: "Datos Faltantes",
-        text: "Por favor, asegurate de que el Número del Recibo y el Nit estén definidos."
-      });
-      return;
-    }
+  const enviarCorreo = async () => {
+    const pdfBlob = GenerarPDF.generarPDF();
+    const email = "yuri.bolano@cun.edu.co";
 
+    const formData = new FormData();
+    formData.append("pdf", pdfBlob, "cotizacion.pdf");
+    formData.append("email", email);  
+    formData.append("asunto", "Cotización de Pedido");
+    formData.append("mensaje", "Adjunto la cotización solicitada."); 
+  
     try {
-      const response = await fetch(Global.url + `/receipts/sendmail/`, {
+      const response = await fetch("http://localhost:4000/enviar-correo", {
         method: "POST",
-        headers: { "Content-Type" : "application/json" },
-        body: JSON.stringify(),
+        body: formData,
       });
-
+  
       if (response.ok) {
-        const datos = await response.json(); 
-
-      handleClose();
-
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Email Enviado con Exito!.",
-        text: `${datos.text}`,
-        showConfirmButton: false,
-        timer: 2500
-      });
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Error al Enviar el Email!.",
-      });
+        alert("Correo enviado con éxito.");
+      } else {
+        alert("Error al enviar el correo.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("No se pudo enviar el correo.");
     }
-  } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Error de Red",
-        text: "No se pudo Enviar el Correo debido a un Problema de Red."
-    });
-  }
-  }
+  };
+  
+  console.log(GenerarPDF); 
+  
+  
+
+  
 
 
+  
   return (
     <>
       <Grid container spacing={2} direction={isSmallScreen ? "column" : "row"} alignItems="center" justifyContent="space-between">
         <h3><strong>PEDIDOS</strong></h3>
         <Grid size={{ xs: 12, sm: 8 }} sx={{ padding: 2 }}>
           <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", justifyContent: "center", alignItems: "center" }}>
-            <Button onClick={handleOpen} variant="contained" sx={{ margin: 1, backgroundColor:"#4eeacb", color: "white" }}>Articulos</Button>
+            <Button onClick={handleOpen} variant="contained" sx={{ margin: 1, backgroundColor:"#841dec", color: "white" }}>Articulos</Button>
             <Button onClick={enviarPedido} variant="contained" sx={{ margin: 1, backgroundColor:"#25ba25", color: "white" }}>Pedido</Button>
-            <Button onClick={enviarPDF} variant="contained" sx={{ margin: 1, backgroundColor:"#d920ba", color: "white" }}>Enviar</Button>
-            <Button onClick={GenerarPDF.generarPDF} variant="contained" sx={{ margin: 1, backgroundColor:"#841dec", color: "white" }}>PDF</Button>
+            <Button onClick={enviarCorreo} variant="contained" sx={{ margin: 1, backgroundColor:"#d920ba", color: "white" }}>Enviar PDF</Button>
             <Button onClick={GuardarCambios} variant="contained" sx={{ margin: 1, backgroundColor:"#d92020", color: "white" }}>Cambios y Cerrar</Button>
           </Box>
         </Grid>
@@ -492,3 +489,7 @@ const DetallesPedido = ({ pedido, handleClose }) => {
 };
 
 export default DetallesPedido;
+
+
+
+

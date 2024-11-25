@@ -77,7 +77,7 @@ const Cotizacion = (articulosSeleccionados = {}, auth, nombre, nit, telefono, fe
       pdf.text("NIT. 890.900.137-1",  50, 55)
       pdf.setFontSize(8);
       pdf.setFont("courier", "italic");
-      pdf.text(`NOMBRE VENDEDOR: ${auth.UserFullName}`, 450, 25);
+      pdf.text(`NOMBRE VENDEDOR: ${auth?.UserFullName}`, 450, 25);
       pdf.text(`${fechaActual()}`, 450, 35);
       pdf.setFontSize(10);
       pdf.text("____________________________________________________________________________________________", 14, 60);
@@ -96,20 +96,27 @@ const Cotizacion = (articulosSeleccionados = {}, auth, nombre, nit, telefono, fe
       pdf.setFontSize(10);
       pdf.setFont("times", "italic")
       pdf.text(`TOTAL ITEMS:        ${articulosSeleccionados.length}`, 350, pdf.autoTable.previous.finalY + 80);
-      pdf.text(`SubTotal:     ${subTotal.toLocaleString("es-ES")}`, 470, pdf.autoTable.previous.finalY + 20);
-      pdf.text(`Desc:         ${descuento.toLocaleString("es-ES")}  `,470,pdf.autoTable.previous.finalY + 40);
-      pdf.text(`IVA:          ${impuesto.toLocaleString("es-ES")}   `, 470, pdf.autoTable.previous.finalY + 60);
-      pdf.text(`TOTAL:        ${total.toLocaleString("es-ES")}`, 470,pdf.autoTable.previous.finalY + 80);
+      pdf.text(`SubTotal:     $${subTotal.toLocaleString("es-ES")}`, 470, pdf.autoTable.previous.finalY + 20);
+      pdf.text(`Desc:         $${descuento.toLocaleString("es-ES")}  `,470,pdf.autoTable.previous.finalY + 40);
+      pdf.text(`IVA:          $${impuesto.toLocaleString("es-ES")}   `, 470, pdf.autoTable.previous.finalY + 60);
+      pdf.text(`TOTAL:        $${total.toLocaleString("es-ES")}`, 470,pdf.autoTable.previous.finalY + 80);
 
       pdf.rect(10, pdf.autoTable.previous.finalY + 9, 450, 88);
       pdf.rect(463, pdf.autoTable.previous.finalY + 9, 120, 88);
     }
 
     agregarContenido();
-    pdf.output('dataurlnewwindow');
-  }
+    
+    const pdfBlob = pdf.output("blob");
+    return pdfBlob
+
+
+    //pdf.output('dataurlnewwindow');
+  };
 
   return { generarPDF };
 }
 
 export default Cotizacion;
+
+

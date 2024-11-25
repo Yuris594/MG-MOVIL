@@ -126,7 +126,7 @@ const CrearPedido = () => {
 
       totalDescuento += precioBase * cantidad * descuento;
 
-      totalImpuesto += precioBase + cantidad * iva;
+      totalImpuesto += precioBase * cantidad * iva;
 
       nuevoTotal += parseFloat(art.Total);
     })
@@ -207,6 +207,7 @@ const CrearPedido = () => {
       telefonoC: clienteV.Telefono,
       direccionC: clienteV.Direccion,
       municipioC: clienteV.CityName,
+      email: clienteV.Email,
       total,
       subTotal,
       impuesto,

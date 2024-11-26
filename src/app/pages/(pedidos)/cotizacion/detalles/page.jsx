@@ -367,39 +367,45 @@ const DetallesPedido = ({ pedido, handleClose }) => {
 
 
   const enviarCorreo = async () => {
-    const pdfBlob = GenerarPDF.generarPDF();
-    const email = "yuri.bolano@cun.edu.co";
-
-    const formData = new FormData();
-    formData.append("pdf", pdfBlob, "cotizacion.pdf");
-    formData.append("email", email);  
-    formData.append("asunto", "Cotización de Pedido");
-    formData.append("mensaje", "Adjunto la cotización solicitada."); 
-  
     try {
-      const response = await fetch("http://localhost:4000/enviar-correo", {
+      const pdf = await GenerarPDF.generarPDF();
+      const pdfBlob = pdf.output("blob");
+      
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+      window.open(pdfUrl);
+
+      const formData = new FormData();
+      formData.append("archivo", pdfBlob, "cotizacion.pdf");
+      formData.append("nombre", nombre);
+      formData.append("nit", nit);
+      formData.append("correo", "yuri.bolano@cun.edu.co");
+
+      const response = await fetch("http://localhost:4000/cotizaciones/enviar", {
         method: "POST",
         body: formData,
       });
-  
-      if (response.ok) {
-        alert("Correo enviado con éxito.");
-      } else {
-        alert("Error al enviar el correo.");
+
+      if (!response.ok) {
+        throw new Error("Error al enviar el correo.");
       }
+
+      Swal.fire({
+        title: "Éxito",
+        text: "El PDF fue enviado correctamente al cliente.",
+        icon: "success",
+        timer: 3000,
+      });
+      
     } catch (error) {
-      console.error("Error:", error);
-      alert("No se pudo enviar el correo.");
+      console.log("Error al enviar el correo:", error);
+      Swal.fire({
+        title: "Error",
+        text: "Hubo un problema al enviar el PDF.",
+        icon: "error",
+      });
     }
   };
   
-  console.log(GenerarPDF); 
-  
-  
-
-  
-
-
   
   return (
     <>
@@ -489,7 +495,6 @@ const DetallesPedido = ({ pedido, handleClose }) => {
 };
 
 export default DetallesPedido;
-
 
 
 

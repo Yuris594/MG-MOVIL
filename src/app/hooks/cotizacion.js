@@ -80,7 +80,7 @@ const Cotizacion = (articulosSeleccionados = {}, auth, nombre, nit, telefono, fe
       pdf.text(`NOMBRE VENDEDOR: ${auth?.UserFullName}`, 450, 25);
       pdf.text(`${fechaActual()}`, 450, 35);
       pdf.setFontSize(10);
-      pdf.text("____________________________________________________________________________________________", 14, 60);
+      pdf.text("_________________________________________________________________________________________________", 14, 60);
       pdf.setFont("times", "italic");
       pdf.setFontSize(10);
       pdf.text(`CLIENTE: ${nombre}`, 16, 85);
@@ -107,16 +107,28 @@ const Cotizacion = (articulosSeleccionados = {}, auth, nombre, nit, telefono, fe
 
     agregarContenido();
     
-    const pdfBlob = pdf.output("blob");
-    return pdfBlob
-
-
-    //pdf.output('dataurlnewwindow');
+    pdf.output('dataurlnewwindow');
+    
   };
-
+  
   return { generarPDF };
 }
 
 export default Cotizacion;
 
 
+
+
+
+
+
+
+/*
+const pdfBlob = pdf.output("blob");
+const fileURL = URL.createObjectURL(pdfBlob);
+window.open(fileURL);
+
+
+const pdfBlob = pdf.output("blob");
+return pdfBlob
+*/

@@ -400,7 +400,7 @@ const CrearPedido = () => {
             <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", justifyContent: "center", alignItems: "center" }}>
               <Button onClick={handleOpen} variant="contained" sx={{ margin: 1, backgroundColor:"#4eeacb", color: "white" }}>Articulos</Button>
               <Button onClick={guardarPedido} variant="contained" sx={{ margin: 1, backgroundColor: '#8334f0', color: 'white' }}>Guardar</Button>
-              <Button onClick={cotizacionPedido} variant="contained" sx={{ margin: 1, backgroundColor: '#c9e60c', color: "white" }}>Cotización</Button>
+              <Button onClick={cotizacionPedido} variant="contained" sx={{ margin: 1, backgroundColor: '#e15215', color: "white" }}>Cotización</Button>
               <Button onClick={enviarPedido} variant="contained" sx={{ margin: 1 }} color="success">Enviar</Button>
               <Button variant="contained" sx={{ ml: 1, mr: 2 }} color="error" LinkComponent={Link} href="../client">Cerrar</Button>
             </Box>

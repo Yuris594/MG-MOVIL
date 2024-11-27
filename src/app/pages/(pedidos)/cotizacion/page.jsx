@@ -111,7 +111,7 @@ const VerCotizacion = () => {
     const correoCliente = pedido?.email;
     
     try {
-      const response = await fetch("http://localhost:4000/enviar-pdf", {
+      const response = await fetch("", { //Añadir la nueva url cuando el bakend este listo
         method: "POST",
         headers: { "Content-Type" : "application/json" },
         body: JSON.stringify({ ...pedido, correoUsuario, correoCliente }),

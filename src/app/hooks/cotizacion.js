@@ -3,16 +3,41 @@
 import "jspdf-autotable";
 import jsPDF from "jspdf";
 import { format } from "date-fns";
+import { useAuth } from "@/context/authContext";
 
 
-const Cotizacion = (articulosSeleccionados = {}, auth, nombre, nit, telefono, fecha, direccion, municipio, notas, subTotal, descuento, impuesto, total) => {
+const Cotizacion = () => {
+
+  const { auth } = useAuth();
 
   const fechaActual = () => {
     const now = new Date();
     return format(now, "yyyy-MM-dd HH:mm:ss");
   };
 
-  const generarPDF = () => {
+  const generarPDF = (pedido) => { 
+    const pedidosGuardados = JSON.parse(localStorage.getItem("cotizacion")) || [];
+    const pedidoActualizado = pedidosGuardados.find((p) => p.PKId === pedido.PKId);
+
+    if(!pedidoActualizado) {
+      console.error("No se encontró el pedido actual");
+    }
+
+    const {
+      articulosSeleccionados,
+      nombreC,
+      nit, 
+      telefono,
+      fecha,
+      direccion,
+      municipio,
+      notas,
+      subTotal,
+      descuento,
+      impuesto,
+      total
+    } = pedidoActualizado;
+
     const pdf = new jsPDF("portrait", "pt", "letter");
     const columnsParaPDF = [
       { field: "PKcodigo", headerName: "REF.", width: 120 },
@@ -25,6 +50,7 @@ const Cotizacion = (articulosSeleccionados = {}, auth, nombre, nit, telefono, fe
       { field: "Total", headerName: "TOTAL", width: 100 }
     ];
 
+    const fechaFormateada = format(new Date(fecha), "yyyy-MM-dd");
 
     const styles = {
       theme: "plain",
@@ -39,7 +65,7 @@ const Cotizacion = (articulosSeleccionados = {}, auth, nombre, nit, telefono, fe
       fontSize: 8,
     };
 
-    const dataToPrint = articulosSeleccionados.map((row) => {
+    const dataToPrint = articulosSeleccionados?.map((row) => {
       const rowData = [];
       columnsParaPDF.forEach((column) => {
         let value = row[column.field];
@@ -73,7 +99,7 @@ const Cotizacion = (articulosSeleccionados = {}, auth, nombre, nit, telefono, fe
     function encabezado() {
       pdf.setFontSize(12);
       pdf.setFont("times", "normal");
-      pdf.addImage("/logo_factura.png", "PNG", 16, 20, 200, 25);
+      pdf.addImage("/LOGO.png", "PNG", 16, 20, 200, 25);
       pdf.text("NIT. 890.900.137-1",  50, 55)
       pdf.setFontSize(8);
       pdf.setFont("courier", "italic");
@@ -83,10 +109,10 @@ const Cotizacion = (articulosSeleccionados = {}, auth, nombre, nit, telefono, fe
       pdf.text("_________________________________________________________________________________________________", 14, 60);
       pdf.setFont("times", "italic");
       pdf.setFontSize(10);
-      pdf.text(`CLIENTE: ${nombre}`, 16, 85);
+      pdf.text(`CLIENTE: ${nombreC}`, 16, 85);
       pdf.text(`NIT: ${nit}`, 16, 105);
       pdf.text(`TELÉFONO: ${telefono}`, 200, 105);
-      pdf.text(`FECHA: ${fecha}`, 400, 105);
+      pdf.text(`FECHA: ${fechaFormateada}`, 400, 105);
       pdf.text(`DIRECCIÓN: ${direccion}`, 16, 125);
       pdf.text(`MUNICIPIO: ${municipio}`, 200, 125);
       pdf.text(`NOTAS: ${notas}`, 16, 145);
@@ -95,11 +121,11 @@ const Cotizacion = (articulosSeleccionados = {}, auth, nombre, nit, telefono, fe
     function agregarContenido() {
       pdf.setFontSize(10);
       pdf.setFont("times", "italic")
-      pdf.text(`TOTAL ITEMS:        ${articulosSeleccionados.length}`, 350, pdf.autoTable.previous.finalY + 80);
-      pdf.text(`SubTotal:     $${subTotal.toLocaleString("es-ES")}`, 470, pdf.autoTable.previous.finalY + 20);
-      pdf.text(`Desc:         $${descuento.toLocaleString("es-ES")}  `,470,pdf.autoTable.previous.finalY + 40);
-      pdf.text(`IVA:          $${impuesto.toLocaleString("es-ES")}   `, 470, pdf.autoTable.previous.finalY + 60);
-      pdf.text(`TOTAL:        $${total.toLocaleString("es-ES")}`, 470,pdf.autoTable.previous.finalY + 80);
+      pdf.text(`TOTAL ITEMS:        ${articulosSeleccionados?.length}`, 350, pdf.autoTable.previous.finalY + 80);
+      pdf.text(`SubTotal:     $${subTotal}`, 470, pdf.autoTable.previous.finalY + 20);
+      pdf.text(`Desc:         $${descuento}  `,470,pdf.autoTable.previous.finalY + 40);
+      pdf.text(`IVA:          $${impuesto}   `, 470, pdf.autoTable.previous.finalY + 60);
+      pdf.text(`TOTAL:        $${total}`, 470,pdf.autoTable.previous.finalY + 80);
 
       pdf.rect(10, pdf.autoTable.previous.finalY + 9, 450, 88);
       pdf.rect(463, pdf.autoTable.previous.finalY + 9, 120, 88);
@@ -117,18 +143,3 @@ const Cotizacion = (articulosSeleccionados = {}, auth, nombre, nit, telefono, fe
 export default Cotizacion;
 
 
-
-
-
-
-
-
-/*
-const pdfBlob = pdf.output("blob");
-const fileURL = URL.createObjectURL(pdfBlob);
-window.open(fileURL);
-
-
-const pdfBlob = pdf.output("blob");
-return pdfBlob
-*/

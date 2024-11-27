@@ -116,53 +116,52 @@ function Login() {
         <Box sx={{ height: "100vh", display: "flex", flexDirection: "column", alignItems: "center", backgroundColor: "#f5f5f5" }}>
           <CssBaseline />
             <ThemeProvider theme={theme}>
-              <Box sx={{ width: "100%", backgroundColor: "#1C1E1E", padding: 2, textAlign: "center" }}>
-                <Image  
-                  src="/logo2.png"
-                  width={isSmallScreen ? 200 : 240}
-                  height={isSmallScreen ? 120 : 140}
-                  alt="Logo"
-                  priority={true}
-                />
-              </Box>
-              <Container component="main" maxWidth="xs" sx={{ backgroundColor: "#FFFFFF", padding: 4, borderRadius: 2, boxShadow: "0px 5px 15px rgba(0,0,0,0.3)", marginTop: 1 }}>
-                <Typography component="h1" variant="h5" align="center" sx={{ fontWeight: "bold", marginBottom: 2 }}>
-                  Iniciar Sesión
-                </Typography>
-                  
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                      
-                      <TextField
-                        error={error}
-                        id="usuario"
-                        label="Usuario"
-                        margin="normal"
-                        fullWidth
-                        name="PER_Usuario"
-                        value={usuario}
-                        onChange={(e) => setUsuario(e.target.value)}
-                      />
+              <Container component="main" maxWidth="xs" sx={{ backgroundColor: "#FFFFFF", padding: 4, borderRadius: 2, boxShadow: "0px 5px 15px rgba(0,0,0,0.3)", marginTop: 6 }}>
+                <Box sx={{ textAlign: "center" }}>
+                  <Image  
+                    src="/LOGO.png"
+                    width={isSmallScreen ? 200 : 240}
+                    height={isSmallScreen ? 120 : 140}
+                    alt="Logo"
+                    priority={true}
+                  />
+                </Box>
+                  <Typography component="h1" variant="h5" align="center" sx={{ fontWeight: "bold", marginBottom: 2 }}>
+                    !Bienvenido¡
+                  </Typography>
+                  <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                    
+                    <TextField
+                      error={error}
+                      id="usuario"
+                      label="Usuario"
+                      margin="normal"
+                      fullWidth
+                      name="PER_Usuario"
+                      value={usuario}
+                      onChange={(e) => setUsuario(e.target.value)}
+                    />
 
-                      <Typography component="h1" variant="h6"></Typography>
+                    <Typography component="h1" variant="h6"></Typography>
 
-                      <TextField
-                        error={error}
-                        margin="normal"
-                        required
-                        fullWidth
-                        type="password"
-                        name="PER_Clave"
-                        id="contraseña"
-                        label="Contraseña"
-                        value={clave}
-                        onChange={(e) => setClave(e.target.value)}
-                      />
+                    <TextField
+                      error={error}
+                      margin="normal"
+                      required
+                      fullWidth
+                      type="password"
+                      name="PER_Clave"
+                      id="contraseña"
+                      label="Contraseña"
+                      value={clave}
+                      onChange={(e) => setClave(e.target.value)}
+                    />
 
-                      <Button type="submit" fullWidth variant="contained" color="success"
-                          sx={{ marginTop: 2 }}>
-                            Iniciar sesión
-                      </Button>
-                    </Box>
+                    <Button type="submit" fullWidth variant="contained" color="success"
+                        sx={{ marginTop: 2 }}>
+                          Iniciar sesión
+                    </Button>
+                  </Box>
                 </Container>
               </ThemeProvider>
                   

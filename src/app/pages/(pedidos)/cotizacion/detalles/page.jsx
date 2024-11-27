@@ -4,7 +4,6 @@ import { Box, Button, Divider, Modal, TextField, Typography, useMediaQuery } fro
 import Articulos from "@/app/pages/client/pedidos/articulo/page";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { useAuth } from "@/context/authContext";
-import Cotizacion from "@/app/hooks/cotizacion";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { IconButton } from '@mui/material';
@@ -33,20 +32,15 @@ const DetallesPedido = ({ pedido, handleClose }) => {
   const [notas, setNotas] = useState("");
   const [total, setTotal] = useState("");
   const [fecha, setFecha] = useState("");
-  //const [email, setEmail] = useState("");
   const [open, setOpen] = useState(false);
   const [nombre, setNombre] = useState("");
-  const [telefono, setTelefono] = useState("");
   const [subTotal, setSubTotal] = useState("");
   const [impuesto, setImpuesto] = useState("");
   const [descuento, setDescuento] = useState("");
-  const [direccion, setDireccion] = useState("");
-  const [municipio, setMunicipio] = useState("");
   const [documento, setDocumento] = useState("");
   const [articulosSeleccionados, setArticulosSeleccionados] = useState([]);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
   
-  const GenerarPDF = Cotizacion(articulosSeleccionados, auth, nombre, nit, telefono, fecha, direccion, municipio, notas, subTotal, descuento, impuesto, total,);
   
   const handleOpen = () => setOpen(true);
   const handleCloseA = () => setOpen(false);
@@ -57,20 +51,16 @@ const DetallesPedido = ({ pedido, handleClose }) => {
       const pedidosGuardados = JSON.parse(localStorage.getItem("cotizacion")) || [];
       const pedidoSeleccionado = pedidosGuardados.find(p => p.PKId === pedido.PKId); 
       if (pedidoSeleccionado) {
-        setNit(pedidoSeleccionado.NitC);
-        setNotas(pedidoSeleccionado.Notas);
-        //setEmail(pedidoSeleccionado.email);
+        setNit(pedidoSeleccionado.nit);
+        setNotas(pedidoSeleccionado.notas);
         setTotal(pedidoSeleccionado.total);
         setNombre(pedidoSeleccionado.nombreC);
         setImpuesto(pedidoSeleccionado.impuesto);
-        setTelefono(pedidoSeleccionado.telefonoC);
         setDescuento(pedidoSeleccionado.descuento);
-        setMunicipio(pedidoSeleccionado.municipioC);
-        setDireccion(pedidoSeleccionado.direccionC);
         setDocumento(pedidoSeleccionado.Documento1);
-        calcularTotales(pedidoSeleccionado.articulos);
-        setFecha(formatFecha(pedidoSeleccionado.Fecha));
-        setArticulosSeleccionados(pedidoSeleccionado.articulos);
+        setFecha(formatFecha(pedidoSeleccionado.fecha));
+        calcularTotales(pedidoSeleccionado.articulosSeleccionados);
+        setArticulosSeleccionados(pedidoSeleccionado.articulosSeleccionados);
       }
     }
   }, [pedido]); 
@@ -138,13 +128,13 @@ const DetallesPedido = ({ pedido, handleClose }) => {
     });
   };
 
-  const calcularTotales = (articulos) => {
+  const calcularTotales = (articulosSeleccionados) => {
     let total = 0;
     let subTotal = 0;
     let totalDescuento = 0;
     let totalImpuesto = 0;
 
-    articulos.forEach((art) => {
+    articulosSeleccionados.forEach((art) => {
       const cantidad = parseFloat(art.cantped) || 0;
       const precio = parseFloat(art.Precio) || 0;
       const descuento = (parseFloat(art.Descuento) || 0) / 100;
@@ -189,12 +179,12 @@ const DetallesPedido = ({ pedido, handleClose }) => {
     if (pedidoIndex !== -1) {
       const updatedPedido = {
         ...pedidosGuardados[pedidoIndex],
-        articulos: articulosSeleccionados,
+        articulosSeleccionados: articulosSeleccionados,
         impuesto,
         descuento,
         total,
         subTotal,
-        Notas: notas,
+        notas: notas,
         Documento1: documento,
       };
 
@@ -366,7 +356,7 @@ const DetallesPedido = ({ pedido, handleClose }) => {
   };
 
 
-  const enviarCorreo = async () => {
+  /*const enviarCorreo = async () => {
     try {
       const pdf = await GenerarPDF.generarPDF();
       const pdfBlob = pdf.output("blob");
@@ -404,7 +394,7 @@ const DetallesPedido = ({ pedido, handleClose }) => {
         icon: "error",
       });
     }
-  };
+  };*/
   
   
   return (
@@ -415,7 +405,6 @@ const DetallesPedido = ({ pedido, handleClose }) => {
           <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", justifyContent: "center", alignItems: "center" }}>
             <Button onClick={handleOpen} variant="contained" sx={{ margin: 1, backgroundColor:"#841dec", color: "white" }}>Articulos</Button>
             <Button onClick={enviarPedido} variant="contained" sx={{ margin: 1, backgroundColor:"#25ba25", color: "white" }}>Pedido</Button>
-            <Button onClick={enviarCorreo} variant="contained" sx={{ margin: 1, backgroundColor:"#d920ba", color: "white" }}>Enviar PDF</Button>
             <Button onClick={GuardarCambios} variant="contained" sx={{ margin: 1, backgroundColor:"#d92020", color: "white" }}>Cambios y Cerrar</Button>
           </Box>
         </Grid>

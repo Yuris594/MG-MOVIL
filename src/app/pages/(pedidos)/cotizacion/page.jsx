@@ -1,13 +1,14 @@
 "use client";
 
-import { Box, IconButton, Modal, TextField, useMediaQuery } from "@mui/material";
-import CancelIcon from "@mui/icons-material/Cancel";
+import { Box, Button, Modal, TextField, useMediaQuery } from "@mui/material";
 import NavBar from "@/app/components/navbar/nav";
-import { DataGrid } from "@mui/x-data-grid";
-import Grid from "@mui/material/Grid2";
-import { useEffect, useState } from "react";
+import Cotizacion from "@/app/hooks/cotizacion";
 import { useAuth } from "@/context/authContext";
 import DetallesPedido from "./detalles/page";
+import { useEffect, useState } from "react";
+import { DataGrid } from "@mui/x-data-grid";
+import Grid from "@mui/material/Grid2";
+
 
 const style = {
   position: "absolute",
@@ -23,10 +24,11 @@ const style = {
   p: 4,
 }; 
 
-const Cotizacion = () => {
+
+const VerCotizacion = () => {
+  const { auth, setPedidosV  } = useAuth();
   const [open, setOpen] = useState(false);
   const [pedidos, setPedidos] = useState([]);
-  const { clienteV, setPedidosV } = useAuth();
   const [busqueda, setBusqueda] = useState([]);
   const [tablaPedido, setTablaPedido] = useState([]);
   const [seleccionarPedido, setSeleccionarPedido] = useState(null);
@@ -44,15 +46,14 @@ const Cotizacion = () => {
 
   useEffect(() => {
     const pedidosGuardados = JSON.parse(localStorage.getItem("cotizacion")) || [];
-    const pedidosFiltrados = pedidosGuardados.filter(pedido => pedido.NitC === clienteV.NIT);
     const pedidosConFechaFormateada = pedidosGuardados.map(pedido => ({
       ...pedido,
-      fechaFormateada: formatearFecha(pedido.Fecha)
+      fechaFormateada: formatearFecha(pedido.fecha)
     }));
     setPedidos(pedidosConFechaFormateada); 
-    setPedidosV(pedidosConFechaFormateada); 
     setTablaPedido(pedidosConFechaFormateada);
-  }, [setPedidosV, clienteV.NIT]);
+    
+  }, []);
 
   const formatearFecha = (fecha) => {
     const fechaActual = new Date(fecha);
@@ -62,30 +63,10 @@ const Cotizacion = () => {
     return `${mes}/${dias}/${anio}`;
   };
 
-  const columns = [
-    { field: "PKId", headerName: "No", width: 80 },
-    { field: "fechaFormateada", headerName: "Fecha", width: 150 },
-    { field: 'NitC', headerName: 'NIT', width: 150 },
-    { field: "nombreC", headerName: "Nombre o Razon Social", width: 400 },
-    { field: "actions", headerName: "", width: 70, 
-      renderCell: (params) => (
-        <IconButton
-          onClick={() => handleDelete(params.row)}
-          aria-label="cancel"
-          color="error"
-          sx={{ fontSize: 40 }}
-        >
-          <CancelIcon />
-        </IconButton>
-      ),
-    }
-  ];
-
   const handleDelete = (row) => {
     const pedidosFiltrados = pedidos.filter((pedido) => pedido.PKId !== row.PKId);
-    localStorage.setItem("pedidos", JSON.stringify(pedidosFiltrados));
+    localStorage.setItem("cotizacion", JSON.stringify(pedidosFiltrados));
     setPedidos(pedidosFiltrados);
-    setPedidosV(pedidosFiltrados);
   };
 
   const handleChange = (e) => {
@@ -104,6 +85,98 @@ const Cotizacion = () => {
     setPedidos(resultadoBusqueda);
   };
 
+
+  const enviarPDF = async (pedido) => {
+    const resultado = await Swal.fire({
+      title: "Enviar PDF!",
+      text: "¿Desea Enviar la Cotización al Cliente?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+    }); 
+
+    if(!resultado.isConfirmed) {
+      Swal.fire({
+        text: "El PDF no se envió.",
+        icon: "info",
+        timer: 3000, 
+      });
+      return; 
+    }
+
+    const correoUsuario = await auth.UserEmail;
+    const correoCliente = pedido?.email;
+    
+    try {
+      const response = await fetch("http://localhost:4000/enviar-pdf", {
+        method: "POST",
+        headers: { "Content-Type" : "application/json" },
+        body: JSON.stringify({ ...pedido, correoUsuario, correoCliente }),
+      });
+
+      Swal.fire({
+        title: "¡Éxito!",
+        text: "La Cotización fue Enviada.",
+        icon: "success",
+        timer: 3000, 
+      });
+    } catch (error) {
+      console.error("Error generando el PDF:", error);
+      Swal.fire({
+        title: "Oops...!",
+        text: "Hubo un problema al Enviar la Cotización.",
+        icon: "error",
+      });
+    }
+  }
+
+
+  const columns = [
+    { field: "PKId", headerName: "No", width: 80 },
+    { field: "fechaFormateada", headerName: "Fecha", width: 150 },
+    { field: 'nit', headerName: 'NIT', width: 150 },
+    { field: "nombreC", headerName: "Nombre o Razon Social", width: 400 },
+    { field: "enviar", headerName: "", width: 100,  
+      renderCell: (params) => (
+        <Button
+          onClick={() => enviarPDF(params.row)}
+          aria-label="enviar"
+          color="success"
+          sx={{ fontSize: 12 }}
+        >
+          Enviar PDF
+        </Button>
+      )
+    },
+    { field: "editar", headerName: "", width: 100,  
+      renderCell: (params) => (
+        <Button
+          onClick={() => handleOpen(params.row)}
+          aria-label="editar" 
+          sx={{ fontSize: 12 }}
+        >
+          Modificar
+        </Button>
+      )
+    },
+    { field: "actions", headerName: "", width: 100, 
+      renderCell: (params) => (
+        <Button
+          onClick={() => handleDelete(params.row)}
+          aria-label="cancel"
+          color="error"
+          sx={{ fontSize: 12 }}
+        >
+          Eliminar
+        </Button>
+      ),
+    }
+  ];
+
+  
   return (
     <>
       <NavBar />
@@ -135,7 +208,6 @@ const Cotizacion = () => {
                 },
               }}
               pageSizeOptions={[5, 10, 15]}
-              onRowDoubleClick={(params) => handleOpen(params.row)} 
             /> 
           </Box>
         </Grid>
@@ -145,7 +217,9 @@ const Cotizacion = () => {
       <Modal 
         open={open} 
         onClose={handleClose} 
-    
+        BackdropProps={{
+          onClick: (event) => event.stopPropagation()
+        }}
         aria-labelledby="modal-modal-title" 
         aria-describedby="modal-modal-description">
         <Box sx={style}>
@@ -156,4 +230,20 @@ const Cotizacion = () => {
   );
 };
 
-export default Cotizacion;
+export default VerCotizacion;
+
+
+/*
+ { field: "ver", headerName: "", width: 100,  
+      renderCell: (params) => (
+        <Button
+          onClick={() => generarPDF(params.row)}
+          ara-label="verPDF"
+          color="secondary"
+          sx={{ fontSize: 12 }}
+        >
+          Ver PDF
+        </Button>
+      )
+    },
+*/

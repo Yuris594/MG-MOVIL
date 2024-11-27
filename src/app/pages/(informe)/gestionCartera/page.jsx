@@ -81,12 +81,13 @@ const GestionCartera = () => {
           <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center" }}>
             <h2><strong>RUTERO Y GESTIÓN DE CARTERA</strong></h2>
             <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center", marginLeft: isSmallScreen ? 0 : "auto", padding: 2  }}>
-              <InputBase 
+              <TextField
+                id="outlined-basic"
                 type="text" 
                 value={busqueda}
                 onChange={handleChange}
                 placeholder="Buscar..."
-                sx={{ width: isSmallScreen ? 300 : 400, border: "2px solid black" }}
+                sx={{ width: isSmallScreen ? 300 : 400 }}
                 />
             </Box>
           </Box>

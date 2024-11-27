@@ -201,12 +201,12 @@ const CrearPedido = () => {
 
     const pedido = {
       PKId: nuevoId,
-      Fecha: new Date().toISOString(),
+      fecha: new Date().toISOString(),
       nombreC: clienteV.RazonSocial,
-      NitC: clienteV.NIT,
-      telefonoC: clienteV.Telefono,
-      direccionC: clienteV.Direccion,
-      municipioC: clienteV.CityName,
+      nit: clienteV.NIT,
+      telefono: clienteV.Telefono,
+      direccion: clienteV.Direccion,
+      municipio: clienteV.CityName,
       email: clienteV.Email,
       total,
       subTotal,
@@ -214,10 +214,10 @@ const CrearPedido = () => {
       descuento,
       NombreV: auth.UserFullName,
       FKID_sellers: auth.IDSaler,
-      Notas: notas,
+      notas: notas,
       NUMPED: "",
       Documento1: documento, 
-      articulos: articulosSeleccionados.map(art => ({
+      articulosSeleccionados: articulosSeleccionados.map(art => ({
         ...art,
         FKid_pedidos2: nuevoId
       })),

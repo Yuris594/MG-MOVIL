@@ -161,12 +161,12 @@ const ClienteVendedor = () => {
           <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center" }}>
             <h2><strong>LISTADO DE CLIENTES</strong></h2>
             <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center", marginLeft: isSmallScreen ? 0 : "auto", padding: 2  }}>
-              <InputBase 
+              <TextField
+                id="outlined-basic"
                 value={busqueda}
                 onChange={handleChange}
-                type="text" 
                 placeholder="Buscar..."
-                sx={{ width: isSmallScreen ? 300 : 400, border: "2px solid black" }}
+                sx={{ width: isSmallScreen ? 300 : 400 }}
               />
             </Box>
           </Box>

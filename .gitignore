@@ -15,7 +15,7 @@
 
 # production
 /build/
-/conexion
+/conexion/
 
 # misc
 .DS_Store

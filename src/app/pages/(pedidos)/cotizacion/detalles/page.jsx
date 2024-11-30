@@ -23,7 +23,7 @@ const style = {
   boxShadow: 24,
   overflow: "auto",  
   p: 4,
-  zIndex: 1300
+  zIndex: 1200
 };
 
 const DetallesPedido = ({ pedido, handleClose }) => {
@@ -109,23 +109,35 @@ const DetallesPedido = ({ pedido, handleClose }) => {
   ];
 
   const handleDelete = (row) => {
+    handleClose();
+
     Swal.fire({
-      title: "¿Seguro que desea eliminar el articulo?",
+      title: "¿Seguro que desea eliminar el artículo?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Aceptar",
-      customClass: {
-        popup: "swal-popup-zindex"
-      }
+      confirmButtonText: "Aceptar"
     }).then((result) => {
       if (result.isConfirmed) {
         const updatedArticulos = articulosSeleccionados.filter((art) => art.PKcodigo !== row.PKcodigo);
         setArticulosSeleccionados(updatedArticulos);
         calcularTotales(updatedArticulos);
+  
+        const pedidosGuardados = JSON.parse(localStorage.getItem("cotizacion")) || [];
+        const pedidoIndex = pedidosGuardados.findIndex(p => p.PKId === pedido.PKId);
+        if (pedidoIndex !== -1) {
+          pedidosGuardados[pedidoIndex].articulosSeleccionados = updatedArticulos;
+          localStorage.setItem("cotizacion", JSON.stringify(pedidosGuardados));
+        }
+  
+        Swal.fire({
+          text: "Artículo eliminado correctamente.",
+          icon: "success",
+          timer: 2000,
+        });
       }
-    });
+    })
   };
 
   const calcularTotales = (articulosSeleccionados) => {
@@ -356,45 +368,6 @@ const DetallesPedido = ({ pedido, handleClose }) => {
   };
 
 
-  /*const enviarCorreo = async () => {
-    try {
-      const pdf = await GenerarPDF.generarPDF();
-      const pdfBlob = pdf.output("blob");
-      
-      const pdfUrl = URL.createObjectURL(pdfBlob);
-      window.open(pdfUrl);
-
-      const formData = new FormData();
-      formData.append("archivo", pdfBlob, "cotizacion.pdf");
-      formData.append("nombre", nombre);
-      formData.append("nit", nit);
-      formData.append("correo", "yuri.bolano@cun.edu.co");
-
-      const response = await fetch("http://localhost:4000/cotizaciones/enviar", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error("Error al enviar el correo.");
-      }
-
-      Swal.fire({
-        title: "Éxito",
-        text: "El PDF fue enviado correctamente al cliente.",
-        icon: "success",
-        timer: 3000,
-      });
-      
-    } catch (error) {
-      console.log("Error al enviar el correo:", error);
-      Swal.fire({
-        title: "Error",
-        text: "Hubo un problema al enviar el PDF.",
-        icon: "error",
-      });
-    }
-  };*/
   
   
   return (

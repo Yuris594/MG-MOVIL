@@ -298,7 +298,7 @@ const ClienteVendedor = () => {
           BackdropProps={{
             onClick: (event) => event.stopPropagation()
           }}
-                  aria-labelledby="modal-modal-title"
+          aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description" >
           <Box sx={{ p: 4, backgroundColor: 'white', borderRadius: '8px', maxWidth: '550px', width: "90%", height: "52vh", overflowY: "auto", margin: 'auto', mt: 4 }}>
             <strong>Actualizar Correo Electrónico</strong>

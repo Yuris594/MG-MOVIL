@@ -2,7 +2,6 @@
 
 import { Box, Button, Modal, TextField, useMediaQuery } from "@mui/material";
 import NavBar from "@/app/components/navbar/nav";
-import Cotizacion from "@/app/hooks/cotizacion";
 import { useAuth } from "@/context/authContext";
 import DetallesPedido from "./detalles/page";
 import { useEffect, useState } from "react";

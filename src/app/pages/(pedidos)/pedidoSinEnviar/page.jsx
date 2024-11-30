@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, IconButton, InputBase, Modal, useMediaQuery } from "@mui/material";
+import { Box, IconButton, InputBase, Modal, TextField, useMediaQuery } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 import NavBar from "@/app/components/navbar/nav";
 import { DataGrid } from "@mui/x-data-grid";
@@ -39,7 +39,6 @@ const PedidoSinEnviar = () => {
 
   const handleClose = () => {
     setOpen(false);
-    setSeleccionarPedido(null);
   };
 
   useEffect(() => {
@@ -112,11 +111,13 @@ const PedidoSinEnviar = () => {
           <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center" }}>
             <h2><strong>PEDIDOS SIN ENVIAR</strong></h2>
             <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center", marginLeft: isSmallScreen ? 0 : "auto", padding: 2  }}>
-              <InputBase 
+              <TextField
+                id="outlined-basic" 
+                variant="outlined"
                 value={busqueda}
                 onChange={handleChange}
                 placeholder="Buscar..." 
-                sx={{ width: 300,  border: "2px solid black" }} 
+                sx={{ width: 300 }} 
               />
             </Box>
           </Box>

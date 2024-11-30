@@ -104,24 +104,37 @@ const DatosPedido = ({ pedido, handleClose }) => {
   ];
 
   const handleDelete = (row) => {
+    handleClose();
+
     Swal.fire({
-      title: "¿Seguro que desea eliminar el articulo?",
+      title: "¿Seguro que desea eliminar el artículo?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Aceptar",
-      customClass: {
-        popup: "swal-popup-zindex"
-      }
+      confirmButtonText: "Aceptar"
     }).then((result) => {
       if (result.isConfirmed) {
         const updatedArticulos = articulosSeleccionados.filter((art) => art.PKcodigo !== row.PKcodigo);
         setArticulosSeleccionados(updatedArticulos);
         calcularTotales(updatedArticulos);
+  
+        const pedidosGuardados = JSON.parse(localStorage.getItem("pedidos")) || [];
+        const pedidoIndex = pedidosGuardados.findIndex(p => p.PKId === pedido.PKId);
+        if (pedidoIndex !== -1) {
+          pedidosGuardados[pedidoIndex].articulos = updatedArticulos;
+          localStorage.setItem("pedidos", JSON.stringify(pedidosGuardados));
+        }
+  
+        Swal.fire({
+          text: "Artículo eliminado correctamente.",
+          icon: "success",
+          timer: 2000,
+        });
       }
     });
   };
+  
 
   const calcularTotales = (articulos) => {
     let total = 0;

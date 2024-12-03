@@ -69,6 +69,16 @@ const DatosPedido = ({ pedido, handleClose }) => {
       const anio = fechaActual.getFullYear();
       
       return `${mesCapitalizado} ${dias}, ${anio}`;
+  };
+
+  const handleRowUpdate = (newRow) => {
+    const filaActualizada = articulosSeleccionados.map((row) => 
+      row.PKcodigo === newRow.PKcodigo ? { ...row, ...newRow } : row
+    );
+
+    setTotal(filaActualizada);
+    setSubTotal(filaActualizada);
+    return newRow;
   }
 
   const columns = [
@@ -77,18 +87,18 @@ const DatosPedido = ({ pedido, handleClose }) => {
     { field: 'Unidad_Empaque', headerName: 'Und', width: 80 },
     { field: 'Precio', headerName: 'Precio', width: 100,
       valueFormatter: (value) => {
-        const precioRedondeado = Number(value).toFixed(0);
-        return `$${parseFloat(precioRedondeado).toLocaleString("es-ES")}`;
-      }
+        const precio = parseFloat(value).toFixed(0);
+        return `$${parseFloat(precio).toLocaleString("es-CO")}`;
+      }, editable: true, 
     },
     { field: 'Iva', headerName: 'Iva', width: 80 },
-    { field: 'Descuento', headerName: 'Desc', width: 80 },
-    { field: 'cantped', headerName: 'Cant', width: 80 },
+    { field: 'Descuento', headerName: 'Desc', width: 80, editable: true, },
+    { field: 'cantped', headerName: 'Cant', width: 80, editable: true, },
     { field: 'Total', headerName: 'Total', width: 90, 
       valueFormatter: (value) => {
-        const precioRedondeado = Number(value).toFixed(0);
-        return `$${parseFloat(precioRedondeado).toLocaleString("es-ES")}`;
-      },
+        const precio = Number(value).toFixed(0);
+        return `$${parseFloat(precio).toLocaleString("es-ES")}`;
+      }, cellClassName: "total-cell"
     },
     { field: 'actions', headerName: '', width: 70, 
       renderCell: (params) => (
@@ -152,8 +162,12 @@ const DatosPedido = ({ pedido, handleClose }) => {
       total += totalArt - totalDescuento + totalIva;
       subTotal += totalArt - totalDescuento;
     });
-    setTotal(total.toFixed(0));
-    setSubTotal(subTotal.toFixed(0));
+
+    const totalFormateado = Number(total.toFixed(0).toLocaleString('es-ES'));
+    const subTotalFormateado = Number(subTotal.toFixed(0).toLocaleString());
+
+    setTotal(totalFormateado);
+    setSubTotal(subTotalFormateado);
   };
 
 
@@ -424,6 +438,11 @@ const DatosPedido = ({ pedido, handleClose }) => {
                   pageSize: 10 
                 }
               } 
+            }}
+            processRowUpdate={handleRowUpdate}
+            onProcessRowUpdateError={(error) => {
+              console.error('Error durante la actualización de la fila:', error);
+              alert('Ocurrió un error al actualizar la fila. Intenta nuevamente.');
             }}
           />
         </Box>

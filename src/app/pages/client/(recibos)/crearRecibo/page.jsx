@@ -239,7 +239,8 @@ const RealizarRecibo = () => {
     { field: 'FechaVencimiento', headerName: 'Fecha Vencimiento', width: 150 },
     { field: 'Plazo', headerName: 'Plazo (Días)', width: 150 },
     { field: 'DiasVencimiento', headerName: 'Días Vencidos', width: 150, 
-      cellClassName: (params) => params.value > 0 ? "saldo_vencido" : ""
+      //cellClassName: (params) => params.value > 0 ? "saldo_vencido" : "", 
+      cellClassName: "plazo-cell"
     },
     { field: 'Saldo', headerName: 'Saldo', width: 150 },
     { field: "boton", headerName: "", width: 70, 

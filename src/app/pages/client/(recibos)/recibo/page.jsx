@@ -3,8 +3,10 @@
 import { Box, Button, Divider, IconButton, Modal, Paper, styled, Table, TableBody, 
   TableContainer, TableHead, TableRow, TextField, Typography, useMediaQuery } from "@mui/material";
 import CheckCircleOutlineIcon  from "@mui/icons-material/CheckCircleOutline";
+import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend';
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import AttachEmailIcon from '@mui/icons-material/AttachEmail';
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -63,6 +65,8 @@ const VerRecibo = () => {
   const [open, setOpen] = useState(false);
   const [openC, setOpenC] = useState(false);
   const [openE, setOpenE] = useState(false);
+  const [openY, setOpenY] = useState(false);
+  const [email, setEmail] = useState([]);
   const [numero, setNumero] = useState([]);
   const [recibos, setRecibos] = useState([]);
   const [verCheque, setVerCheque] = useState([]);
@@ -93,6 +97,7 @@ const VerRecibo = () => {
     setConsecutivo(cliente.CONSECUTIVO);
     setNit(cliente.NIT);
     setOpen(true);
+
 
     try {
       const response = await fetch(Global.url + `/receipts/receiptdetail/${cliente.CONSECUTIVO}?action=Consult`, {
@@ -143,8 +148,17 @@ const VerRecibo = () => {
     setOpenC(false);
   };
 
+  const handleOpenY = () => {
+    setEmail(clienteV.Email);
+    setOpenY(true);
+  };
+
+  const handleCloseY = () => {
+    setOpenY(false);
+  }
+
   const enviarCorreo = async () => {
-    if (!consecutivo || !nit) {
+    if (!consecutivo || !nit || !email) {
       Swal.fire({
         icon: "warning",
         title: "Datos Faltantes",
@@ -152,15 +166,25 @@ const VerRecibo = () => {
       });
       return;
     }
+
     try {
-      const response = await fetch(Global.url + '/receipts/sendmail', {
+      const razonSocial = clienteSeleccionado.RazonSocial
+      const city = clienteV.CityName
+      const department = clienteV.DepartmentName
+      const total = clienteSeleccionado.TOTAL
+      const reciboFisico = clienteSeleccionado.ReciboFisico
+     
+
+      const response = await fetch('http://localhost:4000/api/sendmail', {
         method: "POST",
         headers: { "Content-Type" : "application/json" },
-        body: JSON.stringify({ consecutivo, nit }),
+        body: JSON.stringify({ consecutivo, nit, email, razonSocial, city, 
+                              department, facturas: "123456", total, reciboFisico }),
       });
       if (response.ok) {
-        const datos = response.json();
+        const datos = await response.json();
 
+        handleCloseY();
         handleClose();
 
         Swal.fire({
@@ -171,7 +195,10 @@ const VerRecibo = () => {
           showConfirmButton: false,
           timer: 2500
         });
+        console.log("Respuesta Exitosa", datos);
       } else {
+        const datos = await response.json();
+        console.log("Respuesta del servidor", datos);
         Swal.fire({
           icon: "error",
           title: "Oops...!",
@@ -179,6 +206,7 @@ const VerRecibo = () => {
         });
       }
     } catch (error) {
+      console.error("Error al enviar correo", error)
       Swal.fire({
         icon: "error",
         title: "Error en la Red",
@@ -189,6 +217,7 @@ const VerRecibo = () => {
 
 
   const handleOpenE = () => {
+    setNumero(clienteSeleccionado.ReciboFisico);
     setOpenE(true);
   };
 
@@ -209,7 +238,6 @@ const VerRecibo = () => {
       NumeroRecibo: clienteSeleccionado.ReciboFisico,
       NuevoRecibo: numero,
     };
-    console.log(actualRecibo);
     
     try {
       const response = await fetch(Global.url + `/receipts/edit/${consecutivo}`, {
@@ -261,7 +289,7 @@ const VerRecibo = () => {
             <strong>Recibos de </strong> {clienteV.RazonSocial}, 
               <strong> Nit: </strong> {clienteV.NIT} 
             <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center", marginLeft: isSmallScreen ? 0 : "auto", padding: 2  }}>
-              <Button onClick={regresar} startIcon={<ArrowBackIcon />} variant="outlined"color="secondary">Regresar</Button>
+              <Button onClick={regresar} startIcon={<ArrowBackIcon />} variant="outlined" color="secondary">Regresar</Button>
             </Box>
           </Box>
         </Grid>      
@@ -369,7 +397,7 @@ const VerRecibo = () => {
               {clienteSeleccionado?.HasChecks === "Si" && (
                 <IconButton onClick={handleOpenC} title="Ver Cheques"><MonetizationOnIcon sx={{ fontSize: 40, color: "#f31919" }} /></IconButton>
               )}
-              <IconButton onClick={enviarCorreo} title="Reenviar Por Correo"><MailOutlineIcon sx={{ fontSize: 40 }} color="primary" /></IconButton>
+              <IconButton onClick={handleOpenY} title="Reenviar Por Correo"><MailOutlineIcon sx={{ fontSize: 40 }} color="primary" /></IconButton>
               <IconButton onClick={handleOpenE} title="Editar Recibo"><EditIcon sx={{ fontSize: 40 }} color="secondary" /></IconButton>
               <IconButton onClick={handleClose} title="Salir"><CheckCircleOutlineIcon sx={{ fontSize: 40 }} color="success" /></IconButton>
             </Box>
@@ -436,6 +464,36 @@ const VerRecibo = () => {
               </IconButton>
               <IconButton color="error" onClick={handleCloseE}>
                 <CancelIcon sx={{ fontSize: 40 }} />
+              </IconButton>
+            </Box>
+          </Box>
+        </Modal>
+
+        <Modal
+          open={openY}
+          onClose={handleCloseY}
+          BackdropProps={{
+            onClick: (event) => event.stopPropagation()
+          }}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={{ p: 4, backgroundColor: "white", borderRadius: "8px", maxWidth: "500px", margin: "auto", mt: 4 }}>
+            <strong>Enviar Recibo Por Correo</strong>
+            <h4 style={{ margin: 2 }}>Digite el Correo: </h4>
+            <TextField 
+              variant="outlined"
+              fullWidth
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Divider />
+            <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}> 
+              <IconButton color="secondary" onClick={enviarCorreo}>
+                <AttachEmailIcon sx={{ fontSize: 40 }} />
+              </IconButton>
+              <IconButton color="primary" onClick={handleCloseY}>
+               <CancelScheduleSendIcon sx={{ fontSize: 40 }} />
               </IconButton>
             </Box>
           </Box>

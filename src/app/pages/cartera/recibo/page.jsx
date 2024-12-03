@@ -471,7 +471,7 @@ const ConsultarRecibo = () => {
         <Box sx={{ p: 4, backgroundColor: 'white', borderRadius: '8px', maxWidth: '500px', margin: 'auto', mt: 4 }}>
           <strong>Editar Recibo Fisico</strong>
           <Divider />
-          <Typography>Número de Recibo: </Typography>
+          <h4 style={{ margin: 2 }}>Número de Recibo: </h4>
           <TextField
             variant="outlined"
             fullWidth

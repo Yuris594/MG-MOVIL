@@ -17,16 +17,16 @@ const columns = [
   { field: "Cantidad", headerName: "CANTIDAD", width: 100 },
   { field: "Precio", headerName: "PRECIO", width: 150,  
     valueFormatter: (value) => {
-      const precioRedondeado = Number(value).toFixed(0);
-      return `$${parseFloat(precioRedondeado).toLocaleString()}`;
+      const precio = parseFloat(value).toFixed(0);
+      return `$${parseFloat(precio).toLocaleString()}`;
     }
   },
   { field: "Descuento", headerName: "DESCUENTO", width: 150 },
   { field: "Iva", headerName: "IVA", width: 150 },
   { field: "Total", headerName: "TOTAL", width: 150, cellClassName: 'total-cell', 
     valueFormatter: (value) => {
-      const precioRedondeado = Number(value).toFixed(0);
-      return `$${parseFloat(precioRedondeado).toLocaleString()}`;
+      const precio = parseFloat(value).toFixed(0);
+      return `$${parseFloat(precio).toLocaleString()}`;
     }
   },
 ];

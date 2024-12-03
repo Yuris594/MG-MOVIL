@@ -82,8 +82,8 @@ const DetallesPedido = ({ pedido, handleClose }) => {
     { field: 'Unidad_Empaque', headerName: 'Und', width: 80 },
     { field: 'Precio', headerName: 'Precio', width: 100,
       valueFormatter: (value) => {
-        const precioRedondeado = Number(value).toFixed(0);
-        return `$${parseFloat(precioRedondeado).toLocaleString("es-ES")}`;
+        const precio = parseFloat(value).toFixed(0);
+        return `$${parseFloat(precio).toLocaleString("es-ES")}`;
       }
     },
     { field: 'Iva', headerName: 'Iva', width: 80 },
@@ -91,8 +91,8 @@ const DetallesPedido = ({ pedido, handleClose }) => {
     { field: 'cantped', headerName: 'Cant', width: 80 },
     { field: 'Total', headerName: 'Total', width: 90, 
       valueFormatter: (value) => {
-        const precioRedondeado = Number(value).toFixed(0);
-        return `$${parseFloat(precioRedondeado).toLocaleString("es-ES")}`;
+        const precio = parseFloat(value).toFixed(0);
+        return `$${parseFloat(precio).toLocaleString("es-ES")}`;
       },
     },
     { field: 'actions', headerName: '', width: 70, 
@@ -366,19 +366,18 @@ const DetallesPedido = ({ pedido, handleClose }) => {
       });
     }
   };
-
-
-  
   
   return (
     <>
       <Grid container spacing={2} direction={isSmallScreen ? "column" : "row"} alignItems="center" justifyContent="space-between">
-        <h3><strong>PEDIDOS</strong></h3>
-        <Grid size={{ xs: 12, sm: 8 }} sx={{ padding: 2 }}>
-          <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", justifyContent: "center", alignItems: "center" }}>
-            <Button onClick={handleOpen} variant="contained" sx={{ margin: 1, backgroundColor:"#841dec", color: "white" }}>Articulos</Button>
-            <Button onClick={enviarPedido} variant="contained" sx={{ margin: 1, backgroundColor:"#25ba25", color: "white" }}>Pedido</Button>
-            <Button onClick={GuardarCambios} variant="contained" sx={{ margin: 1, backgroundColor:"#d92020", color: "white" }}>Cambios y Cerrar</Button>
+        <Grid size={12}>
+          <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center", gap: 2, marginBottom: 2 }}>
+            <h3><strong>PEDIDOS</strong></h3>
+            <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center", gap: 2,  marginLeft: isSmallScreen ? 0 : "auto", width: isSmallScreen ? "100%" : "auto" }}>
+              <Button onClick={handleOpen} variant="contained" sx={{ margin: 1, backgroundColor:"#841dec", color: "white" }}>Articulos</Button>
+              <Button onClick={enviarPedido} variant="contained" sx={{ margin: 1, backgroundColor:"#25ba25", color: "white" }}>Pedido</Button>
+              <Button onClick={GuardarCambios} variant="contained" sx={{ margin: 1, backgroundColor:"#d92020", color: "white" }}>Cambios y Cerrar</Button>
+            </Box>
           </Box>
         </Grid>
       </Grid>

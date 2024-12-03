@@ -61,11 +61,26 @@ const Articulos = () => {
     { field: 'Nombre', headerName: 'REFERENCIA', width: 400, headerClassName: 'header-bold' },
     { field: 'Sublinea', headerName: 'SUBLINEA', width: 200, headerClassName: 'header-bold' },
     { field: 'Unidad_Empaque', headerName: 'EMP', width: 80, headerClassName: 'header-bold' },
-    { field: 'Precio', headerName: 'PRECIO', width: 90, headerClassName: 'header-bold' },
+    { field: 'Precio', headerName: 'PRECIO', width: 90, headerClassName: 'header-bold', 
+      valueFormatter: (value) => {
+        const precio = parseFloat(value).toFixed(0);
+        return `$${parseFloat(precio).toLocaleString('es-ES')}`;
+      },
+    },
     { field: 'Iva', headerName: 'IVA', width: 80, headerClassName: 'header-bold' },
     { field: 'Descuento', headerName: 'DES', width: 90, headerClassName: 'header-bold' },
-    { field: 'Precio_Neto', headerName: 'NETO', width: 80, headerClassName: 'header-bold' },
-    { field: 'Disp', headerName: 'DISP', width: 80, headerClassName: 'header-bold' },
+    { field: 'Precio_Neto', headerName: 'NETO', width: 80, headerClassName: 'header-bold', 
+      valueFormatter: (value) => {
+        const precio = parseFloat(value).toFixed(0);
+        return `$${parseFloat(precio).toLocaleString('es-ES')}`;
+      },
+    },
+    { field: 'Disp', headerName: 'DISP', width: 80, headerClassName: 'header-bold', 
+      valueFormatter: (value) => {
+        const precio = parseFloat(value).toFixed(0);
+        return `$${parseFloat(precio).toLocaleString('es-ES')}`;
+      },
+    },
   ];
 
   const handleChange = (e) => {

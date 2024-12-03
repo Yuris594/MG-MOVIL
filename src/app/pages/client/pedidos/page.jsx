@@ -54,8 +54,8 @@ const CrearPedido = () => {
     { field: 'Unidad_Empaque', headerName: 'Und Empaque', width: 100 },
     { field: 'Precio', headerName: 'Precio', width: 100,
       valueFormatter: (value) => {
-        const precioRedondeado = Number(value).toFixed(0);
-        return `${parseFloat(precioRedondeado).toLocaleString()}`;
+        const precio = parseFloat(value).toFixed(0);
+        return `${parseFloat(precio).toLocaleString()}`;
       }
     },
     { field: 'Iva', headerName: 'Iva', width: 90 },
@@ -63,8 +63,8 @@ const CrearPedido = () => {
     { field: 'cantped', headerName: 'Cant', width: 90 },
     { field: 'Total', headerName: 'Total', width: 100, 
       valueFormatter: (value) => {
-        const precioRedondeado = Number(value).toFixed(0);
-        return `${parseFloat(precioRedondeado).toLocaleString("es-ES")}`;
+        const precio = parseFloat(value).toFixed(0);
+        return `${parseFloat(precio).toLocaleString("es-ES")}`;
       }, cellClassName: 'total-cell', 
     },
     { field: 'actions', headerName: '', width: 70, 

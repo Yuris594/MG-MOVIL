@@ -85,8 +85,8 @@ const Articulos = ({ handleClose, onAgregarArticulo }) => {
     { field: "Unidad_Empaque", headerName: "Emp", width: 80 },
     { field: "Precio", headerName: "Precio", width: 90, editable: true, 
       valueFormatter: (value) => {
-        const precioRedondeado = Number(value).toFixed(0);
-        return `$${parseFloat(precioRedondeado).toLocaleString()}`;
+        const precio = parseFloat(value).toFixed(0);
+        return `$${parseFloat(precio).toLocaleString()}`;
       }
     },
     { field: "Iva", headerName: "Iva", width: 80 },
@@ -103,8 +103,8 @@ const Articulos = ({ handleClose, onAgregarArticulo }) => {
     },
     { field: "Precio_Neto", headerName: "Neto", width: 80, 
       valueFormatter: (value) => {
-        const precioRedondeado = Number(value).toFixed(0);
-        return `$${parseFloat(precioRedondeado).toLocaleString()}`;
+        const precio = parseFloat(value).toFixed(0);
+        return `$${parseFloat(precio).toLocaleString()}`;
       }
     },
     { field: "Disp", headerName: "Disp", width: 80 },

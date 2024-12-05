@@ -20,16 +20,15 @@
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
     "dexie": "^4.0.8",
-    "emailjs-com": "^3.2.0",
     "idb": "^8.0.0",
     "js-cookie": "^3.0.5",
     "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.8.3",
     "mysql2": "^3.11.3",
-    "next": "14.2.13",
+    "next": "^15.0.3",
     "next-auth": "^4.24.8",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "sweetalert2": "^11.14.1"
   }
 }

@@ -7,7 +7,7 @@ import DetallesPedido from "./detalles/page";
 import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Grid from "@mui/material/Grid2";
-
+import Swal from "sweetalert2";
 
 const style = {
   position: "absolute",
@@ -105,23 +105,21 @@ const VerCotizacion = () => {
       });
       return; 
     }
-
-    const correoUsuario = await auth.UserEmail;
-    const correoCliente = pedido?.email;
-    
     try {
-      const response = await fetch("", { //Añadir la nueva url cuando el bakend este listo
+      const response = await fetch(Global.url + "/cotizacion/enviarPdf", { 
         method: "POST",
         headers: { "Content-Type" : "application/json" },
-        body: JSON.stringify({ ...pedido, correoUsuario, correoCliente }),
+        body: JSON.stringify({ ...pedido }),
       });
 
+    if (response.ok) {
       Swal.fire({
         title: "¡Éxito!",
         text: "La Cotización fue Enviada.",
         icon: "success",
         timer: 3000, 
       });
+    }
     } catch (error) {
       console.error("Error generando el PDF:", error);
       Swal.fire({

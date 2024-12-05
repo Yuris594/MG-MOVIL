@@ -1,13 +1,10 @@
 'use client';
 
 import { Box, Button, Container, createTheme, CssBaseline, Snackbar, TextField, ThemeProvider, Typography, useMediaQuery } from "@mui/material";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import HowToRegIcon from "@mui/icons-material/HowToReg";
 import { useAuth } from "@/context/authContext";
 import { useRouter } from "next/navigation";
 import MuiAlert from "@mui/material/Alert";
 import { Global } from "@/conexion";
-import { useEffect } from "react";
 import { useState } from "react";
 import * as React from "react";
 import Image from "next/image";

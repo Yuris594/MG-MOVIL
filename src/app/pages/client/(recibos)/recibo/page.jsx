@@ -60,13 +60,11 @@ const obtenerDatos = async (recibos) => {
 
 const VerRecibo = () => {
   const router = useRouter();
-  const { clienteV } = useAuth();
+  const { auth, clienteV } = useAuth();
   const [nit, setNit] = useState(null);
   const [open, setOpen] = useState(false);
   const [openC, setOpenC] = useState(false);
   const [openE, setOpenE] = useState(false);
-  const [openY, setOpenY] = useState(false);
-  const [email, setEmail] = useState([]);
   const [numero, setNumero] = useState([]);
   const [recibos, setRecibos] = useState([]);
   const [verCheque, setVerCheque] = useState([]);
@@ -148,43 +146,27 @@ const VerRecibo = () => {
     setOpenC(false);
   };
 
-  const handleOpenY = () => {
-    setEmail(clienteV.Email);
-    setOpenY(true);
-  };
-
-  const handleCloseY = () => {
-    setOpenY(false);
-  }
-
   const enviarCorreo = async () => {
-    if (!consecutivo || !nit || !email) {
+    if (!consecutivo || !nit ) {
       Swal.fire({
         icon: "warning",
         title: "Datos Faltantes",
         text: "Por favor, asegurarse de que el Número de Recibo y el Nit estén definidos."
       });
       return;
-    }
+    };
+
+    const idvend = auth.ID;
 
     try {
-      const razonSocial = clienteSeleccionado.RazonSocial
-      const city = clienteV.CityName
-      const department = clienteV.DepartmentName
-      const total = clienteSeleccionado.TOTAL
-      const reciboFisico = clienteSeleccionado.ReciboFisico
-     
-
-      const response = await fetch('http://localhost:4000/api/sendmail', {
+      const response = await fetch('http://localhost:3001/api/receipts/sendmail/', {
         method: "POST",
         headers: { "Content-Type" : "application/json" },
-        body: JSON.stringify({ consecutivo, nit, email, razonSocial, city, 
-                              department, facturas: "123456", total, reciboFisico }),
+        body: JSON.stringify({ consecutivo, nit, idvend }),
       });
       if (response.ok) {
         const datos = await response.json();
 
-        handleCloseY();
         handleClose();
 
         Swal.fire({
@@ -397,7 +379,7 @@ const VerRecibo = () => {
               {clienteSeleccionado?.HasChecks === "Si" && (
                 <IconButton onClick={handleOpenC} title="Ver Cheques"><MonetizationOnIcon sx={{ fontSize: 40, color: "#f31919" }} /></IconButton>
               )}
-              <IconButton onClick={handleOpenY} title="Reenviar Por Correo"><MailOutlineIcon sx={{ fontSize: 40 }} color="primary" /></IconButton>
+              <IconButton onClick={enviarCorreo} title="Reenviar Por Correo"><MailOutlineIcon sx={{ fontSize: 40 }} color="primary" /></IconButton>
               <IconButton onClick={handleOpenE} title="Editar Recibo"><EditIcon sx={{ fontSize: 40 }} color="secondary" /></IconButton>
               <IconButton onClick={handleClose} title="Salir"><CheckCircleOutlineIcon sx={{ fontSize: 40 }} color="success" /></IconButton>
             </Box>
@@ -464,36 +446,6 @@ const VerRecibo = () => {
               </IconButton>
               <IconButton color="error" onClick={handleCloseE}>
                 <CancelIcon sx={{ fontSize: 40 }} />
-              </IconButton>
-            </Box>
-          </Box>
-        </Modal>
-
-        <Modal
-          open={openY}
-          onClose={handleCloseY}
-          BackdropProps={{
-            onClick: (event) => event.stopPropagation()
-          }}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={{ p: 4, backgroundColor: "white", borderRadius: "8px", maxWidth: "500px", margin: "auto", mt: 4 }}>
-            <strong>Enviar Recibo Por Correo</strong>
-            <h4 style={{ margin: 2 }}>Digite el Correo: </h4>
-            <TextField 
-              variant="outlined"
-              fullWidth
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <Divider />
-            <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}> 
-              <IconButton color="secondary" onClick={enviarCorreo}>
-                <AttachEmailIcon sx={{ fontSize: 40 }} />
-              </IconButton>
-              <IconButton color="primary" onClick={handleCloseY}>
-               <CancelScheduleSendIcon sx={{ fontSize: 40 }} />
               </IconButton>
             </Box>
           </Box>

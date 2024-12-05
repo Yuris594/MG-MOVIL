@@ -3,8 +3,6 @@
 import Image from "next/image";
 import Grid from "@mui/material/Grid2";
 import NavBar from "../components/navbar/nav";
-import { useState } from "react";
-import { Global } from "@/conexion";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 
 

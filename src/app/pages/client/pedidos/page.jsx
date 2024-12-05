@@ -131,15 +131,10 @@ const CrearPedido = () => {
       nuevoTotal += parseFloat(art.Total);
     })
 
-    const subTotalFormateado = Number(nuevoSubtotal.toFixed(0)).toLocaleString();
-    const totalFormateado = Number(nuevoTotal.toFixed(0)).toLocaleString();
-    const descuentoFormateado = Number(totalDescuento.toFixed(0)).toLocaleString();
-    const impuestoFormateado = Number(totalImpuesto.toFixed(0)).toLocaleString();
-
-    setDescuento(descuentoFormateado);
-    setImpuesto(impuestoFormateado);
-    setSubTotal(subTotalFormateado);
-    setTotal(totalFormateado);
+    setDescuento(totalDescuento);
+    setImpuesto(totalImpuesto);
+    setSubTotal(nuevoSubtotal);
+    setTotal(nuevoTotal);
     
   };
 
@@ -159,7 +154,6 @@ const CrearPedido = () => {
       Fecha: new Date().toISOString(),
       nombreC: clienteV.RazonSocial,
       NitC: clienteV.NIT,
-
       total,
       NombreV: auth.UserFullName,
       FKID_sellers: auth.IDSaler,
@@ -212,7 +206,7 @@ const CrearPedido = () => {
       subTotal,
       impuesto,
       descuento,
-      NombreV: auth.UserFullName,
+      idvend: auth.ID,
       FKID_sellers: auth.IDSaler,
       notas: notas,
       NUMPED: "",

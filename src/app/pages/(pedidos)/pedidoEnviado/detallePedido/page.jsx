@@ -12,22 +12,22 @@ import { Global } from "@/conexion";
 
 
 const columns = [
-  { field: "FKcodigo_articles", headerName: "CODIGO", width: 150, },
-  { field: "Nombre", headerName: "REFERENCIA", width: 400 },
-  { field: "Cantidad", headerName: "CANTIDAD", width: 100 },
+  { field: "FKcodigo_articles", headerName: "CODIGO", width: 150, headerClassName: 'header-bold'},
+  { field: "Nombre", headerName: "REFERENCIA", width: 400, headerClassName: 'header-bold' },
+  { field: "Cantidad", headerName: "CANTIDAD", width: 100, headerClassName: 'header-bold' },
   { field: "Precio", headerName: "PRECIO", width: 150,  
     valueFormatter: (value) => {
       const precio = parseFloat(value).toFixed(0);
       return `$${parseFloat(precio).toLocaleString()}`;
-    }
+    }, headerClassName: 'header-bold'
   },
-  { field: "Descuento", headerName: "DESCUENTO", width: 150 },
-  { field: "Iva", headerName: "IVA", width: 150 },
+  { field: "Descuento", headerName: "DESCUENTO", width: 150, headerClassName: 'header-bold' },
+  { field: "Iva", headerName: "IVA", width: 150, headerClassName: 'header-bold' },
   { field: "Total", headerName: "TOTAL", width: 150, cellClassName: 'total-cell', 
     valueFormatter: (value) => {
       const precio = parseFloat(value).toFixed(0);
       return `$${parseFloat(precio).toLocaleString()}`;
-    }
+    }, headerClassName: 'header-bold'
   },
 ];
 

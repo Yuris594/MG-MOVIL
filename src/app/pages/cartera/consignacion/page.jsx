@@ -22,12 +22,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 
 const columns = [
-  { field: 'ID', headerName: 'Id Consiganción', width: 150, headerClassName: 'header-bold' },
-  { field: 'BankName', headerName: 'Banco', width: 400, headerClassName: 'header-bold' },
-  { field: 'ConsignmentNumber', headerName: 'Numero de Consignación', width: 250, headerClassName: 'header-bold' },
-  { field: 'UserFullName', headerName: 'Elaborada Por', width: 150, headerClassName: 'header-bold' },
-  { field: 'Date', headerName: 'Fecha', width: 180, headerClassName: 'header-bold' },
-  { field: 'Ammount', headerName: 'Total Consignación', width: 170, headerClassName: 'header-bold' },
+  { field: 'ID', headerName: 'ID CONSIGNACIÓN', width: 150, headerClassName: 'header-bold' },
+  { field: 'BankName', headerName: 'BANCO', width: 400, headerClassName: 'header-bold' },
+  { field: 'ConsignmentNumber', headerName: 'NUMERO DE CONSIGNACIÓN', width: 250, headerClassName: 'header-bold' },
+  { field: 'UserFullName', headerName: 'ELABORADA POR', width: 150, headerClassName: 'header-bold' },
+  { field: 'Date', headerName: 'FECHA', width: 180, headerClassName: 'header-bold' },
+  { field: 'Ammount', headerName: 'TOTAL CONSIGNACIÓN', width: 170, headerClassName: 'header-bold' },
 ];
 
 const Consignacion = () => {
@@ -44,7 +44,6 @@ const Consignacion = () => {
   const handleOpen = async (cliente) => {
     setClienteSeleccionado(cliente); 
     setOpen(true);
-    console.log(cliente)
     try {
       const response = await fetch(Global.url + `/receipts/consult/ConsignmentDetail?ID=${auth.IDSaler}&data=${cliente.ID}`, {
         method: "GET",
@@ -55,7 +54,6 @@ const Consignacion = () => {
       }
       const datos = await response.json();
       setRecibo(datos);
-      console.log(datos);
     } catch (error) {
       console.log("Error al obtener los datos del recibo", error)
     }
@@ -154,7 +152,7 @@ const Consignacion = () => {
         }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
-          <Box sx={{ p: 4, backgroundColor: 'white', borderRadius: '8px', maxWidth: '800px', height: "90%", height: "70vh", overflowY: "auto", margin: 'auto', mt: 4, p:2 }}>
+          <Box sx={{ p: 4, backgroundColor: 'white', borderRadius: '8px', maxWidth: '850px', height: "90%", height: "50vh", overflowY: "auto", margin: 'auto', mt: 4, p:2 }}>
           <>
             <strong>DETALLE DE CONSIGNACIÓN</strong>
             <Divider />

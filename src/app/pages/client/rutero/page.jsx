@@ -34,7 +34,7 @@ const RealizarRutero = () => {
     const ruteroData = {
       Tipo: gestion,  
       Comentario,
-      Agenda: fecha ? fecha.format("MM/DD/YYYY") : "0-0-0", 
+      Agenda: fecha ? fecha.format("YYYY/MM/DD") : "0-0-0", 
       FKNitCliente: clienteV.NIT || '',           
       FKUsuario: auth.UserFullName || 'USUARIOS', 
       Hora: hora ? hora.format("HH:mm:ss") : null, 

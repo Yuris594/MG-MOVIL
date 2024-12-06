@@ -18,6 +18,8 @@ import { Global } from "@/conexion";
 import Grid from "@mui/material/Grid2";
 import Link from "next/link";
 
+
+
 const CarteraCliente = () => {
   const { auth, setClienteV } = useAuth();
   const [open, setOpen] = useState(false);
@@ -96,16 +98,16 @@ const CarteraCliente = () => {
   }, []);
 
   const columns = [
-    { field: 'Cliente', headerName: 'Nit', width: 150 },
-    { field: 'RazonSocial', headerName: 'Razon Social', width: 350 },
-    { field: 'Documento', headerName: 'Documento', width: 150 },
-    { field: 'TipoDocumento', headerName: 'Tipo', width: 80 },
-    { field: 'Monto', headerName: 'Monto', width: 150 },
-    { field: 'FechaDocumento', headerName: 'Fecha Documento', width: 150 },
-    { field: 'FechaVencimiento', headerName: 'Fecha Vencimiento', width: 150 },
-    { field: 'Plazo', headerName: 'Plazo (días)', width: 90 },
-    { field: 'DiasVencimiento', headerName: 'Días Vencidos', width: 100 },
-    { field: 'Saldo', headerName: 'Saldo', width: 150 },
+    { field: 'Cliente', headerName: 'NIT', width: 150, headerClassName: 'header-bold' },
+    { field: 'RazonSocial', headerName: 'RAZON SOCIAL', width: 350, headerClassName: 'header-bold' },
+    { field: 'Documento', headerName: 'DOCUMENTO', width: 150, headerClassName: 'header-bold' },
+    { field: 'TipoDocumento', headerName: 'TIPO', width: 80, headerClassName: 'header-bold' },
+    { field: 'Monto', headerName: 'MONTO', width: 150, headerClassName: 'header-bold' },
+    { field: 'FechaDocumento', headerName: 'FECHA DOCUMENTO', width: 150, headerClassName: 'header-bold' },
+    { field: 'FechaVencimiento', headerName: 'FECHA VENCIMIENTO', width: 150, headerClassName: 'header-bold' },
+    { field: 'Plazo', headerName: 'PLAZO (días)', width: 90, headerClassName: 'header-bold' },
+    { field: 'DiasVencimiento', headerName: 'DÍAS VENCIDOS', width: 100, headerClassName: 'header-bold' },
+    { field: 'Saldo', headerName: 'SALDO', width: 150, headerClassName: 'header-bold' },
   ];
 
   const handleChange = (e) => {
@@ -218,7 +220,7 @@ const CarteraCliente = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
 
-      <Box sx={{ p: 4, backgroundColor: 'white', borderRadius: '8px', maxWidth: '750px', width: "90%", height: "90vh", overflowY: "auto", margin: 'auto', mt: 4, p:2 }}>
+      <Box sx={{ p: 4, backgroundColor: 'white', borderRadius: '8px', maxWidth: '750px', width: "90%", height: "70vh", overflowY: "auto", margin: 'auto', mt: 4, p:2 }}>
         {clienteSeleccionado && ( 
           <>
             <h3><strong style={{ fontSize: 20, color: "#1be0e7" }}>

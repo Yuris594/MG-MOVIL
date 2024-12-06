@@ -3,10 +3,8 @@
 import { Box, Button, Divider, IconButton, Modal, Paper, styled, Table, TableBody, 
   TableContainer, TableHead, TableRow, TextField, Typography, useMediaQuery } from "@mui/material";
 import CheckCircleOutlineIcon  from "@mui/icons-material/CheckCircleOutline";
-import CancelScheduleSendIcon from '@mui/icons-material/CancelScheduleSend';
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import AttachEmailIcon from '@mui/icons-material/AttachEmail';
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -159,7 +157,7 @@ const VerRecibo = () => {
     const idvend = auth.ID;
 
     try {
-      const response = await fetch('http://localhost:3001/api/receipts/sendmail/', {
+      const response = await fetch(Global.url + '/receipts/sendmail/', {
         method: "POST",
         headers: { "Content-Type" : "application/json" },
         body: JSON.stringify({ consecutivo, nit, idvend }),
@@ -252,14 +250,14 @@ const VerRecibo = () => {
 
  
   const columns = [
-    { field: 'CONSECUTIVO', headerName: 'Recibo', width: 150 },
-    { field: 'ReciboFisico', headerName: 'Recibo Fisico', width: 150 },
-    { field: 'FECHA', headerName: 'Fecha Recibo', width: 190},
-    { field: 'U1', headerName: 'Registrado Por', width: 150},
-    { field: 'U2', headerName: 'Asentado Por', width: 150},
-    { field: 'TOTAL', headerName: 'Total Recibo', width: 150},
-    { field: 'HasChecks', headerName: 'Cheques', width: 150},
-    { field: 'StateName', headerName: 'Estado', width: 150},
+    { field: 'CONSECUTIVO', headerName: 'RECIBO', width: 150, headerClassName: 'header-bold' },
+    { field: 'ReciboFisico', headerName: 'RECIBO FISICO', width: 150, headerClassName: 'header-bold' },
+    { field: 'FECHA', headerName: 'FECHA RECIBO', width: 190, headerClassName: 'header-bold' },
+    { field: 'U1', headerName: 'REGISTRADO POR', width: 150, headerClassName: 'header-bold' },
+    { field: 'U2', headerName: 'ASENTADO POR', width: 150, headerClassName: 'header-bold' },
+    { field: 'TOTAL', headerName: 'TOTAL RECIBO', width: 150, headerClassName: 'header-bold' },
+    { field: 'HasChecks', headerName: 'CHEQUES', width: 150, headerClassName: 'header-bold' },
+    { field: 'StateName', headerName: 'ESTADO', width: 150, headerClassName: 'header-bold' },
   ];
 
   return (
@@ -306,7 +304,7 @@ const VerRecibo = () => {
         }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
-          <Box sx={{ p: 4, backgroundColor: 'white', borderRadius: '8px', maxWidth: '850px', width: "90%", height: "90vh", overflowY: "auto", margin: 'auto', mt: 4, p:2 }}>
+          <Box sx={{ p: 4, backgroundColor: 'white', borderRadius: '8px', maxWidth: '850px', width: "90%", height: "60vh", overflowY: "auto", margin: 'auto', mt: 4, p:2 }}>
             <>
             <strong>DETALLE DE RECIBO</strong>
               <Divider />

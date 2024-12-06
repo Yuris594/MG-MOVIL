@@ -118,7 +118,7 @@ const GestionCartera = () => {
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
-        <Box sx={{ p: 4, backgroundColor: 'white', borderRadius: '8px', maxWidth: '650px',  width: "90%", height: "50vh", overflowY: "auto", margin: 'auto', mt: 4, p:2 }}>
+        <Box sx={{ p: 4, backgroundColor: 'white', borderRadius: '8px', maxWidth: '650px',  width: "90%", height: "40vh", overflowY: "auto", margin: 'auto', mt: 4, p:2 }}>
           <>
             {clienteSeleccionado && (
               <Grid container rowSpacing={1.5} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ p: 1 }}>

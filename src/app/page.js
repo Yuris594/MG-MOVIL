@@ -110,7 +110,86 @@ function Login() {
 
   return (
       <>
-        <Box sx={{ height: "100vh", display: "flex", flexDirection: "column", alignItems: "center", backgroundColor: "#f5f5f5" }}>
+        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%", height: "100vh", backgroundColor: "#f4f4f4" }}>
+          <Box sx={{ display: "flex", width: "900px",  height: "500px", boxShadow: 3, borderRadius: "15px", overflow: "hidden", backgroundColor: "white" }}>
+            <Box sx={{ flex: 1, backgroundColor: "#000", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: "40px", color: "white" }}>
+              <Typography variant="h5" color="white" sx={{ fontWeight: "bold" }}>¡Bienvenido! </Typography>
+              <Box className="image" sx={{ textAlign: "center", marginBottom: "20px" }}>
+                <img src="/LOGO.png" alt="LOGO" />
+              </Box>
+            </Box>
+
+            <Box component="form" noValidate onSubmit={handleSubmit}  sx={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: "20px" }}>
+              <Typography variant="h5" sx={{ fontWeight: "bold", marginBottom: "10px" }}>Iniciar Sesión</Typography>
+
+              <Typography variant="body2" align="center" sx={{ color: "#757575", marginBottom: "20px" }}>
+                Utilice su Usuario y Contraseña
+              </Typography>
+
+              <TextField
+                error={error}
+                id="usuario"
+                label="Usuario"
+                margin="normal"
+                fullWidth
+                name="PER_Usuario"
+                value={usuario}
+                onChange={(e) => setUsuario(e.target.value)}
+              />
+
+              <TextField
+                error={error}
+                margin="normal"
+                required
+                fullWidth
+                type="password"
+                name="PER_Clave"
+                id="contraseña"
+                label="Contraseña"
+                value={clave}
+                onChange={(e) => setClave(e.target.value)}
+              />
+
+              <Button type="submit" fullWidth sx={{ mt: 2, backgroundColor: "#000", color: "white", "$:hover": { backgroundColor: "#339d82" }, }}>
+                    Iniciar sesión
+              </Button>
+            </Box>
+          </Box>
+        </Box>
+       
+        {open ? (
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} variant="outlined" severity="success" sx={{ width: "100%" }}>
+              Usuario identificado.
+            </Alert>
+          </Snackbar>
+        ) : ( "" )}
+
+        {openE ? ( 
+          <Snackbar open={openE} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} variant="outlined" severity="error" sx={{ width: "100%" }}>
+              El usuario o la contraseña son incorrectos.
+            </Alert>
+          </Snackbar>
+        ) : ( "" )}
+    </>
+  );
+}
+
+export default Login;
+
+
+
+
+
+
+
+
+
+
+
+/*
+ <Box sx={{ height: "100vh", display: "flex", flexDirection: "column", alignItems: "center", backgroundColor: "#f5f5f5" }}>
           <CssBaseline />
             <ThemeProvider theme={theme}>
               <Container component="main" maxWidth="xs" sx={{ backgroundColor: "#FFFFFF", padding: 4, borderRadius: 2, boxShadow: "0px 5px 15px rgba(0,0,0,0.3)", marginTop: 6 }}>
@@ -162,24 +241,8 @@ function Login() {
                 </Container>
               </ThemeProvider>
                   
-              {open ? (
-                <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-                  <Alert onClose={handleClose} variant="outlined" severity="success" sx={{ width: "100%" }}>
-                    Usuario identificado.
-                  </Alert>
-                </Snackbar>
-              ) : ( "" )}
-
-              {openE ? ( 
-                <Snackbar open={openE} autoHideDuration={6000} onClose={handleClose}>
-                  <Alert onClose={handleClose} variant="outlined" severity="error" sx={{ width: "100%" }}>
-                    El usuario o la contraseña son incorrectos.
-                  </Alert>
-                </Snackbar>
-              ) : ( "" )}
+              
       </Box>
-    </>
-  );
-}
 
-export default Login;
+
+*/

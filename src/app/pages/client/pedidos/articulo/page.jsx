@@ -80,18 +80,18 @@ const Articulos = ({ handleClose, onAgregarArticulo }) => {
   };
 
   const columns = [
-    { field: "PKcodigo", headerName: "Cod", width: 100 },
-    { field: "Nombre", headerName: "Referencia", width: 280 },
-    { field: "Unidad_Empaque", headerName: "Emp", width: 80 },
-    { field: "Precio", headerName: "Precio", width: 90, editable: true, 
+    { field: "PKcodigo", headerName: "COD", width: 100, headerClassName: 'header-bold' },
+    { field: "Nombre", headerName: "REFERENCIA", width: 280, headerClassName: 'header-bold' },
+    { field: "Unidad_Empaque", headerName: "EMP", width: 80, headerClassName: 'header-bold' },
+    { field: "Precio", headerName: "PRECIO", width: 90, editable: true, 
       valueFormatter: (value) => {
         const precio = parseFloat(value).toFixed(0);
         return `$${parseFloat(precio).toLocaleString()}`;
-      }
+      }, headerClassName: 'header-bold'
     },
-    { field: "Iva", headerName: "Iva", width: 80 },
-    { field: "Descuento", headerName: "Des", width: 80, editable: true },
-    { field: "cantped", headerName: "Cant", width: 100,
+    { field: "Iva", headerName: "IVA", width: 80, headerClassName: 'header-bold' },
+    { field: "Descuento", headerName: "DESC", width: 80, editable: true, headerClassName: 'header-bold' },
+    { field: "cantped", headerName: "CANT", width: 100, headerClassName: 'header-bold',
       renderCell: (params) => (
         <TextField
           size="small"
@@ -101,13 +101,13 @@ const Articulos = ({ handleClose, onAgregarArticulo }) => {
         />
       ),
     },
-    { field: "Precio_Neto", headerName: "Neto", width: 80, 
+    { field: "Precio_Neto", headerName: "NETO", width: 80, 
       valueFormatter: (value) => {
         const precio = parseFloat(value).toFixed(0);
         return `$${parseFloat(precio).toLocaleString()}`;
-      }
+      }, headerClassName: 'header-bold'
     },
-    { field: "Disp", headerName: "Disp", width: 80 },
+    { field: "Disp", headerName: "DISP", width: 80, headerClassName: 'header-bold' },
   ];
 
   return (

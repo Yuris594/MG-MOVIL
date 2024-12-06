@@ -7,7 +7,7 @@ export const initDB = async () => {
     upgrade(db) {
       db.createObjectStore('articles', { keyPath: "PKcodigo" });
       db.createObjectStore('cartera', { keyPath: "Documento" });
-      db.createObjectStore('customers', { keyPath: "NIT" });
+      db.createObjectStore('customers', { keyPath: "ID" });
   
     },
   });

@@ -23,11 +23,11 @@ const option = async () => {
 
 
 const columns = [
-  { field: "CONSECUTIVO", headerName: "Recibo", width: 100 },
-  { field: "NIT", headerName: "NIT", width: 150 },
-  { field: "RazonSocial", headerName: "Razón Social", width: 400 },
-  { field: "FECHA", headerName: "Fecha Recibo", width: 200 },
-  { field: "TOTAL", headerName: "Total Recibo", width: 150 },
+  { field: "CONSECUTIVO", headerName: "RECIBO", width: 100, headerClassName: 'header-bold' },
+  { field: "NIT", headerName: "NIT", width: 150, headerClassName: 'header-bold' },
+  { field: "RazonSocial", headerName: "RAZÓN SOCIAL", width: 400, headerClassName: 'header-bold' },
+  { field: "FECHA", headerName: "FECHA RECIBO", width: 200, headerClassName: 'header-bold' },
+  { field: "TOTAL", headerName: "TOTAL RECIBO", width: 150, headerClassName: 'header-bold' },
 ];
 
 

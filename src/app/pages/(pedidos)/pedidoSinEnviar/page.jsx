@@ -62,10 +62,10 @@ const PedidoSinEnviar = () => {
   };
 
   const columns = [
-    { field: "PKId", headerName: "No", width: 80 },
-    { field: "fechaFormateada", headerName: "Fecha", width: 150 },
-    { field: 'NitC', headerName: 'NIT', width: 150 },
-    { field: "nombreC", headerName: "Nombre o Razon Social", width: 400 },
+    { field: "pkid", headerName: "No", width: 80, headerClassName: 'header-bold' },
+    { field: "fechaFormateada", headerName: "FECHA", width: 150, headerClassName: 'header-bold' },
+    { field: 'NitC', headerName: 'NIT', width: 150, headerClassName: 'header-bold' },
+    { field: "nombreC", headerName: "NOMBRE O RAZON SOCIAL", width: 400, headerClassName: 'header-bold' },
     { field: "actions", headerName: "", width: 70, 
       renderCell: (params) => (
         <IconButton
@@ -128,7 +128,7 @@ const PedidoSinEnviar = () => {
             <DataGrid
               rows={pedidos}
               columns={columns}
-              getRowId={(row) => row.PKId}
+              getRowId={(row) => row.pkid}
               initialState={{
                 pagination: {
                   paginationModel: {

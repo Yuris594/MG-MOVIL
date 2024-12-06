@@ -230,19 +230,19 @@ const RealizarRecibo = () => {
   
   
   const columns = [
-    { field: 'Documento', headerName: 'Documento', width: 150 },
-    { field: 'TipoDocumento', headerName: 'Tipo', width: 150 },
-    { field: 'Monto', headerName: 'Monto', width: 150 },
-    { field: 'FechaDocumento', headerName: 'Fecha Documento', width: 150, 
-      renderCell: (params) => fDate(params.value),
+    { field: 'Documento', headerName: 'DOCUMENTO', width: 150, headerClassName: 'header-bold' },
+    { field: 'TipoDocumento', headerName: 'TIPO', width: 150, headerClassName: 'header-bold' },
+    { field: 'Monto', headerName: 'MONTO', width: 150, headerClassName: 'header-bold' },
+    { field: 'FechaDocumento', headerName: 'FECHA DOCUMENTO', width: 150, 
+      renderCell: (params) => fDate(params.value), headerClassName: 'header-bold'
     },
-    { field: 'FechaVencimiento', headerName: 'Fecha Vencimiento', width: 150 },
-    { field: 'Plazo', headerName: 'Plazo (Días)', width: 150 },
-    { field: 'DiasVencimiento', headerName: 'Días Vencidos', width: 150, 
+    { field: 'FechaVencimiento', headerName: 'FECHA VENCIMIENTO', width: 150, headerClassName: 'header-bold' },
+    { field: 'Plazo', headerName: 'PLAZO (Días)', width: 150, headerClassName: 'header-bold' },
+    { field: 'DiasVencimiento', headerName: 'DÍAS VENCIDOS', width: 150, 
       //cellClassName: (params) => params.value > 0 ? "saldo_vencido" : "", 
-      cellClassName: "plazo-cell"
+      cellClassName: "plazo-cell", headerClassName: 'header-bold'
     },
-    { field: 'Saldo', headerName: 'Saldo', width: 150 },
+    { field: 'Saldo', headerName: 'SALDO', width: 150, headerClassName: 'header-bold' },
     { field: "boton", headerName: "", width: 70, 
       renderCell: (params) => (
         <Checkbox
@@ -266,7 +266,7 @@ const RealizarRecibo = () => {
         />
       ),
     },
-    { field: 'pago', headerName: 'Valor a Pagar', width: 150, 
+    { field: 'pago', headerName: 'VALOR A PAGAR', width: 150, headerClassName: 'header-bold',
       renderCell: (params) => (
         <TextField
           size="small"
@@ -278,7 +278,7 @@ const RealizarRecibo = () => {
         />
       ),
     },
-    { field: 'StateName', headerName: 'Estado', width: 150, cellClassName: 'total-cell' } 
+    { field: 'StateName', headerName: 'ESTADO', width: 150, cellClassName: 'total-cell', headerClassName: 'header-bold' } 
   ];
 
 

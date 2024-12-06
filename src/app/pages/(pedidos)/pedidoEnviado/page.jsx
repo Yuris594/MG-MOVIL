@@ -21,13 +21,13 @@ const fDate = (dateString) => {
 };
 
 const columns = [
-  { field: "Fecha", headerName: "Fecha", width: 150, headerClassName: 'header-bold',
+  { field: "Fecha", headerName: "FECHA", width: 150, headerClassName: 'header-bold',
     renderCell: (params) => fDate(params.value) 
   },
-  { field: "FKId_clientes", headerName: "Nit", width: 150, headerClassName: 'header-bold' },
-  { field: "RazonSocial", headerName: "Nombre o Razon Social", width: 500, headerClassName: 'header-bold' },
-  { field: "NUMPED", headerName: "Numero Pedido", width: 180, headerClassName: 'header-bold' },
-  { field: "ESTADO", headerName: "Estado", width: 150, headerClassName: 'header-bold' },
+  { field: "FKId_clientes", headerName: "NIT", width: 150, headerClassName: 'header-bold' },
+  { field: "RazonSocial", headerName: "NOMBRE O RAZON SOCIAL", width: 500, headerClassName: 'header-bold' },
+  { field: "NUMPED", headerName: "NUMERO PEDIDO", width: 180, headerClassName: 'header-bold' },
+  { field: "ESTADO", headerName: "ESTADO", width: 150, headerClassName: 'header-bold' },
 ];
 
 

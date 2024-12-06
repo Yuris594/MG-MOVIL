@@ -17,7 +17,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "80%", 
-  maxHeight: "90vh",  
+  maxHeight: "80vh",  
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -77,23 +77,23 @@ const DetallesPedido = ({ pedido, handleClose }) => {
   }
 
   const columns = [
-    { field: 'PKcodigo', headerName: 'Codigo', width: 100 },
-    { field: 'Nombre', headerName: 'Referencia', width: 320 },
-    { field: 'Unidad_Empaque', headerName: 'Und', width: 80 },
-    { field: 'Precio', headerName: 'Precio', width: 100,
+    { field: 'PKcodigo', headerName: 'CODIGO', width: 100, headerClassName: 'header-bold' },
+    { field: 'Nombre', headerName: 'REFERENCIA', width: 320, headerClassName: 'header-bold' },
+    { field: 'Unidad_Empaque', headerName: 'UUD', width: 80, headerClassName: 'header-bold' },
+    { field: 'Precio', headerName: 'PRECIO', width: 100,
       valueFormatter: (value) => {
         const precio = parseFloat(value).toFixed(0);
         return `$${parseFloat(precio).toLocaleString("es-ES")}`;
-      }
+      }, headerClassName: 'header-bold'
     },
-    { field: 'Iva', headerName: 'Iva', width: 80 },
-    { field: 'Descuento', headerName: 'Desc', width: 80 },
-    { field: 'cantped', headerName: 'Cant', width: 80 },
-    { field: 'Total', headerName: 'Total', width: 90, 
+    { field: 'Iva', headerName: 'IVA', width: 80, headerClassName: 'header-bold' },
+    { field: 'Descuento', headerName: 'DESC', width: 80, headerClassName: 'header-bold' },
+    { field: 'cantped', headerName: 'CANT', width: 80, headerClassName: 'header-bold' },
+    { field: 'Total', headerName: 'TOTAL', width: 90, 
       valueFormatter: (value) => {
         const precio = parseFloat(value).toFixed(0);
         return `$${parseFloat(precio).toLocaleString("es-ES")}`;
-      },
+      }, headerClassName: 'header-bold'
     },
     { field: 'actions', headerName: '', width: 70, 
       renderCell: (params) => (

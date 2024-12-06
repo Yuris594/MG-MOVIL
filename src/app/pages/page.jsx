@@ -1,14 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import Grid from "@mui/material/Grid2";
 import NavBar from "../components/navbar/nav";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 
-
 export function Copyright(props) {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+    <Typography variant="h5" color="text.secondary" align="center" {...props}>
       {"Departamento de Sistemas © - "}
       {new Date().getFullYear()}
       {"."}
@@ -17,27 +15,24 @@ export function Copyright(props) {
 };
 
 const Inicio = () => {
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
     return (
     <>
       <NavBar />
-      <Box sx={{ minHeight: "100vh", backfroundColor: "#ffffff", padding: 2, alignItems: "center" }}>
+      <Box sx={{ backfroundColor: "#ffffff", padding: 2, alignItems: "center" }}>
         <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between", margin: 2, color: "red", textAlign: "center" }}>
-          <h2><strong>¿YA REALIZASTE EL RUTERO DEL DÍA DE HOY?</strong></h2>
+          <h1><strong>¿YA REALIZASTE EL RUTERO DEL DÍA DE HOY?</strong></h1>
         </Box>
-        
-        <Box sx={{ textAlign: "center", margin: 2  }}>
-          <Image
-            src="/LOGO.png"
-            width={isSmallScreen ? 250 : 650}
-            height={isSmallScreen ? 100 : 350}
-            alt="Logo"
-            priority={true}
-          />
-        </Box>
-        <Copyright sx={{ mt: 5, mb: 5 }} />
       </Box>
+
+      <div className="container">
+        <img 
+          src="/LOGO.png"
+          alt="LOGO"
+        />
+      </div>
+
+      <Copyright sx={{ mt: 5, mb: 5 }} />
     </>
   )
 }

@@ -21,7 +21,6 @@ import { useTheme } from "@mui/material/styles";
 
 
 
-
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -34,15 +33,15 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 
 const columns = [
-  { field: 'CONSECUTIVO', headerName: 'Recibo', width: 100 },
-  { field: 'NIT', headerName: 'Nit', width: 140 },
-  { field: 'RazonSocial', headerName: 'Razon Social', width: 390 },
-  { field: 'FECHA', headerName: 'Fecha Recibo', width: 170 },
-  { field: 'TOTAL', headerName: 'Total Recibo', width: 100 },
-  { field: 'StateName', headerName: 'Estado', width: 100 },
-  { field: 'IsConsigned', headerName: 'Consignado', width: 90 },
-  { field: 'U3', headerName: 'Consignado Por', width: 120 },
-  { field: 'HasChecks', headerName: 'Cheques', width: 100 },
+  { field: 'CONSECUTIVO', headerName: 'RECIBO', width: 100, headerClassName: 'header-bold' },
+  { field: 'NIT', headerName: 'NIT', width: 140, headerClassName: 'header-bold' },
+  { field: 'RazonSocial', headerName: 'RAZON SOCIAL', width: 390, headerClassName: 'header-bold' },
+  { field: 'FECHA', headerName: 'FECHA RECIBO', width: 170, headerClassName: 'header-bold' },
+  { field: 'TOTAL', headerName: 'TOTAL RECIBO', width: 100, headerClassName: 'header-bold' },
+  { field: 'StateName', headerName: 'ESTADO', width: 100, headerClassName: 'header-bold' },
+  { field: 'IsConsigned', headerName: 'CONSIGNADO', width: 90, headerClassName: 'header-bold' },
+  { field: 'U3', headerName: 'CONSIGNADO POR', width: 120, headerClassName: 'header-bold' },
+  { field: 'HasChecks', headerName: 'CHEQUES', width: 100, headerClassName: 'header-bold' },
 ];
 
 
@@ -155,7 +154,7 @@ const ConsultarRecibo = () => {
       const datos = await response.json();
       setRecibo(datos);
     } catch (error) {
-      console.error("Error al realizar la búsqueda", error);
+      //console.log("Error al realizar la búsqueda");
     }
   };
 
@@ -169,11 +168,14 @@ const ConsultarRecibo = () => {
       });
       return;
     }
+
+    const idvend = auth.ID;
+
     try {
       const response = await fetch(Global.url + `/receipts/sendmail/`, {
         method: "POST",
         headers: { "Content-Type" : "application/json" },
-        body: JSON.stringify({ consecutivo, nit })
+        body: JSON.stringify({ consecutivo, nit, idvend })
       });
       if (response.ok) {
         const datos = await response.json(); 
@@ -223,12 +225,13 @@ const ConsultarRecibo = () => {
     }
     const actualRecibo = {
       NumeroRecibo: clienteSeleccionado.ReciboFisico,
-      NuevoRecibo: numero
+      NuevoRecibo: numero,
+      consecutivo
     };
 
     console.log(actualRecibo);
     try {
-      const response = await fetch(Global.url + `/receipts/edit/${consecutivo}`, {
+      const response = await fetch(`http://localhost:3010/api/receipts/edit/${consecutivo}`, {
         method: "PUT",
         headers: { "Content-Type" : "application/json" },
         body: JSON.stringify(actualRecibo),
@@ -236,6 +239,7 @@ const ConsultarRecibo = () => {
       const datos = await response.json();
       
       handleCloseE();
+      handleClose();
 
       if (datos) {
         Swal.fire({
@@ -344,7 +348,7 @@ const ConsultarRecibo = () => {
         }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
-          <Box sx={{ p: 4, backgroundColor: 'white', borderRadius: '8px', maxWidth: '850px', width: "90%", height: "90vh", overflowY: "auto", margin: 'auto', mt: 4, p:2 }}>
+          <Box sx={{ p: 4, backgroundColor: 'white', borderRadius: '8px', maxWidth: '850px', width: "90%", height: "55vh", overflowY: "auto", margin: 'auto', mt: 4, p:2 }}>
             <>
             <strong>DETALLE DE RECIBO</strong>
             <Divider />

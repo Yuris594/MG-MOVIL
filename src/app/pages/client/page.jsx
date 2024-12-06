@@ -198,7 +198,7 @@ const ClienteVendedor = () => {
         }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
-        <Box sx={{ p: 4, backgroundColor: 'white', borderRadius: '8px', maxWidth: '750px', width: "90%", height: "90vh", overflowY: "auto", margin: 'auto', mt: 4, p:2 }}>
+        <Box sx={{ p: 4, backgroundColor: 'white', borderRadius: '8px', maxWidth: '750px', width: "90%", height: "70vh", overflowY: "auto", margin: 'auto', mt: 4, p:2 }}>
         {clienteSeleccionado && ( 
           <>
             <h3><strong style={{ fontSize: 20, color: "#1be0e7" }}>
@@ -300,10 +300,10 @@ const ClienteVendedor = () => {
           }}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description" >
-          <Box sx={{ p: 4, backgroundColor: 'white', borderRadius: '8px', maxWidth: '550px', width: "90%", height: "52vh", overflowY: "auto", margin: 'auto', mt: 4 }}>
+          <Box sx={{ p: 4, backgroundColor: 'white', borderRadius: '8px', maxWidth: '600px', width: "90%", height: "40vh", overflowY: "auto", margin: 'auto', mt: 4 }}>
             <strong>Actualizar Correo Electrónico</strong>
             <Divider />
-            <h3 sx={{ p: 2, color: "#fff" }}>{clienteSeleccionado && clienteSeleccionado.RazonSocial}</h3>
+            <h3 style={{ p: 2, color: "#9f72f3" }}>{clienteSeleccionado && clienteSeleccionado.RazonSocial}</h3>
             <Divider />
             <strong>EMAIL: </strong>
             <TextField

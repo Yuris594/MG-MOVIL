@@ -49,23 +49,23 @@ const CrearPedido = () => {
 
 
   const columns = [
-    { field: 'PKcodigo', headerName: 'Codigo', width: 150 },
-    { field: 'Nombre', headerName: 'Referencia', width: 350 },
-    { field: 'Unidad_Empaque', headerName: 'Und Empaque', width: 100 },
-    { field: 'Precio', headerName: 'Precio', width: 100,
+    { field: 'PKcodigo', headerName: 'CODIGO', width: 150, headerClassName: 'header-bold' },
+    { field: 'Nombre', headerName: 'REFERENCIA', width: 350, headerClassName: 'header-bold' },
+    { field: 'Unidad_Empaque', headerName: 'UND EMPAQUE', width: 100, headerClassName: 'header-bold' },
+    { field: 'Precio', headerName: 'PRECIO', width: 100,
       valueFormatter: (value) => {
         const precio = parseFloat(value).toFixed(0);
         return `${parseFloat(precio).toLocaleString()}`;
-      }
+      }, headerClassName: 'header-bold'
     },
-    { field: 'Iva', headerName: 'Iva', width: 90 },
-    { field: 'Descuento', headerName: 'Desc', width: 90 },
-    { field: 'cantped', headerName: 'Cant', width: 90 },
-    { field: 'Total', headerName: 'Total', width: 100, 
+    { field: 'Iva', headerName: 'IVA', width: 90, headerClassName: 'header-bold' },
+    { field: 'Descuento', headerName: 'DESC', width: 90, headerClassName: 'header-bold' },
+    { field: 'cantped', headerName: 'CANT', width: 90, headerClassName: 'header-bold' },
+    { field: 'Total', headerName: 'TOTAL', width: 100, 
       valueFormatter: (value) => {
         const precio = parseFloat(value).toFixed(0);
         return `${parseFloat(precio).toLocaleString("es-ES")}`;
-      }, cellClassName: 'total-cell', 
+      }, cellClassName: 'total-cell', headerClassName: 'header-bold'
     },
     { field: 'actions', headerName: '', width: 70, 
       renderCell: (params) => (

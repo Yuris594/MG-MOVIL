@@ -132,10 +132,10 @@ const VerCotizacion = () => {
 
 
   const columns = [
-    { field: "PKId", headerName: "No", width: 80 },
-    { field: "fechaFormateada", headerName: "Fecha", width: 150 },
-    { field: 'nit', headerName: 'NIT', width: 150 },
-    { field: "nombreC", headerName: "Nombre o Razon Social", width: 400 },
+    { field: "PKId", headerName: "No", width: 80, headerClassName: 'header-bold' },
+    { field: "fechaFormateada", headerName: "FECHA", width: 150, headerClassName: 'header-bold' },
+    { field: 'nit', headerName: 'NIT', width: 150, headerClassName: 'header-bold' },
+    { field: "nombreC", headerName: "NOMBRE O RAZON SOCIAL", width: 400, headerClassName: 'header-bold' },
     { field: "enviar", headerName: "", width: 100,  
       renderCell: (params) => (
         <Button

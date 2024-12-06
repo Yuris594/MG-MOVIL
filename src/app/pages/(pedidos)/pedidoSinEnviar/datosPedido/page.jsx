@@ -82,23 +82,23 @@ const DatosPedido = ({ pedido, handleClose }) => {
   }
 
   const columns = [
-    { field: 'PKcodigo', headerName: 'Codigo', width: 100 },
-    { field: 'Nombre', headerName: 'Referencia', width: 320 },
-    { field: 'Unidad_Empaque', headerName: 'Und', width: 80 },
-    { field: 'Precio', headerName: 'Precio', width: 100,
+    { field: 'PKcodigo', headerName: 'CODIGO', width: 100, headerClassName: 'header-bold' },
+    { field: 'Nombre', headerName: 'REFERENCIA', width: 320, headerClassName: 'header-bold' },
+    { field: 'Unidad_Empaque', headerName: 'UND', width: 80, headerClassName: 'header-bold' },
+    { field: 'Precio', headerName: 'PECIO', width: 100,
       valueFormatter: (value) => {
         const precio = parseFloat(value).toFixed(0);
         return `$${parseFloat(precio).toLocaleString("es-CO")}`;
-      }, editable: true, 
+      }, editable: true, headerClassName: 'header-bold'
     },
-    { field: 'Iva', headerName: 'Iva', width: 80 },
-    { field: 'Descuento', headerName: 'Desc', width: 80, editable: true, },
-    { field: 'cantped', headerName: 'Cant', width: 80, editable: true, },
-    { field: 'Total', headerName: 'Total', width: 90, 
+    { field: 'Iva', headerName: 'IVA', width: 80, headerClassName: 'header-bold' },
+    { field: 'Descuento', headerName: 'DESC', width: 80, editable: true, headerClassName: 'header-bold' },
+    { field: 'cantped', headerName: 'CANT', width: 80, editable: true, headerClassName: 'header-bold' },
+    { field: 'Total', headerName: 'TOTAL', width: 90, 
       valueFormatter: (value) => {
         const precio = Number(value).toFixed(0);
         return `$${parseFloat(precio).toLocaleString("es-ES")}`;
-      }, cellClassName: "total-cell"
+      }, cellClassName: "total-cell", headerClassName: 'header-bold'
     },
     { field: 'actions', headerName: '', width: 70, 
       renderCell: (params) => (

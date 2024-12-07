@@ -289,7 +289,7 @@ const RealizarRecibo = () => {
       return acumulador + valor;
     }, 0);
 
-    const totalFormateado = `$${Number(total.toFixed(2)).toLocaleString()}`;
+    const totalFormateado = `$${Number(total.toFixed(0))}`;
     setTotal(totalFormateado);
     verificar();
   };
@@ -354,7 +354,6 @@ const RealizarRecibo = () => {
       ...(metodosPago.Cheque && campos.length > 0 && {cheques: chequesObj}),
     };
 
-    console.log(datosRecibo);
     
     try {
       const response = await fetch(Global.url + "/receipts/saveCustomersReceipts/", {

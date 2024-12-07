@@ -1,37 +1,12 @@
 'use client';
 
-import { Box, Button, Container, createTheme, CssBaseline, Snackbar, TextField, ThemeProvider, Typography, useMediaQuery } from "@mui/material";
+import { Box, Button, Snackbar, TextField, Typography } from "@mui/material";
 import { useAuth } from "@/context/authContext";
 import { useRouter } from "next/navigation";
 import MuiAlert from "@mui/material/Alert";
 import { Global } from "@/conexion";
 import { useState } from "react";
 import * as React from "react";
-import Image from "next/image";
-
-
-const theme = createTheme({
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: "8px",
-          backgroundColor: "#32DE0C",
-          "&:hover": {
-            backgroundColor: "#0CDE1F",
-          },
-        },
-      },
-    },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          marginBottom: "1rem",
-        },
-      },
-    },
-  },
-});
 
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -77,7 +52,6 @@ function Login() {
   const [openE, setOpenE] = useState(false);
   const [error, setError] = useState(false);
   const [usuario, setUsuario] = useState('');
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -112,10 +86,10 @@ function Login() {
       <>
         <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%", height: "100vh", backgroundColor: "#f4f4f4" }}>
           <Box sx={{ display: "flex", width: "900px",  height: "500px", boxShadow: 3, borderRadius: "15px", overflow: "hidden", backgroundColor: "white" }}>
-            <Box sx={{ flex: 1, backgroundColor: "#000", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: "40px", color: "white" }}>
+            <Box sx={{ flex: 1, backgroundColor: "#000", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: { xs: "20px", sm: "40px" }, color: "white" }}>
               <Typography variant="h5" color="white" sx={{ fontWeight: "bold" }}>¡Bienvenido! </Typography>
-              <Box className="image" sx={{ textAlign: "center", marginBottom: "20px" }}>
-                <img src="/LOGO.png" alt="LOGO" />
+              <Box sx={{ textAlign: "center", marginBottom: "20px", width: { xs: "100px", sm: "200px", md: "300px" }, height: "auto" }}>
+                <img src="/LOGO.png" alt="LOGO" style={{ width: "100%", height: "auto", objectFit: "contain" }} />
               </Box>
             </Box>
 
@@ -185,64 +159,3 @@ export default Login;
 
 
 
-
-
-
-/*
- <Box sx={{ height: "100vh", display: "flex", flexDirection: "column", alignItems: "center", backgroundColor: "#f5f5f5" }}>
-          <CssBaseline />
-            <ThemeProvider theme={theme}>
-              <Container component="main" maxWidth="xs" sx={{ backgroundColor: "#FFFFFF", padding: 4, borderRadius: 2, boxShadow: "0px 5px 15px rgba(0,0,0,0.3)", marginTop: 6 }}>
-                <Box sx={{ textAlign: "center" }}>
-                  <Image  
-                    src="/LOGO.png"
-                    width={isSmallScreen ? 200 : 240}
-                    height={isSmallScreen ? 120 : 140}
-                    alt="Logo"
-                    priority={true}
-                  />
-                </Box>
-                  <Typography component="h1" variant="h5" align="center" sx={{ fontWeight: "bold", marginBottom: 2 }}>
-                    !Bienvenido¡
-                  </Typography>
-                  <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                    
-                    <TextField
-                      error={error}
-                      id="usuario"
-                      label="Usuario"
-                      margin="normal"
-                      fullWidth
-                      name="PER_Usuario"
-                      value={usuario}
-                      onChange={(e) => setUsuario(e.target.value)}
-                    />
-
-                    <Typography component="h1" variant="h6"></Typography>
-
-                    <TextField
-                      error={error}
-                      margin="normal"
-                      required
-                      fullWidth
-                      type="password"
-                      name="PER_Clave"
-                      id="contraseña"
-                      label="Contraseña"
-                      value={clave}
-                      onChange={(e) => setClave(e.target.value)}
-                    />
-
-                    <Button type="submit" fullWidth variant="contained" color="success"
-                        sx={{ marginTop: 2 }}>
-                          Iniciar sesión
-                    </Button>
-                  </Box>
-                </Container>
-              </ThemeProvider>
-                  
-              
-      </Box>
-
-
-*/

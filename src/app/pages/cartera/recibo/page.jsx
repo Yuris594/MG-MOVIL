@@ -231,7 +231,7 @@ const ConsultarRecibo = () => {
 
     console.log(actualRecibo);
     try {
-      const response = await fetch(`http://localhost:3010/api/receipts/edit/${consecutivo}`, {
+      const response = await fetch(Global.url + `/receipts/edit/${consecutivo}`, {
         method: "PUT",
         headers: { "Content-Type" : "application/json" },
         body: JSON.stringify(actualRecibo),

@@ -110,9 +110,9 @@ const ClienteVendedor = () => {
 
   const actualizarCorreo = async () => {
     const editarCorreo = {
-      NIT: clienteSeleccionado.NIT,
-      Email: clienteSeleccionado.Email,
-      PutEmail: correo, 
+      Nit: clienteSeleccionado.NIT,
+      Email: correo,
+       
     };
 
     console.log("Enviando correo actualizado: ", editarCorreo);
@@ -125,16 +125,20 @@ const ClienteVendedor = () => {
       }); 
       
       if(response.ok) {
+
+        handleCloseE(); 
+        handleClose();
+
         const datos = await response.json();
         Swal.fire({
           position: "top-end",
-          icom: "success",
+          icon: "success",
           title: "Email Actualizado con Exito!.",
           text: `${datos.text}`,
           showConfirmButton: false,
           timer: 2500
         });
-        handleCloseE(); 
+        console.log(datos)
       } else {
         Swal.fire({
           icon: "error",

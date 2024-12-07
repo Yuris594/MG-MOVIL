@@ -148,19 +148,50 @@ const CarteraCliente = () => {
 
   const actualizarCorreo = async () => {
     const editarCorreo = {
-      NIT: clienteSeleccionado.NIT,
-      Email: clienteSeleccionado.Email,
-      PutEmail: correo, 
+      Nit: clienteSeleccionado.NIT,
+      Email: correo,
     };
 
     console.log("Enviando correo actualizado: ", editarCorreo);
 
     try {
-      setOpenB(true);
-      handleCloseE(); 
+      const response = await fetch(Global.url + `/customers/updatemail`, {
+        method: "POST",
+        headers: { "Content-Type" : "application/json" },
+        body: JSON.stringify(editarCorreo),
+      }); 
+      
+      if(response.ok) {
+
+        handleCloseE(); 
+        handleClose();
+        setOpenB(true);
+
+        const datos = await response.json();
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Email Actualizado con Exito!.",
+          text: `${datos.text}`,
+          showConfirmButton: false,
+          timer: 2500
+        });
+        console.log(datos)
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...!",
+          text: "Error al Actualizar el Email.",
+        });
+      }
     } catch (error) {
       setOpenA(true);
       console.error("Error al actualizar el correo:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error en la Red",
+        text: "No se pudo Actualizar el Correo debido a un Problema de Red.",
+      });
     }
   };
 
@@ -322,7 +353,7 @@ const CarteraCliente = () => {
         }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description" >
-        <Box sx={{ p: 2, backgroundColor: 'white', borderRadius: '8px', maxWidth: '555px', width: "90%", height: "55vh", overflowY: "auto", margin: 'auto', mt: 2 }}>
+        <Box sx={{ p: 2, backgroundColor: 'white', borderRadius: '8px', maxWidth: '555px', width: "90%", height: "35vh", overflowY: "auto", margin: 'auto', mt: 2 }}>
           <h3>Actualizar Correo Electrónico</h3>
           <Divider />
           <h3>{clienteSeleccionado && clienteSeleccionado.RazonSocial}</h3>

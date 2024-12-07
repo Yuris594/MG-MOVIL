@@ -151,7 +151,7 @@ const NavBar = () => {
 
             await actualizarAlmacen("cartera", Global.url + `/carterasellers/${auth.IDSaler}`, "Documento");
 
-            await actualizarAlmacen("customers", Global.url + "/customers/customers", "NIT", 
+            await actualizarAlmacen("customers", Global.url + "/customers/customers", "ID", 
                                     (data) => data.filter((item) => item.IDVendedor === auth.IDSaler));
 
               console.log("Datos actualizados en IndexedDB");
@@ -182,7 +182,19 @@ const NavBar = () => {
   };
 
   const cerrarSesion = () => {
-    logout();
+    Swal.fire({
+      title: "¿Cerrara Sesión?",
+      text: "Desea salir de la aplicación, Recuerde que para ingresar nuevamente debe tener conexión con la empresa e internet.",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Aceptar"
+    }).then((result) => {
+      if(result.isConfirmed) {
+        logout();
+      }
+    })
   };
     
   return (

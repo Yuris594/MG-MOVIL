@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import NavBar from "../components/navbar/nav";
-import { Box, Typography, useMediaQuery } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 export function Copyright(props) {
   return (

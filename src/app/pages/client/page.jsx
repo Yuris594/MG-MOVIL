@@ -87,7 +87,7 @@ const ClienteVendedor = () => {
           console.log("Datos guardados/actualizados en IndexedDB");
         }
       } catch (error) {
-        console.error('Error al obtener los datos:', error);
+        console.log('Error al obtener los datos:', error);
       }
     };
     fetchData();

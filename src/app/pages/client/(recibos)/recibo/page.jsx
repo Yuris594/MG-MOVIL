@@ -118,7 +118,6 @@ const VerRecibo = () => {
     
         const datos = await response.json();
         setVerCheque(datos.checks);
-        console.log(datos.checks);
       } catch (error) {
         console.log("Error al obtener los datos del cheque", error);
       }

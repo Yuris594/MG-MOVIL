@@ -226,7 +226,6 @@ const ClienteVendedor = () => {
                   {clienteSeleccionado.TotalCartera}
                 </Typography>
               </Grid>
-              
               <Grid size={{ xs: 9, sm: 6, md: 3 }}>
                 <strong>Teléfono</strong>
                 <Typography sx={{ mb: 1.5, display: "flex"}}>
@@ -263,7 +262,6 @@ const ClienteVendedor = () => {
                 {clienteSeleccionado.DepartmentName}
                 </Typography>
               </Grid>
-             
               <Grid size={{ xs: 18, sm: 12, md: 6 }}>
                 <strong>Email</strong>
                 <Typography sx={{ mb: 1.5, display: "flex" }}>
@@ -313,7 +311,7 @@ const ClienteVendedor = () => {
               variant="outlined"
               fullWidth
               margin="normal"
-              value={correo}
+              value={correo ?? ""}
               onChange={(e) => setCorreo(e.target.value)}
             />
             <Divider />

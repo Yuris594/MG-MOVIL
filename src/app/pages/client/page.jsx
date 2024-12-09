@@ -112,16 +112,15 @@ const ClienteVendedor = () => {
     const editarCorreo = {
       Nit: clienteSeleccionado.NIT,
       Email: correo,
-       
     };
 
     console.log("Enviando correo actualizado: ", editarCorreo);
 
     try {
-      const response = await fetch(Global.url + `/customers/updatemail`, {
+      const response = await fetch(Global.url + `/customers/updatemail_temp`, {
         method: "POST",
         headers: { "Content-Type" : "application/json" },
-        body: JSON.stringify(editarCorreo),
+        body: JSON.stringify( editarCorreo ),
       }); 
       
       if(response.ok) {
@@ -134,7 +133,6 @@ const ClienteVendedor = () => {
           position: "top-end",
           icon: "success",
           title: "Email Actualizado con Exito!.",
-          text: `${datos.text}`,
           showConfirmButton: false,
           timer: 2500
         });

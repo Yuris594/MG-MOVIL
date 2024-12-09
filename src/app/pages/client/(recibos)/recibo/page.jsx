@@ -215,8 +215,7 @@ const VerRecibo = () => {
       return;
     }
     const actualRecibo = {
-      NumeroRecibo: clienteSeleccionado.ReciboFisico,
-      NuevoRecibo: numero,
+      ReciboFisico: numero 
     };
     
     try {
@@ -225,25 +224,28 @@ const VerRecibo = () => {
         headers: { "Content-Type" : "application/json" },
         body: JSON.stringify(actualRecibo),
       });
+
+      if (!response.ok) {
+        throw new Error(`Error HTTP: ${response.status}`);
+      }
+
       const datos = await response.json();
 
       handleCloseE();
+      handleClose();
 
-      if(datos) {
-        Swal.fire({
-          icon: "success",
-          title: "Número Actualizado!",
-          text: "El Número de Recibo fue Actualizado Correctamente."
-        });
-      } else {
-        throw new Error("Failed to update");
-      }
+      Swal.fire({
+        icon: "success",
+        title: "Número Actualizado!",
+        text: "El Número de Recibo fue Actualizado Correctamente."
+      });
+     
     } catch (error) {
       console.error("Error al actualizar el número", error);
       Swal.fire({
         icon: "error",
         title: "Error de Actualización.",
-        text: "No se pudo actualizar el número de recibo."
+        text: `No se pudo actualizar el número de recibo. ${error.message}`
       });
     }
   };

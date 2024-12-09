@@ -224,9 +224,7 @@ const ConsultarRecibo = () => {
       return;
     }
     const actualRecibo = {
-      NumeroRecibo: clienteSeleccionado.ReciboFisico,
-      NuevoRecibo: numero,
-      consecutivo
+      ReciboFisico: numero
     };
 
     console.log(actualRecibo);

@@ -1,6 +1,7 @@
 'use client';
 
 import { Box, Button, Snackbar, TextField, Typography } from "@mui/material";
+import CheckIcon from '@mui/icons-material/Check';
 import { useAuth } from "@/context/authContext";
 import { useRouter } from "next/navigation";
 import MuiAlert from "@mui/material/Alert";
@@ -11,7 +12,7 @@ import * as React from "react";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return (
-    <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
+    <MuiAlert elevation={6} ref={ref} {...props} />
   );
 });
 
@@ -46,7 +47,7 @@ const Iniciar = async (usuario, clave) => {
 
 function Login() {
   const router = useRouter();
-  const { login } = useAuth();
+  const { login, auth } = useAuth();
   const [clave, setClave] = useState('');
   const [open, setOpen] = useState(false);
   const [openE, setOpenE] = useState(false);
@@ -79,7 +80,7 @@ function Login() {
       return;
     }
     setOpen(false);
-    setError(false);
+    setOpenE(false);
   };
 
   return (
@@ -132,17 +133,17 @@ function Login() {
         </Box>
        
         {open ? (
-          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-            <Alert onClose={handleClose} variant="outlined" severity="success" sx={{ width: "100%" }}>
-              Usuario identificado.
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
+            <Alert onClose={handleClose} variant="filled" icon={<CheckIcon fontSize="inherit" />} severity="success" sx={{ width: "100%" }}>
+              {`Inicio de sesión exitosa. ¡Bienvenido, ${auth.UserFullName}!`}
             </Alert>
           </Snackbar>
         ) : ( "" )}
 
         {openE ? ( 
           <Snackbar open={openE} autoHideDuration={6000} onClose={handleClose}>
-            <Alert onClose={handleClose} variant="outlined" severity="error" sx={{ width: "100%" }}>
-              El usuario o la contraseña son incorrectos.
+            <Alert onClose={handleClose} variant="filled" severity="error" sx={{ width: "100%" }}>
+              {'Usuario o contraseñas incorrectas. Por favor, inténtalo nuevamente.'}
             </Alert>
           </Snackbar>
         ) : ( "" )}

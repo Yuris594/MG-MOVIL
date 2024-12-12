@@ -1,13 +1,15 @@
 'use client';
 
-import { Box, Button, Snackbar, TextField, Typography } from "@mui/material";
+import { Box, Button, Snackbar, TextField, Typography, useTheme, useMediaQuery, Paper, AppBar, Toolbar } from "@mui/material";
+import DirectionsBikeIcon from '@mui/icons-material/DirectionsBike';
 import CheckIcon from '@mui/icons-material/Check';
 import { useAuth } from "@/context/authContext";
 import { useRouter } from "next/navigation";
-import MuiAlert from "@mui/material/Alert";
+import MuiAlert from "@mui/material/Alert"; 
 import { Global } from "@/conexion";
 import { useState } from "react";
 import * as React from "react";
+import { motion } from "framer-motion";
 
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -24,7 +26,7 @@ export function Copyright(props) {
       {"."}
     </Typography>
   );
-}
+};
 
 
 const Iniciar = async (usuario, clave) => {
@@ -53,6 +55,8 @@ function Login() {
   const [openE, setOpenE] = useState(false);
   const [error, setError] = useState(false);
   const [usuario, setUsuario] = useState('');
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,18 +89,35 @@ function Login() {
 
   return (
       <>
-        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%", height: "100vh", backgroundColor: "#f4f4f4" }}>
-          <Box sx={{ display: "flex", width: "900px",  height: "500px", boxShadow: 3, borderRadius: "15px", overflow: "hidden", backgroundColor: "white" }}>
-            <Box sx={{ flex: 1, backgroundColor: "#000", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: { xs: "20px", sm: "40px" }, color: "white" }}>
-              <Typography variant="h5" color="white" sx={{ fontWeight: "bold" }}>¡Bienvenido! </Typography>
-              <Box sx={{ textAlign: "center", marginBottom: "20px", width: { xs: "100px", sm: "200px", md: "300px" }, height: "auto" }}>
-                <img src="/LOGO.png" alt="LOGO" style={{ width: "100%", height: "auto", objectFit: "contain" }} />
-              </Box>
+        <Box sx={{ flexGrow: 1 }}>
+          <AppBar position="static" sx={{ bgcolor: "#262626", height: "70px", overflow: "hidden" }}>
+            <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", }}>
+              <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}></Typography>
+              <motion.div
+                animate={{ 
+                  x: ["-100%", "2750%"]
+                }}
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  ease: "linear"
+                }}
+                style={{ position: "absolute" }}
+              >
+                <DirectionsBikeIcon sx={{ fontSize: 40 }} />
+              </motion.div>
+            </Toolbar>  
+          </AppBar>
+        </Box>
+
+        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%",  mt: 5 }}>
+          <Paper component="main" elevation={3} sx={{ width: "380px", padding: "20px", borderRadius: "15px", display: "flex", flexDirection: "column", alignItems: "center", backgroundColor: "white", boxShadow: 3 }}>
+            <Box sx={{ textAlign: "center", marginBottom: "20px", width: { xs: "250px", sm: "280px", md: "320px" }, height: "auto" }}>
+              <img src="/logo_miguelgomez.png" alt="LOGO" style={{ width: "100%", height: "auto", objectFit: "contain" }} />
             </Box>
-
-            <Box component="form" noValidate onSubmit={handleSubmit}  sx={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: "20px" }}>
-              <Typography variant="h5" sx={{ fontWeight: "bold", marginBottom: "10px" }}>Iniciar Sesión</Typography>
-
+            
+            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%" }}>
               <Typography variant="body2" align="center" sx={{ color: "#757575", marginBottom: "20px" }}>
                 Utilice su Usuario y Contraseña
               </Typography>
@@ -125,12 +146,13 @@ function Login() {
                 onChange={(e) => setClave(e.target.value)}
               />
 
-              <Button type="submit" fullWidth sx={{ mt: 2, backgroundColor: "#000", color: "white", "$:hover": { backgroundColor: "#339d82" }, }}>
-                    Iniciar sesión
+              <Button type="submit" fullWidth  sx={{ mt: 2, backgroundColor: "#11eb6c", color: "white", "$:hover": { backgroundColor: "#35eb11" } }}>
+                Iniciar sesión
               </Button>
             </Box>
-          </Box>
-        </Box>
+          <Copyright sx={{ mt: 3, mb: 1 }} />
+        </Paper>
+      </Box>
        
         {open ? (
           <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
@@ -152,11 +174,5 @@ function Login() {
 }
 
 export default Login;
-
-
-
-
-
-
 
 

@@ -103,7 +103,7 @@ const Articulos = () => {
   return (
     <>
       <NavBar />  
-      <Grid container direction="column" sx={{ minHeight: "100vh", backfroundColor: "#ffffff", padding: 2 }}>
+      <Grid container direction="column" sx={{ minHeight: "100vh", backgroundColor: "#ffffff", padding: 2 }}>
         <Grid size={12}>
           <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
             <h2><strong>LISTADO DE ARTICULO</strong></h2>

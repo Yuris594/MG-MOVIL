@@ -133,7 +133,7 @@ const ConsultarRecibo = () => {
       let response; 
       if (criterio === "Fecha" && fechaInicio && fechaFin) {
         response = await fetch(Global.url + `/receipts/consult/Fecha?&ProfileName=Vendedor&ID=${auth.ID}&data=${fechaInicio}|${fechaFin}`, {
-          metho: "GET",
+          method: "GET",
           headers: { "Content-Type" : "application/json" },
         });
 
@@ -299,7 +299,7 @@ const ConsultarRecibo = () => {
                 size="small"
                 InputLabelProps={{ shrink: true }}
                 />
-              <TextField 
+              <TextField al
                 label="Fin"
                 type="date"
                 value={fechaFin}

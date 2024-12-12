@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Modal, TextField, InputBase, useMediaQuery } from "@mui/material";
+import { Box, Modal, TextField, useMediaQuery } from "@mui/material";
 import NavBar from "@/app/components/navbar/nav";
 import { useAuth } from "@/context/authContext";
 import { useEffect, useState } from "react";
@@ -10,13 +10,14 @@ import { Global } from "@/conexion";
 
 
 const GestionCartera = () => {
-  const { auth } = useAuth();
+  const { auth } = useAuth('');
   const [open, setOpen] = useState(false);
   const [rutero, setRutero] = useState([]);
   const [busqueda, setBusqueda] = useState("");
   const [tablaVentas, setTablaVentas] = useState([]);
   const [clienteSeleccionado, setClienteSeleccionado] = useState(null);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
+
 
   useEffect(() => {
     const obtenerDatos = async () => {
@@ -38,8 +39,10 @@ const GestionCartera = () => {
         console.log("Error al obtener datos", error)
       }
     };
-    obtenerDatos();
-  }, []);
+    if (auth?.IDSaler) {
+      obtenerDatos();
+    }
+  }, [auth?.IDSaler]);
 
   const handleOpen = (cliente) => {
     setClienteSeleccionado(cliente); 
@@ -72,6 +75,7 @@ const GestionCartera = () => {
     { field: 'RazonSocial', headerName: 'NOMBRE', width: 500, headerClassName: 'header-bold' },
     { field: 'Agenda', headerName: 'AGENDADOS', width: 150, headerClassName: 'header-bold' },
   ];
+
   
   return (
     <>
@@ -111,13 +115,12 @@ const GestionCartera = () => {
         </Grid>
       </Grid>
         
-        
-
       <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description">
+        aria-describedby="modal-modal-description"
+        >
         <Box sx={{ p: 4, backgroundColor: 'white', borderRadius: '8px', maxWidth: '650px',  width: "90%", height: "40vh", overflowY: "auto", margin: 'auto', mt: 4, p:2 }}>
           <>
             {clienteSeleccionado && (

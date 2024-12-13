@@ -31,7 +31,7 @@ const Inicio = () => {
         />
       </div>
 
-      <Copyright sx={{ mt: 5, mb: 5 }} />
+      <Copyright sx={{ mt: 3, mb: 3 }} />
     </>
   )
 }

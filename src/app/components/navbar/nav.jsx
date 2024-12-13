@@ -194,6 +194,7 @@ const NavBar = () => {
     }).then((result) => {
       if(result.isConfirmed) {
         logout();
+        router.push("/");
       }
     })
   };

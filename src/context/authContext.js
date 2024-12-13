@@ -39,7 +39,6 @@ const AuthProvider = ({ children }) => {
 
       localStorage.removeItem("auth");
       localStorage.removeItem("Tokens");
-      router.push("/");
     }, []);
 
     useEffect(() => {

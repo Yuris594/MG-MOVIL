@@ -28,33 +28,33 @@ const pages = [
   {
     title: "VENTAS",
     subPages: [
-      { title: "Clientes", url: "/pages/client", icon: <PersonIcon /> },
-      { title: "Pedidos Por Enviar", url: "/pages/pedidoSinEnviar", icon: <LocalShippingIcon /> },
-      { title: "Pedidos Enviados", url: "/pages/pedidoEnviado", icon: <LocalShippingIcon /> },
-      { title: "Cotización", url: "/pages/cotizacion", icon: <AttachMoneyIcon /> },
+      { title: "Clientes", url: "../pages/client", icon: <PersonIcon /> },
+      { title: "Pedidos Por Enviar", url: "../pages/pedidoSinEnviar", icon: <LocalShippingIcon /> },
+      { title: "Pedidos Enviados", url: "../pages/pedidoEnviado", icon: <LocalShippingIcon /> },
+      { title: "Cotización", url: "../pages/cotizacion", icon: <AttachMoneyIcon /> },
     ],
   },
   {
     title: "CARTERA",
     subPages: [
-      { title: "Cartera Clientes", url: "/pages/cartera", icon: <AccountBalanceIcon /> },
-      { title: "Recibos", url: "/pages/cartera/recibo", icon: <ReceiptIcon /> },
-      { title: "Consultar Consignaciones", url: "/pages/cartera/consignacion", icon: <AccountBalanceIcon /> },
-      { title: "Elaborar Consignaciones", url: "/pages/cartera/elaborarCo", icon: <ArticleIcon /> },
+      { title: "Cartera Clientes", url: "../pages/cartera", icon: <AccountBalanceIcon /> },
+      { title: "Recibos", url: "../pages/cartera/recibo", icon: <ReceiptIcon /> },
+      { title: "Consultar Consignaciones", url: "../pages/cartera/consignacion", icon: <AccountBalanceIcon /> },
+      { title: "Elaborar Consignaciones", url: "../pages/cartera/elaborarCo", icon: <ArticleIcon /> },
     ],
   },
   {
     title: "INFORMES",
     subPages: [
-      { title: "Ruteros Enviados", url: "/pages/gestionCartera", icon: <DirectionsRunIcon /> },
-      { title: "Historico de Ventas", url: "/pages/historicoVenta", icon: <ReceiptIcon /> },
-      { title: "Resumen Ventas Actual", url: "/pages/resumenVenta", icon: <ReceiptLongIcon /> },
+      { title: "Ruteros Enviados", url: "../pages/gestionCartera", icon: <DirectionsRunIcon /> },
+      { title: "Historico de Ventas", url: "../pages/historicoVenta", icon: <ReceiptIcon /> },
+      { title: "Resumen Ventas Actual", url: "../pages/resumenVenta", icon: <ReceiptLongIcon /> },
     ],
   },
   {
     title: "INVENTARIOS",
     subPages: [
-      { title: "Consultar Articulos", url: "/pages/inventario", icon: <InventoryIcon /> },
+      { title: "Consultar Articulos", url: "../pages/inventario", icon: <InventoryIcon /> },
     ],
   },
 ];

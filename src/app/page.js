@@ -2,6 +2,7 @@
 
 import { Box, Button, Snackbar, TextField, Typography, useTheme, useMediaQuery, Paper, AppBar, Toolbar } from "@mui/material";
 import DirectionsBikeIcon from '@mui/icons-material/DirectionsBike';
+import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import CheckIcon from '@mui/icons-material/Check';
 import { useAuth } from "@/context/authContext";
 import { useRouter } from "next/navigation";
@@ -9,7 +10,7 @@ import MuiAlert from "@mui/material/Alert";
 import { Global } from "@/conexion";
 import { useState } from "react";
 import * as React from "react";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -57,6 +58,7 @@ function Login() {
   const [usuario, setUsuario] = useState('');
   const theme = useTheme();
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const controls = useAnimation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -92,21 +94,7 @@ function Login() {
         <Box sx={{ flexGrow: 1 }}>
           <AppBar position="static" sx={{ bgcolor: "#262626", height: "70px", overflow: "hidden" }}>
             <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", }}>
-              <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}></Typography>
-              <motion.div
-                animate={{ 
-                  x: ["-100%", "2750%"]
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  repeatType: "loop",
-                  ease: "linear"
-                }}
-                style={{ position: "absolute" }}
-              >
-                <DirectionsBikeIcon sx={{ fontSize: 40 }} />
-              </motion.div>
+              <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>¡Bienvenido</Typography>
             </Toolbar>  
           </AppBar>
         </Box>

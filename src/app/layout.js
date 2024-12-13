@@ -1,10 +1,13 @@
 
 import "./globals.css";
-import { Lora } from "next/font/google";
+import { Roboto } from "next/font/google";
 import AuthProvider from "@/context/authContext";
 
 
-const inter = Lora({ subsets: ["latin"] });
+const inter = Roboto({ 
+  subsets: ["latin"],
+  weight: ['400', '700']
+});
 
 export const metadata = {
   title: 'MG-MOVIL',

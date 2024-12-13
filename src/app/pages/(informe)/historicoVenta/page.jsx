@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Divider, TextField, Typography, useMediaQuery } from "@mui/material";
+import { Box, CircularProgress, Divider, TextField, useMediaQuery } from "@mui/material";
 import NavBar from "@/app/components/navbar/nav";
 import { useAuth } from "@/context/authContext";
 import { DataGrid } from "@mui/x-data-grid";
@@ -29,6 +29,7 @@ const HistoricoVenta = () => {
   const { auth } = useAuth();
   const [ventas, setVentas] = useState([]);
   const [busqueda, setBusqueda] = useState("");
+  const [cargando, setCargando] = useState(true); 
   const [tablaVentas, setTablaVentas] = useState([]);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
@@ -47,6 +48,7 @@ const HistoricoVenta = () => {
         const datos = await response.json();
         setVentas(datos.data);
         setTablaVentas(datos.data);
+        setCargando(false);
       } catch (error) {
         console.log("Error al obtener datos", error)
       }
@@ -73,6 +75,11 @@ const HistoricoVenta = () => {
   return (
     <>
       <NavBar />
+      {cargando === true ? (
+        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+          <CircularProgress sx={{ color: "#000" }} />
+        </Box>
+      ) : (
       <Grid container direction="column" sx={{ minHeight: "100vh", backfroundColor: "#ffffff", padding: 2 }}>
         <Grid container direction={isSmallScreen ? "column" : "row"} alignItems="center">
           <Grid size={{ xs: 12, md: 6 }}>
@@ -118,6 +125,7 @@ const HistoricoVenta = () => {
           </Box>
         </Grid>
       </Grid>
+      )}
     </>
   );
 }

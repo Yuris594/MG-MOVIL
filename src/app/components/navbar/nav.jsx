@@ -23,6 +23,7 @@ import Link from "next/link";
 import MenuBar from "./bar";
 
 
+
 const pages = [
   {
     title: "VENTAS",
@@ -170,10 +171,10 @@ const NavBar = () => {
             },
           }).then(() => {
             Swal.fire({
-              text: "Actualización Exitosa!!",
+              title: "Actualización Exitosa!!",
               icon: "success",
             }).then(() => {
-              window.location.reload();
+              router.push("/pages");
             });
           });
         }

@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Modal, TextField, useMediaQuery } from "@mui/material";
+import { Box, CircularProgress, Modal, TextField, useMediaQuery } from "@mui/material";
 import NavBar from "@/app/components/navbar/nav";
 import { useAuth } from "@/context/authContext";
 import { useEffect, useState } from "react";
@@ -14,6 +14,7 @@ const GestionCartera = () => {
   const [open, setOpen] = useState(false);
   const [rutero, setRutero] = useState([]);
   const [busqueda, setBusqueda] = useState("");
+  const [cargando, setCargando] = useState(true); 
   const [tablaVentas, setTablaVentas] = useState([]);
   const [clienteSeleccionado, setClienteSeleccionado] = useState(null);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
@@ -35,6 +36,7 @@ const GestionCartera = () => {
         setRutero(datos.data);
         setClienteSeleccionado(datos.data);
         setTablaVentas(datos.data);
+        setCargando(false);
       } catch (error) {
         console.log("Error al obtener datos", error)
       }
@@ -80,6 +82,11 @@ const GestionCartera = () => {
   return (
     <>
       <NavBar />
+      {cargando === true ? (
+        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+          <CircularProgress sx={{ color: "#000" }} />
+        </Box>
+      ) : (
       <Grid container direction="column" sx={{ minHeight: "100vh", backfroundColor: "#ffffff", padding: 2 }}>
         <Grid size={12}>
           <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center" }}>
@@ -114,7 +121,7 @@ const GestionCartera = () => {
           </Box>
         </Grid>
       </Grid>
-        
+      )}
       <Modal
         open={open}
         onClose={handleClose}

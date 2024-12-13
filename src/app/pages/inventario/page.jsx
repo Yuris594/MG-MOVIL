@@ -104,28 +104,27 @@ const Articulos = () => {
     <>
       <NavBar />  
       <Grid container direction="column" sx={{ minHeight: "100vh", backgroundColor: "#ffffff", padding: 2 }}>
-        <Grid size={12}>
-          <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
-            <h2><strong>LISTADO DE ARTICULO</strong></h2>
-          </Box>
-          <Divider />
+        <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
+          <Grid size={6}>
+              <h2><strong>LISTADO DE ARTICULO</strong></h2>
+          </Grid>
+          <Grid size={6} sx={{ padding: 2 }}>
+            <TextField 
+              id="outlined-basic"
+              label="Digite Codigo o Referencia para Buscar"
+              multiline
+              rows={1}
+              variant="outlined"
+              value={busqueda}
+              onChange={handleChange}
+              sx={{ width: "100%", marginBottom: 2 }}
+              />
         </Grid>
+      </Box>
 
-        <Grid size={12} sx={{ padding: 2 }}>
-          <TextField 
-            id="outlined-basic"
-            label="Digite Codigo o Referencia para Buscar"
-            multiline
-            rows={1}
-            variant="outlined"
-            value={busqueda}
-            onChange={handleChange}
-            sx={{ width: "100%", marginBottom: 2 }}
-          />
-        </Grid>
 
         <Grid size={12} sx={{ flexGrow: 1, marginBottom: 2 }}>
-          <Box sx={{ width: "100%", height: isSmallScreen ? 500 : 1170  }}>
+          <Box sx={{ width: "100%", height: isSmallScreen ? 500 : 750  }}>
             <DataGrid 
               rows={producto}
               columns={columns}

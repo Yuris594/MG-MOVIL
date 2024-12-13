@@ -6,7 +6,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/authContext";
 import NavBar from "@/app/components/navbar/nav";
-import { Box, Divider, TextField, useMediaQuery } from "@mui/material";
+import { Box, CircularProgress, TextField, useMediaQuery } from "@mui/material";
 
 
 const columns = [

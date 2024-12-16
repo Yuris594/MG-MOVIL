@@ -123,9 +123,9 @@ const VerCotizacion = () => {
     } catch (error) {
       console.error("Error generando el PDF:", error);
       Swal.fire({
-        title: "Oops...!",
-        text: "Hubo un problema al Enviar la Cotización.",
         icon: "error",
+        title: "Oops..!",
+        text: "Revisar el Email del cliente, No se puede enviar la cotización."
       });
     }
   }
@@ -230,17 +230,3 @@ const VerCotizacion = () => {
 export default VerCotizacion;
 
 
-/*
- { field: "ver", headerName: "", width: 100,  
-      renderCell: (params) => (
-        <Button
-          onClick={() => generarPDF(params.row)}
-          ara-label="verPDF"
-          color="secondary"
-          sx={{ fontSize: 12 }}
-        >
-          Ver PDF
-        </Button>
-      )
-    },
-*/

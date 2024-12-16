@@ -36,6 +36,7 @@ const ElaborarConsignacion = () => {
   const router = useRouter();
   const [bancos, setBancos] = useState([]);
   const [pedido, setPedido] = useState([]);
+  const [boton, setBoton] = useState(false);
   const [comentarios, setComentarios] = useState("");
   const [selectedBankId, setSelectedBankId] = useState(null);
   const [totalConsignacion, setTotalConsignacion] = useState(0);
@@ -94,6 +95,7 @@ const ElaborarConsignacion = () => {
 
     const totalFormateado = `${Number(total.toFixed(2)).toLocaleString()}`;
     setTotalConsignacion(totalFormateado);
+    setBoton(totalFormateado);
   }, [pedido]);
 
  
@@ -154,7 +156,7 @@ const ElaborarConsignacion = () => {
       <Box sx={{ padding: 2 }}>
         <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", justifyContent: "space-between", alignItems: "center" }}>
           <h2><strong>ELABORAR CONSIGNACIÓN</strong></h2>
-          <IconButton onClick={crearConsignacion} title="Generar Consignación">
+          <IconButton onClick={crearConsignacion} title="Generar Consignación" disabled={!boton}>
             <LocalAtmIcon sx={{ fontSize: 60 }} color="primary" />
           </IconButton>
         </Box>

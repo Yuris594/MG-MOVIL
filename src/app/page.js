@@ -1,8 +1,6 @@
 'use client';
 
-import { Box, Button, Snackbar, TextField, Typography, useTheme, useMediaQuery, Paper, AppBar, Toolbar } from "@mui/material";
-import DirectionsBikeIcon from '@mui/icons-material/DirectionsBike';
-import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
+import { Box, Button, Snackbar, TextField, Typography, Paper, AppBar, Toolbar } from "@mui/material";
 import CheckIcon from '@mui/icons-material/Check';
 import { useAuth } from "@/context/authContext";
 import { useRouter } from "next/navigation";
@@ -10,7 +8,6 @@ import MuiAlert from "@mui/material/Alert";
 import { Global } from "@/conexion";
 import { useState } from "react";
 import * as React from "react";
-import { motion, useAnimation } from "framer-motion";
 
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -56,9 +53,7 @@ function Login() {
   const [openE, setOpenE] = useState(false);
   const [error, setError] = useState(false);
   const [usuario, setUsuario] = useState('');
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
-  const controls = useAnimation();
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();

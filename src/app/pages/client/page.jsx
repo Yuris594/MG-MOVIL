@@ -284,9 +284,10 @@ const ClienteVendedor = () => {
           <Stack direction="row" spacing={2} sx={{ flexWrap: "wrap", justifyContent: "center", p: 2 }}>
             <Button variant="outlined" startIcon={<AssignmentIcon />} sx={{ color: "#29e5ad", margin: "2px" }} LinkComponent={Link} href="./client/pedidos">Pedidos</Button>
             <Button variant="outlined" startIcon={<DirectionsRunIcon />} sx={{ color: "#e52990", margin: "2px" }} LinkComponent={Link} href="./client/rutero">Realizar Rutero</Button>
-            <Button variant="outlined" startIcon={<EmailIcon />} color="success" onClick={handleOpenE}>Actualizar Correo</Button>
+            <Button variant="outlined" startIcon={<AssignmentIcon />} sx={{ color: "#aa570a" }}>Cotización</Button>
             <Button variant="outlined" startIcon={<ReceiptIcon />} color="secondary" LinkComponent={Link} href="./client/recibo">Ver Recibos</Button>
             <Button variant="outlined" startIcon={<ReceiptLongIcon />} sx={{ color: "#2948e5", margin: "2px" }} LinkComponent={Link} href="./client/crearRecibo">Realizar Recibo</Button>
+            <Button variant="outlined" startIcon={<EmailIcon />} color="success" onClick={handleOpenE}>Actualizar Correo</Button>
             <Button variant="contained" startIcon={<CloseIcon />} color="error" onClick={handleClose}>Cerrar</Button>
           </Stack>
         </Box>

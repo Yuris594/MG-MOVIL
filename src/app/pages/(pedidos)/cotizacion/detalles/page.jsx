@@ -224,7 +224,6 @@ const DetallesPedido = ({ pedido, handleClose }) => {
   };
 
 
-
   const obtenerConse = async () => {
     try {
       const response = await fetch(Global.url + `/pedidos/${auth.IDSaler}`, {

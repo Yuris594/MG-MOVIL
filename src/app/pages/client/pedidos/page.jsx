@@ -37,15 +37,13 @@ const CrearPedido = () => {
   const [fecha, setFecha] = useState("");
   const [total, setTotal] = useState("");
   const [notas, setNotas] = useState("");
+  const handleOpen = () => setOpen(true);
   const [open, setOpen] = useState(false);
-  const [impuesto, setImpuesto] = useState("");
+  const handleClose = () => setOpen(false);
   const [subTotal, setSubTotal] = useState("");
   const [documento, setDocumento] = useState("");
-  const [descuento, setDescuento] = useState("");
-  const [articulosSeleccionados, setArticulosSeleccionados] = useState([]);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const [articulosSeleccionados, setArticulosSeleccionados] = useState([]);
 
 
   const columns = [
@@ -131,8 +129,6 @@ const CrearPedido = () => {
       nuevoTotal += parseFloat(art.Total);
     })
 
-    setDescuento(totalDescuento);
-    setImpuesto(totalImpuesto);
     setSubTotal(nuevoSubtotal);
     setTotal(nuevoTotal);
     
@@ -181,56 +177,6 @@ const CrearPedido = () => {
       timer: 3000
     });
   };
-
-  const cotizacionPedido = () => {
-    const pedidosGuardados = JSON.parse(localStorage.getItem("cotizacion")) || [];
-    
-    let ultimoId = 0;
-    if (pedidosGuardados.length > 0) {
-      ultimoId = Math.max(...pedidosGuardados.map(pedido => pedido.PKId));
-    }
-    const nuevoId = ultimoId + 1;
-
-    localStorage.setItem("ultimoFKidPedidos", nuevoId);
-
-    const pedido = {
-      PKId: nuevoId,
-      fecha: new Date().toISOString(),
-      nombreC: clienteV.RazonSocial,
-      nit: clienteV.NIT,
-      telefono: clienteV.Telefono,
-      direccion: clienteV.Direccion,
-      municipio: clienteV.CityName,
-      email: clienteV.Email,
-      total,
-      subTotal,
-      impuesto,
-      descuento,
-      idvend: auth.ID,
-      FKID_sellers: auth.IDSaler,
-      notas: notas,
-      NUMPED: "",
-      Documento1: documento, 
-      articulosSeleccionados: articulosSeleccionados.map(art => ({
-        ...art,
-        FKid_pedidos2: nuevoId
-      })),
-    };
-
-    pedidosGuardados.push(pedido);
-    localStorage.setItem("cotizacion", JSON.stringify(pedidosGuardados));
-  
-    router.push("../../pages/cotizacion");
-
-    Swal.fire({
-      title: "Se creo la Cotización",
-      text: "Cotización creada correctamente.",
-      icon: "success",
-      showConfirmButton: false,
-      timer: 3000
-    });
-  };
-
 
   const obtenerConse = async () => {
     try {
@@ -389,12 +335,11 @@ const CrearPedido = () => {
     <>
       <NavBar />
         <Grid container spacing={2} direction={isSmallScreen ? "column" : "row"} alignItems="center" justifyContent="space-between">
-          <h2 style={{ margin: 4 }}><strong>DIGITAR PEDIDO</strong></h2>
+          <h2 style={{ margin: 4 }}><strong>CREAR COTIZACIÓN</strong></h2>
           <Grid size={{ xs: 12, sm: 8 }} sx={{ padding: 2 }}>
             <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", justifyContent: "center", alignItems: "center" }}>
               <Button onClick={handleOpen} variant="contained" sx={{ margin: 1, backgroundColor:"#4eeacb", color: "white" }}>Articulos</Button>
               <Button onClick={guardarPedido} variant="contained" sx={{ margin: 1, backgroundColor: '#8334f0', color: 'white' }}>Guardar</Button>
-              <Button onClick={cotizacionPedido} variant="contained" sx={{ margin: 1, backgroundColor: '#e15215', color: "white" }}>Cotización</Button>
               <Button onClick={enviarPedido} variant="contained" sx={{ margin: 1 }} color="success">Enviar</Button>
               <Button variant="contained" sx={{ ml: 1, mr: 2 }} color="error" LinkComponent={Link} href="../client">Cerrar</Button>
             </Box>
@@ -481,24 +426,5 @@ const CrearPedido = () => {
 
 export default CrearPedido;
 
-
-
-
-/*
-
-
-FKid_pedidos2
-FKcodigo_articles
-Cantidad
-Precio
-Descuento
-Iva
-Total
-PKId: Id autoIncrementable
-FKNUMPED
-BODEGA
-
-
-*/
 
 

@@ -95,7 +95,7 @@ const ElaborarConsignacion = () => {
 
     const totalFormateado = `${Number(total.toFixed(2)).toLocaleString()}`;
     setTotalConsignacion(totalFormateado);
-    setBoton(totalFormateado);
+    setBoton(total > 0);
   }, [pedido]);
 
  

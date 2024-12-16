@@ -128,7 +128,150 @@ const VerCotizacion = () => {
         text: "Revisar el Email del cliente, No se puede enviar la cotización."
       });
     }
-  }
+  };
+
+
+  const obtenerConse = async () => {
+    try {
+      const response = await fetch(Global.url + `/pedidos/${auth.IDSaler}`, {
+        method: "GET",
+        headers: { "Content-Type" : "application/json" },
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Error al obtener el consecutivo: ${response.status} ${response.statusText}`);
+      }
+
+      const datos = await response.json();
+      if (!datos[0].consecutivo || !datos[0].Prefijo) {
+        throw new Error("Los campos 'consecutivo' o 'Prefijo' no se encontraron en la respuesta.");
+      }
+
+      return datos[0];
+    } catch (error) {
+      console.error("Error al obtener el consecutivo:", error);
+      throw error;
+    }
+  };
+
+  const enviarPedido = async () => {
+
+    handleClose(); 
+
+    const resultado = await Swal.fire({
+      title: "Almacenar!",
+      text: "¿Desea almacenar el Pedido?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+    }); 
+    
+    if(!resultado.isConfirmed) {
+      Swal.fire({
+        text: "El Pedido no se almacenó.",
+        icon: "info",
+        timer: 3000, 
+      });
+      return; 
+    }
+  
+    try {
+      const pedidosGuardados = JSON.parse(localStorage.getItem("pedidos")) || [];
+      const pedidoGuardado = pedidosGuardados.find(pedido => pedido.PKId === pedido.PKId);
+
+      if (!pedidoGuardado) {
+        throw new Error("El pedido no se encontró en el almacenamiento local.")
+      }
+
+      const datosConse = await obtenerConse();
+      const conseActualizado = datosConse.consecutivo + 1;
+      const NUMPED = `${datosConse.Prefijo}${conseActualizado}`; 
+
+      const response = await fetch(Global.url + `/pedidos/PEDIDOS/${auth.IDSaler}`, {
+        method: "PUT",
+        headers: { "Content-Type" : "application/json" },
+        body: JSON.stringify({ Consecutivo: conseActualizado })
+      }); 
+
+      if (!response.ok) {
+        console.log("Error al actualizar el consecutivo:", response.statusText);
+        throw new Error("Error al actualizar el consecutivo");
+      } 
+
+      console.log("Consecutivo actualizado correctamente");
+      
+      const pedido = {
+        FKID_sellers: pedidoGuardado.FKID_sellers,
+        Notas: pedidoGuardado.Notas,
+        FKId_clientes: pedidoGuardado.FKId_clientes,
+        NUMPED,
+        Documento1: pedidoGuardado.Documento1,
+      };
+
+      const encabezadoResponse = await fetch(Global.url + '/pedidos/', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(pedido),
+      });
+  
+      if(!encabezadoResponse.ok) {
+        const errorResponse = await encabezadoResponse.json();
+        console.error("Error al crear el pedido", errorResponse);
+        throw new Error("Error al crear el encabezado del pedido");
+      } 
+        
+      console.log("Pedido creado correctamente");
+
+      const detallePedido = articulosSeleccionados.map(art => ({
+        FKid_pedidos2: art.FKid_pedidos2.toString(), 
+        FKcodigo_articles: art.PKcodigo,
+        Cantidad: art.cantped,
+        Precio: art.Precio.toString(),
+        Descuento: art.Descuento.toString(),
+        Iva: art.Iva.toString(),
+        Total: art.Total, 
+        FKNUMPED: NUMPED,
+        BODEGA: art.BODEGA
+      }));
+      
+      for (const detalle of detallePedido) {
+        const detalleResponse = await fetch(Global.url + `/pedidos/${NUMPED}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(detalle)
+        });
+        
+        if (!detalleResponse.ok) {
+          const errorResponse = await detalleResponse.text(); 
+          console.error("Error al crear el detalle del pedido:", errorResponse);
+          throw new Error(`Error al crear el detalle del pedido: ${detalleResponse.status} - ${detalleResponse.statusText}`);
+        }
+      }
+      console.log("Detalle del pedido creado correctamente");
+
+      const pedidosRestantes = pedidosGuardados.filter(p => p.PKId !== pedidoGuardado.PKId);
+      localStorage.setItem("pedidos", JSON.stringify(pedidosRestantes));
+
+      Swal.fire({
+        title: "¡Éxito!",
+        text: "Pedido Fue Almacenado Correctamente.",
+        icon: "success",
+        timer: 3000, 
+      });
+
+
+    } catch (error) {
+      console.error("Error:", error);
+      Swal.fire({
+        title: "Oops...!",
+        text: "Hubo un Problema al Enviar el Pedido.",
+        icon: "error",
+      });
+    }
+  };
 
 
   const columns = [
@@ -145,6 +288,18 @@ const VerCotizacion = () => {
           sx={{ fontSize: 12 }}
         >
           Enviar PDF
+        </Button>
+      )
+    },
+    { field: "crearPedido", headerName: "", width: 120, 
+      renderCell: (params) => (
+        <Button
+          onClick={() => enviarPedido(params.row)}
+          aria-label="crear"
+          color="success"
+          sx={{ fontSize: 12 }}
+        >
+          Crear Pedido
         </Button>
       )
     },

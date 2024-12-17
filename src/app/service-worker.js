@@ -5,7 +5,7 @@ if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
 
     wb.addEventListener('installed', (event) => {
         if (event.isUpdate) {
-            console.log('Se ha instalado un anueva versión.');
+            console.log('Se ha instalado una nueva versión.');
         }
     });
 

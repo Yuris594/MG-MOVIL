@@ -1,13 +1,13 @@
 
 import "./globals.css";
-import { Montserrat, Roboto } from "next/font/google";
+//import { Montserrat, Roboto } from "next/font/google";
 import AuthProvider from "@/context/authContext";
 
 
-const inter = Roboto({ 
+/*const inter = Roboto({ 
   subsets: ["latin"],
   weight: ['400', '700']
-});
+});*/
 
 export const metadata = {
   title: 'MG-MOVIL',

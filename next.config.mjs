@@ -1,3 +1,4 @@
+
 /** @type {import('next').NextConfig} */
 import nextPWA from 'next-pwa';
 
@@ -40,7 +41,7 @@ const nextConfig = {
     swcMinify: true,
     //output: "export",
 
-};
-
+}
 
 export default withPWA(nextConfig);
+

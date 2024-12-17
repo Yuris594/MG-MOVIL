@@ -1,10 +1,10 @@
 
 import "./globals.css";
-import { Montserrat, Roboto_Serif } from "next/font/google";
+import { Montserrat, Roboto } from "next/font/google";
 import AuthProvider from "@/context/authContext";
 
 
-const inter = Roboto_Serif({ 
+const inter = Roboto({ 
   subsets: ["latin"],
   weight: ['400', '700']
 });

@@ -66,29 +66,12 @@ const CarteraCliente = () => {
         const db = await initDB(); 
         const datosGuardados = await db.getAll('cartera'); 
 
-        if (datosGuardados.length > 0) {
+        if (datosGuardados) {
           setCartera(datosGuardados);
           setTablaCartera(datosGuardados);
-          console.log("Datos cargados desde IndexedDB");
+          console.log("Datos cargados desde IndexedDB Cartera");
         } else {
-          const response = await fetch(Global.url + `/carterasellers/${auth.IDSaler}`, {
-            method: "GET",
-            headers: { "Content-Type": "application/json" }
-          });
-  
-          if (!response.ok) {
-            throw new Error(`Error en la solicitud: ${response.status}`);
-          }
-  
-          const data = await response.json();
-          setCartera(data.cxc);
-          setTablaCartera(data.cxc);
-          
-          for (const item of data.cxc) {
-            await db.add('cartera', item); 
-          }
-          console.log("Datos guardados en IndexedDB");
-          console.log("Datos cargados desde la API");
+          console.log("Error al cargar los datos de cartera");
         }
       } catch (error) {
         console.log("Error al obtener los productos", error);
@@ -132,7 +115,7 @@ const CarteraCliente = () => {
         const db = await initDB(); 
         const clientesGuardados = await db.getAll('customers'); 
   
-        if (clientesGuardados.length > 0) {
+        if (clientesGuardados) {
           setClientes(clientesGuardados); 
           console.log("Datos cargados desde la base de datos");
         } else {

@@ -19,35 +19,13 @@ const Articulos = () => {
   useEffect(() => {
     const conseguirProducto = async () => {
       try {
-      const db = await initDB();
-      
-      if (!navigator.onLine) {
+        const db = await initDB();
         const productosGuardados = await db.getAll("articles");
-        setProducto(productosGuardados);
-        setTablaProducto(productosGuardados);
-        console.log("Datos cargados desde IndexedDB");
-      } else {
-        const response = await fetch(Global.url + "/articles/articles/inventario", {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        });
-  
-        if (!response.ok) {
-          throw new Error(`Error en la solicitud: ${response.status}`);
+        if (productosGuardados) {
+          setProducto(productosGuardados);
+          setTablaProducto(productosGuardados);
+          console.log("Datos cargados desde IndexedDB Inventario");
         }
-        
-        const data = await response.json();
-        setProducto(data.data);
-        setTablaProducto(data.data);
-
-        for (const item of data.data) {
-          const existeItem = await db.get('articles', item.PKcodigo); 
-          if (!existeItem) {
-            await db.add("articles", item)
-          }
-        }
-        console.log("Datos guardados en IndexedDB y Datos cargados desde la API");
-      }
       } catch (error) {
         console.log("Error al obtener los datos", error);
       }

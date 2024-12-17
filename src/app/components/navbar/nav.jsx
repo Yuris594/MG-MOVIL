@@ -118,48 +118,65 @@ const NavBar = () => {
           const actualizarBase = async () => {
             try {
               const db = await initDB();
-
-              const actualizarAlmacen = async (storeName, apiUrl, keyPath, filterFn = null) => {
-                const response = await fetch(apiUrl);
-                const remoteData = await response.json();
-
-                const filteredData = Array.isArray(remoteData)
-                  ? (typeof filterFn === 'function' ? filterFn(remoteData) : remoteData)
-                  : [];
-
-                if (!Array.isArray(filteredData)) {
-                  console.error("FilteredData no es un array:", filteredData);
+          
+              const actualizarAlmacen = async (storeName, data, keyPath) => {
+                if (!Array.isArray(data)) {
+                  console.error(`Error: Los datos para ${storeName} no son un array`, data);
                   return;
                 }
 
                 const localData = await db.getAll(storeName);
 
-                for(const item of filteredData) {
-                    const localItem = localData.find((local) => local[keyPath] === item[keyPath]);
-                    if (!localItem || JSON.stringify(localItem) !== JSON.stringify(item)) {
-                      await db.put(storeName, item);
+                const remoteKeys = new Set(data.map((item) => item[keyPath]));
+          
+                for (const item of data) {
+                  const localItem = localData.find((local) => local[keyPath] === item[keyPath]);
+                  if (!localItem || JSON.stringify(localItem) !== JSON.stringify(item)) {
+                      try {
+                        await db.put(storeName, item);
+                      } catch (error) {
+                        console.error(`Error al insertar ${item[keyPath]}:`, error);
+                      }
+                    }
+                  }
+          
+                for (const localItem of localData) {
+                  if (!remoteKeys.has(localItem[keyPath])) {
+                    try {
+                      await db.delete(storeName, localItem[keyPath]);
+                    } catch (error) {
+                      console.error(`Error al eliminar ${localItem[keyPath]}:`, error);
+                    }
                   }
                 }
-
-                for(const localItem of localData) {
-                  if (!filteredData.find((remote) => remote[keyPath] === localItem[keyPath])) {
-                    await db.delete(storeName, localItem[keyPath]);
-                  }
-                }
-              };
-            
-            await actualizarAlmacen("articles", Global.url + "/articles/articles/inventario", "PKcodigo");
-
-            await actualizarAlmacen("cartera", Global.url + `/carterasellers/${auth.IDSaler}`, "Documento");
-
-            await actualizarAlmacen("customers", Global.url + "/customers/customers", "ID", 
-                                    (data) => data.filter((item) => item.IDVendedor === auth.IDSaler));
-
+              }
+          
+              const [articlesResponse, carteraResponse, customersResponse] = await Promise.all([
+                fetch(`${Global.url}/articles/articles/inventario`),
+                fetch(`${Global.url}/carterasellers/${auth.IDSaler}`),
+                fetch(`${Global.url}/customers/customers`),
+              ]);
+        
+              const [articlesData, carteraData, customersData] = await Promise.all([
+                articlesResponse.json(),
+                carteraResponse.json(),
+                customersResponse.json(),
+              ]);
+  
+              const articles = Array.isArray(articlesData) ? articlesData : articlesData.data || [];
+              const cartera = Array.isArray(carteraData) ? carteraData : carteraData.cxc || [];
+              const filteredCustomers = Array.isArray(customersData) ? customersData.filter((item) => item.IDVendedor === auth.IDSaler) : [];
+          
+              await actualizarAlmacen("articles", articles, "PKcodigo");
+              await actualizarAlmacen("cartera", cartera, "Documento");
+              await actualizarAlmacen("customers", filteredCustomers, "ID");
+  
               console.log("Datos actualizados en IndexedDB");
-            } catch(error) {
+            } catch (error) {
               console.log("Error al actualizar IndexedDB", error);
             }
           };
+          
           actualizarBase();
 
           Swal.fire({

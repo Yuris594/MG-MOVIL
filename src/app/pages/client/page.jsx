@@ -68,23 +68,10 @@ const ClienteVendedor = () => {
       try {
         const db = await initDB(); 
         const clientesGuardados = await db.getAll('customers'); 
-        if (clientesGuardados.length > 0) {
+        if (clientesGuardados) {
           setClientes(clientesGuardados);
           setTablaClientes(clientesGuardados);
           console.log("Datos cargados desde IndexedDB");
-        } else {
-          const response = await fetch(Global.url + '/customers/Customers');
-          const data = await response.json();
-          const filtrados = data.filter((item) =>  item.IDVendedor === auth.IDSaler);
-
-          setClientes(filtrados);
-          setTablaClientes(filtrados);
-          
-          for (const cliente of filtrados) {
-            await db.add('customers', cliente); 
-          } 
-
-          console.log("Datos guardados/actualizados en IndexedDB");
         }
       } catch (error) {
         console.log('Error al obtener los datos:', error);

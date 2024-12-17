@@ -6,7 +6,7 @@ const withPWA = nextPWA({
     dest: 'public',
     register: true,
     skipWaiting: true,
-    //disable: process.env.NODE_ENV === 'development',
+    disable: process.env.NODE_ENV === 'development',
     cacheOnFrontEndNav: true,
     runtimeCaching: [
         {
@@ -38,7 +38,7 @@ const withPWA = nextPWA({
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
-    output: "export",
+    //output: "export",
 
 };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, IconButton, InputBase, Modal, TextField, useMediaQuery } from "@mui/material";
+import { Box, IconButton, Modal, TextField, useMediaQuery } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 import NavBar from "@/app/components/navbar/nav";
 import { DataGrid } from "@mui/x-data-grid";

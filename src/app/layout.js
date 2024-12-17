@@ -20,7 +20,7 @@ function RootLayout({ children }) {
       <head>
         <link rel="manifest" href="/manifest.json" />
       </head>
-      <body className={inter.className}>
+      <body>
         <AuthProvider>
           {children}
         </AuthProvider>

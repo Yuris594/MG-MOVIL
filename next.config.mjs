@@ -38,7 +38,7 @@ const withPWA = nextPWA({
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
-    output: "export",
+    //output: "export",
 
 };
 

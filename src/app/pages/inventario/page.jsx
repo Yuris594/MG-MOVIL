@@ -1,12 +1,11 @@
 "use client";
 
-import { Box, Divider, TextField, useMediaQuery } from "@mui/material";
+import { Box, TextField, useMediaQuery } from "@mui/material";
 import { initDB } from "@/app/components/base/db";
 import NavBar from "@/app/components/navbar/nav";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid2";
-import { Global } from "@/conexion";
 
 
 const Articulos = () => {

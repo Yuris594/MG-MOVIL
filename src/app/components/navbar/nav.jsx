@@ -13,7 +13,7 @@ import ReceiptIcon from '@mui/icons-material/Receipt';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import ArticleIcon from '@mui/icons-material/Article';
 import PersonIcon from '@mui/icons-material/Person';
-import { initDB } from "@/app/components/base/db";
+import { clearDatabase, initDB } from "@/app/components/base/db";
 import { useAuth } from "@/context/authContext";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -118,6 +118,8 @@ const NavBar = () => {
           const actualizarBase = async () => {
             try {
               const db = await initDB();
+
+              await clearDatabase();
           
               const actualizarAlmacen = async (storeName, data, keyPath) => {
                 if (!Array.isArray(data)) {
@@ -125,32 +127,15 @@ const NavBar = () => {
                   return;
                 }
 
-                const localData = await db.getAll(storeName);
-
-                const remoteKeys = new Set(data.map((item) => item[keyPath]));
-          
                 for (const item of data) {
-                  const localItem = localData.find((local) => local[keyPath] === item[keyPath]);
-                  if (!localItem || JSON.stringify(localItem) !== JSON.stringify(item)) {
-                      try {
-                        await db.put(storeName, item);
-                      } catch (error) {
-                        console.error(`Error al insertar ${item[keyPath]}:`, error);
-                      }
-                    }
-                  }
-          
-                for (const localItem of localData) {
-                  if (!remoteKeys.has(localItem[keyPath])) {
-                    try {
-                      await db.delete(storeName, localItem[keyPath]);
-                    } catch (error) {
-                      console.error(`Error al eliminar ${localItem[keyPath]}:`, error);
-                    }
+                  try {
+                    await db.put(storeName, item);
+                  } catch (error) {
+                    console.error(`Error al insertar ${item[keyPath]}:`, error);
                   }
                 }
-              }
-          
+              };
+        
               const [articlesResponse, carteraResponse, customersResponse] = await Promise.all([
                 fetch(`${Global.url}/articles/articles/inventario`),
                 fetch(`${Global.url}/carterasellers/${auth.IDSaler}`),
@@ -170,8 +155,8 @@ const NavBar = () => {
               await actualizarAlmacen("articles", articles, "id");
               await actualizarAlmacen("cartera", cartera, "Documento");
               await actualizarAlmacen("customers", filteredCustomers, "ID");
-  
-              console.log("Datos actualizados en IndexedDB");
+
+                console.log("Datos actualizados en IndexedDB");
             } catch (error) {
               console.log("Error al actualizar IndexedDB", error);
             }
@@ -199,31 +184,6 @@ const NavBar = () => {
     }, 500);
   };
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.addEventListener("beforeunload", async () => {
-        try {
-          const db = await initDB();
-          const storeNames = ["articles", "cartera", "customers"];
-          const tx = db.transaction(storeNames, "readwrite");
-          for (const storeName of storeNames) {
-            await tx.objectStore(storeName).clear();
-          }
-          await tx.done;
-          console.log("Datos de IndexedDB eliminados al cerrar la pestaña");
-        } catch (error) {
-          console.error("Error al eliminar datos de IndexedDB al cerrar la pestaña:", error);
-        }
-      });
-    }
-    return () => {
-      if (typeof window !== "undefined") {
-        window.removeEventListener("beforeunload", () => {});
-      }
-    };
-  }, []);
-  
-
   const cerrarSesion = () => {
     Swal.fire({
       title: "¿Cerrara Sesión?",
@@ -235,6 +195,7 @@ const NavBar = () => {
       confirmButtonText: "Aceptar"
     }).then((result) => {
       if(result.isConfirmed) {
+        clearDatabase();
         logout();
         router.push("/");
       }
@@ -302,3 +263,4 @@ const NavBar = () => {
 };
 
 export default NavBar;
+

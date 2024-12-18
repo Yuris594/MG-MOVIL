@@ -1,7 +1,7 @@
 {
-    "name": "App MG-MOVIL PWA",
-    "short_name": "PWA APP",
-    "description": "Una aplicación Next.js convertida en PWA",
+    "name": "Mi Aplicación PWA",
+    "short_name": "PWA",
+    "description": "Una aplicación web progresiva.",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",

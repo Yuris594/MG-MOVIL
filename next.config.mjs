@@ -9,35 +9,39 @@ const withPWA = nextPWA({
     cacheOnFrontEndNav: true,
     runtimeCaching: [
         {
-            urlPattern: /^https:\/\/fonts\.(?:googleapis|gstatic)\.com\/.*/i,
+            urlPattern: /\/_next\//,
             handler: 'CacheFirst',
             options: {
-                cacheName: 'google-fonts',
+                cacheName: 'next-static-cahe',
                 expiration: {
-                    maxEntries: 10,
                     maxAgeSeconds: 60 * 60 * 24 * 365,
                 },
             }
         },
         {
-            urlPattern: /.*/,
+            urlPattern: /^http:\/\/localhost-pages-client\//,
             handler: 'NetworkFirst',
             options: {
-                cacheName: 'offline-cache',
+                cacheName: 'api-cache',
                 expiration: {
-                    maxEntries: 200,
                     maxAgeSeconds: 60 * 60 * 24 * 30, 
                 },
             },
         },
+        {
+            urlPattern: /\/.*/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+                cacheName: 'general-cahe'
+            }
+        }
     ]
 });
-
 
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
-    //output: "export",
+    output: "export",
 
 }
 

@@ -3,7 +3,7 @@ const CACHE_NAME = 'MG-MOVIL-v1';
 const urlsToCache = [
     '/',
     '/favicon.ico',
-    '/manifest.js',
+    '/manifest.json',
     '/LOGO.png',
     '/logoMG.png',
     '/logo_miguelgomez'

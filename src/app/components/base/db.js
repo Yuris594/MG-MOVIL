@@ -5,26 +5,36 @@ const DB_NAME = 'IDBService';
 export const initDB = async () => {
   const db = await openDB(DB_NAME, 1, {
     upgrade(db) {
-      db.createObjectStore('articles', { keyPath: "PKcodigo" });
+      db.createObjectStore('articles', { keyPath: "id", autoIncrement: true });
       db.createObjectStore('cartera', { keyPath: "Documento" });
       db.createObjectStore('customers', { keyPath: "ID" });
-  
     },
   });
   return db;
 };
 
-export const setItem = async (storeName, key, value) => {
+export const clearDatabase = async () => {
   const db = await initDB();
-  await db.put(storeName, value, key);
+  const storeNames = ['articles', 'cartera', 'customers'];
+  const tx = db.transaction(storeNames, 'readwrite');
+
+  for (const storeName of storeNames) {
+    await tx.objectStore(storeName).clear();
+  }
+
+  console.log('Base de datos limpiada');
 };
 
-export const getItem = async (storeName, key) => {
+export const isDatabaseEmpty = async () => {
   const db = await initDB();
-  return await db.get(storeName, key);
-};
+  const storeNames = ['articles', 'cartera', 'customers'];
 
-export const getAllItems = async (storeName) => {
-  const db = await initDB();
-  return await db.getAll(storeName);
+  for (const storeName of storeNames) {
+    const count = await db.count(storeName);
+    if (count > 0) {
+      return false; 
+    }
+  }
+
+  return true; 
 };

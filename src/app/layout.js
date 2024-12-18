@@ -7,7 +7,7 @@ import RegisterServiceWorkers from "./components/registerServiceWorkers";
 
 const inter = Roboto({ 
   subsets: ["latin"],
-  weight: ['400', '700']
+  weight: ['300', '500']
 });
 
 export const metadata = {

@@ -199,20 +199,30 @@ const NavBar = () => {
     }, 500);
   };
 
-  window.addEventListener("beforeunload", async () => {
-    try {
-      const db = await initDB();
-      const storeNames = ["articles", "cartera", "customers"];
-      const tx = db.transaction(storeNames, "readwrite");
-      for (const storeName of storeNames) {
-        await tx.objectStore(storeName).clear();
-      }
-      await tx.done;
-      console.log("Datos de IndexedDB eliminados al cerrar la pestaña");
-    } catch (error) {
-      console.error("Error al eliminar datos de IndexedDB al cerrar la pestaña:", error);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.addEventListener("beforeunload", async () => {
+        try {
+          const db = await initDB();
+          const storeNames = ["articles", "cartera", "customers"];
+          const tx = db.transaction(storeNames, "readwrite");
+          for (const storeName of storeNames) {
+            await tx.objectStore(storeName).clear();
+          }
+          await tx.done;
+          console.log("Datos de IndexedDB eliminados al cerrar la pestaña");
+        } catch (error) {
+          console.error("Error al eliminar datos de IndexedDB al cerrar la pestaña:", error);
+        }
+      });
     }
-  });
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("beforeunload", () => {});
+      }
+    };
+  }, []);
+  
 
   const cerrarSesion = () => {
     Swal.fire({

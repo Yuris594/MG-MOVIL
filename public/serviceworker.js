@@ -1,5 +1,5 @@
 
-const CACHE_NAME = 'MG-MOVIL-v1';
+const CACHE_NAME = 'MG-MOVIL';
 const urlsToCache = [
     '/',
     '/favicon.ico',
@@ -7,9 +7,7 @@ const urlsToCache = [
     '/LOGO.png',
     '/logoMG.png',
     '/logo_miguelgomez.png',
-    '/pages',
-    '/pages/client',
-    '/pages/client/pedidos',
+    
 ];
 
 self.addEventListener('install', (event) => {
@@ -36,10 +34,34 @@ self.addEventListener('active', (event) => {
 });
 
 
-self.addEventListener('fest', (event) => {
+self.addEventListener('fetch', (event) => {
     event.respondWith(
         caches.match(event.request).then((response) => {
-            return response || fetch(event.request);
+            if (response) {
+                return response;
+            }
+
+            return fetch(event.request).catch(() => {
+                self.clients.matchAll().then(clients => {
+                    clients.forEach(client => {
+                        client.postMessage({
+                            type: 'offline',
+                        })
+                    })
+                })
+
+                return new Response(
+                    Swal.fire({
+                        icon: "error",
+                        title: "Sin conexión a Internet",
+                        text: "Esta página no está disponible sin conexión",
+                        confirmButtonText: "Aceptar",
+                        background: "#fefefe",
+                        color: "#333",
+                        footer: '<a href="/pages">Ir al Inicio</a>'
+                    })
+                )
+            });
         })
     );
 });

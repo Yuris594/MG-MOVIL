@@ -165,7 +165,7 @@ const NavBar = () => {
           actualizarBase();
 
           Swal.fire({
-            text: "Actualizando, este proceso tardara poco tiempo, espere por favor.",
+            title: "Actualizando, este proceso tardara poco tiempo, espere por favor.",
             icon: "warning",
             timer: 10000,
             didOpen: () => {

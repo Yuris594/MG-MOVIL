@@ -41,7 +41,7 @@ const Articulos = () => {
     { field: 'Precio', headerName: 'PRECIO', width: 90, headerClassName: 'header-bold', 
       valueFormatter: (value) => {
         const precio = parseFloat(value).toFixed(0);
-        return `$${parseFloat(precio).toLocaleString('es-ES')}`;
+        return `${parseFloat(precio).toLocaleString()}`;
       },
     },
     { field: 'Iva', headerName: 'IVA', width: 80, headerClassName: 'header-bold' },
@@ -49,13 +49,13 @@ const Articulos = () => {
     { field: 'Precio_Neto', headerName: 'NETO', width: 80, headerClassName: 'header-bold', 
       valueFormatter: (value) => {
         const precio = parseFloat(value).toFixed(0);
-        return `$${parseFloat(precio).toLocaleString('es-ES')}`;
+        return `${parseFloat(precio).toLocaleString()}`;
       },
     },
     { field: 'Disp', headerName: 'DISP', width: 80, headerClassName: 'header-bold', 
       valueFormatter: (value) => {
         const precio = parseFloat(value).toFixed(0);
-        return `$${parseFloat(precio).toLocaleString('es-ES')}`;
+        return `${parseFloat(precio).toLocaleString()}`;
       },
     },
   ];

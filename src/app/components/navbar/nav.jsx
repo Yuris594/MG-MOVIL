@@ -102,31 +102,35 @@ const NavBar = () => {
   };
 
   const handleRefresh = () => {
-    router.push("/pages")
+    router.push("/pages");
     
-    setTimeout(() => {
-      Swal.fire({
-        title: "¿Deseas Actualizar?",
-        text: "Se actualizara la base de datos local!",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Aceptar"
-      }).then((result) => {
-        if(result.isConfirmed) {
-          const actualizarBase = async () => {
+    Swal.fire({
+      title: "¿Deseas Actualizar?",
+      text: "Se actualizará la base de datos local!",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Aceptar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Actualizando, este proceso tardara poco tiempo, espere por favor.",
+          icon: "warning",
+          allowOutsideClick: false,
+          didOpen: async () => {
+            Swal.showLoading();
+  
             try {
               const db = await initDB();
-
               await clearDatabase();
-          
+  
               const actualizarAlmacen = async (storeName, data, keyPath) => {
                 if (!Array.isArray(data)) {
                   console.error(`Error: Los datos para ${storeName} no son un array`, data);
                   return;
                 }
-
+  
                 for (const item of data) {
                   try {
                     await db.put(storeName, item);
@@ -135,13 +139,13 @@ const NavBar = () => {
                   }
                 }
               };
-        
+  
               const [articlesResponse, carteraResponse, customersResponse] = await Promise.all([
                 fetch(`${Global.url}/articles/articles/inventario`),
                 fetch(`${Global.url}/carterasellers/${auth.IDSaler}`),
                 fetch(`${Global.url}/customers/customers`),
               ]);
-        
+  
               const [articlesData, carteraData, customersData] = await Promise.all([
                 articlesResponse.json(),
                 carteraResponse.json(),
@@ -150,39 +154,37 @@ const NavBar = () => {
   
               const articles = Array.isArray(articlesData) ? articlesData : articlesData.data || [];
               const cartera = Array.isArray(carteraData) ? carteraData : carteraData.cxc || [];
-              const filteredCustomers = Array.isArray(customersData) ? customersData.filter((item) => item.IDVendedor === auth.IDSaler) : [];
-          
+              const filteredCustomers = Array.isArray(customersData)
+                ? customersData.filter((item) => item.IDVendedor === auth.IDSaler)
+                : [];
+  
               await actualizarAlmacen("articles", articles, "id");
               await actualizarAlmacen("cartera", cartera, "Documento");
               await actualizarAlmacen("customers", filteredCustomers, "ID");
-
-                console.log("Datos actualizados en IndexedDB");
+  
+              console.log("Datos actualizados en IndexedDB");
+  
+              Swal.close(); 
+              Swal.fire({
+                title: "Actualización Exitosa!",
+                icon: "success",
+              }).then(() => {
+                router.push("/pages");
+              });
             } catch (error) {
-              console.log("Error al actualizar IndexedDB", error);
+              console.error("Error al actualizar los datos:", error);
+              Swal.fire({
+                title: "Error al actualizar los datos",
+                text: "Inténtalo de nuevo más tarde.",
+                icon: "error",
+              });
             }
-          };
-          
-          actualizarBase();
-
-          Swal.fire({
-            title: "Actualizando, este proceso tardara poco tiempo, espere por favor.",
-            icon: "warning",
-            timer: 10000,
-            didOpen: () => {
-              Swal.showLoading();
-            },
-          }).then(() => {
-            Swal.fire({
-              title: "Actualización Exitosa!!",
-              icon: "success",
-            }).then(() => {
-              router.push("/pages");
-            });
-          });
-        }
-      });
-    }, 500);
+          },
+        });
+      }
+    });
   };
+  
 
   const cerrarSesion = () => {
     Swal.fire({

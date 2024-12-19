@@ -56,13 +56,23 @@ const CrearPedido = () => {
         return `${parseFloat(precio).toLocaleString()}`;
       }, headerClassName: 'header-bold'
     },
-    { field: 'Iva', headerName: 'IVA', width: 90, headerClassName: 'header-bold' },
-    { field: 'Descuento', headerName: 'DESC', width: 90, headerClassName: 'header-bold' },
+    { field: 'Iva', headerName: 'IVA', width: 90,
+      valueFormatter: (value) => {
+        const iva = parseFloat(value).toLocaleString();
+        return `${parseFloat(iva).toFixed(1)}`;
+      }, headerClassName: 'header-bold' 
+    },
+    { field: 'Descuento', headerName: 'DESC', width: 90, 
+      valueFormatter: (value) => {
+        const descuento = parseFloat(value).toLocaleString();
+        return `${parseFloat(descuento).toFixed(1)}`;
+      }, headerClassName: 'header-bold' 
+    },
     { field: 'cantped', headerName: 'CANT', width: 90, headerClassName: 'header-bold' },
     { field: 'Total', headerName: 'TOTAL', width: 100, 
       valueFormatter: (value) => {
         const precio = parseFloat(value).toFixed(0);
-        return `${parseFloat(precio).toLocaleString("es-ES")}`;
+        return `${parseFloat(precio).toLocaleString()}`;
       }, cellClassName: 'total-cell', headerClassName: 'header-bold'
     },
     { field: 'actions', headerName: '', width: 70, 
@@ -335,7 +345,7 @@ const CrearPedido = () => {
     <>
       <NavBar />
         <Grid container spacing={2} direction={isSmallScreen ? "column" : "row"} alignItems="center" justifyContent="space-between">
-          <h2 style={{ margin: 4 }}><strong>CREAR COTIZACIÓN</strong></h2>
+          <h2 style={{ margin: 4 }}><strong>CREAR PEDIDO</strong></h2>
           <Grid size={{ xs: 12, sm: 8 }} sx={{ padding: 2 }}>
             <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", justifyContent: "center", alignItems: "center" }}>
               <Button onClick={handleOpen} variant="contained" sx={{ margin: 1, backgroundColor:"#4eeacb", color: "white" }}>Articulos</Button>

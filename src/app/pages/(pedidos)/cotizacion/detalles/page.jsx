@@ -83,16 +83,26 @@ const DetallesPedido = ({ pedido, handleClose }) => {
     { field: 'Precio', headerName: 'PRECIO', width: 100,
       valueFormatter: (value) => {
         const precio = parseFloat(value).toFixed(0);
-        return `$${parseFloat(precio).toLocaleString("es-ES")}`;
+        return `${parseFloat(precio).toLocaleString("es-ES")}`;
       }, headerClassName: 'header-bold'
     },
-    { field: 'Iva', headerName: 'IVA', width: 80, headerClassName: 'header-bold' },
-    { field: 'Descuento', headerName: 'DESC', width: 80, headerClassName: 'header-bold' },
+    { field: 'Iva', headerName: 'IVA', width: 80,
+      valueFormatter: (value) => {
+        const iva = parseFloat(value).toLocaleString();
+        return `${parseFloat(iva).toFixed(1)}`;
+      }, headerClassName: 'header-bold' 
+    },
+    { field: 'Descuento', headerName: 'DESC', width: 80,
+      valueFormatter: (value) => {
+        const desc = parseFloat(value).toLocaleString();
+        return `${parseFloat(desc).toFixed(1)}`;
+      }, headerClassName: 'header-bold' 
+    },
     { field: 'cantped', headerName: 'CANT', width: 80, headerClassName: 'header-bold' },
     { field: 'Total', headerName: 'TOTAL', width: 90, 
       valueFormatter: (value) => {
         const precio = parseFloat(value).toFixed(0);
-        return `$${parseFloat(precio).toLocaleString("es-ES")}`;
+        return `${parseFloat(precio).toLocaleString("es-ES")}`;
       }, headerClassName: 'header-bold'
     },
     { field: 'actions', headerName: '', width: 70, 

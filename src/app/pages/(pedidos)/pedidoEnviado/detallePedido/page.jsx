@@ -18,15 +18,25 @@ const columns = [
   { field: "Precio", headerName: "PRECIO", width: 150,  
     valueFormatter: (value) => {
       const precio = parseFloat(value).toFixed(0);
-      return `$${parseFloat(precio).toLocaleString()}`;
+      return `${parseFloat(precio).toLocaleString()}`;
     }, headerClassName: 'header-bold'
   },
-  { field: "Descuento", headerName: "DESCUENTO", width: 150, headerClassName: 'header-bold' },
-  { field: "Iva", headerName: "IVA", width: 150, headerClassName: 'header-bold' },
+  { field: "Descuento", headerName: "DESCUENTO", width: 150,
+    valueFormatter: (value) => {
+      const descuento = parseFloat(value).toLocaleString();
+      return `${parseFloat(descuento).toFixed(1)}`;
+    }, headerClassName: 'header-bold' 
+  },
+  { field: "Iva", headerName: "IVA", width: 150,
+    valueFormatter: (value) => {
+      const iva = parseFloat(value).toLocaleString();
+      return `${parseFloat(iva).toFixed(1)}`;
+    }, headerClassName: 'header-bold' 
+  },
   { field: "Total", headerName: "TOTAL", width: 150, cellClassName: 'total-cell', 
     valueFormatter: (value) => {
       const precio = parseFloat(value).toFixed(0);
-      return `$${parseFloat(precio).toLocaleString()}`;
+      return `${parseFloat(precio).toLocaleString()}`;
     }, headerClassName: 'header-bold'
   },
 ];

@@ -284,14 +284,14 @@ const VerCotizacion = () => {
         <Button
           onClick={() => enviarPDF(params.row)}
           aria-label="enviar"
-          color="success"
+          color="secondary"
           sx={{ fontSize: 12 }}
         >
           Enviar PDF
         </Button>
       )
     },
-    { field: "crearPedido", headerName: "", width: 120, 
+    { field: "crearPedido", headerName: "", width: 160, 
       renderCell: (params) => (
         <Button
           onClick={() => enviarPedido(params.row)}
@@ -299,7 +299,7 @@ const VerCotizacion = () => {
           color="success"
           sx={{ fontSize: 12 }}
         >
-          Crear Pedido
+          Convertir a Pedido
         </Button>
       )
     },
@@ -385,3 +385,56 @@ const VerCotizacion = () => {
 export default VerCotizacion;
 
 
+
+
+/*
+"use client";
+
+
+import Swal from 'sweetalert2';
+import { Modal, Box, Button } from '@mui/material';
+import React, { useState } from 'react';
+
+export default function App() {
+  const [open, setOpen] = useState(false);
+
+  const handleOpenModal = () => setOpen(true);
+  const handleCloseModal = () => setOpen(false);
+
+  const showAlert = () => {
+    Swal.fire({
+      title: 'Alerta encima del modal',
+      text: 'Esta alerta ahora aparece correctamente.',
+      icon: 'success',
+      customClass: {
+        popup: 'swal-custom-zindex', 
+      },
+    });
+  };
+
+  return (
+    <div>
+      <Button onClick={handleOpenModal}>Abrir Modal</Button>
+      <Modal open={open} onClose={handleCloseModal} disableEnforceFocus>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <h2>Este es un modal</h2>
+          <Button onClick={showAlert}>Mostrar Alerta</Button>
+        </Box>
+      </Modal>
+    </div>
+  );
+}
+
+
+*/

@@ -350,7 +350,8 @@ const Cotizar = () => {
         <Grid size={{ xs: 12, sm: 8 }} sx={{ padding: 2 }}>
           <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", justifyContent: "center", alignItems: "center" }}>
             <Button onClick={handleOpen} variant="contained" sx={{ margin: 1, backgroundColor:"#4eeacb", color: "white" }}>Articulos</Button>
-            <Button onClick={cotizacionPedido} variant="contained" sx={{ margin: 1, backgroundColor: '#e15215', color: "white" }}>Cotización</Button>
+            <Button onClick={enviarPedido} variant="contained" sx={{ margin: 1, backgroundColor: '#17bfe9', color: "white" }}>Convertir a Pedido</Button>
+            <Button onClick={cotizacionPedido} variant="contained" sx={{ margin: 1, backgroundColor: '#67e947', color: "white" }}>Guardar</Button>
             <Button variant="contained" sx={{ ml: 1, mr: 2 }} color="error" LinkComponent={Link} href="../client">Cerrar</Button>
           </Box>
         </Grid>

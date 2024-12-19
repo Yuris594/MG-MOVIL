@@ -31,7 +31,7 @@ const pages = [
       { title: "Clientes", url: "/pages/client", icon: <PersonIcon /> },
       { title: "Pedidos Por Enviar", url: "/pages/pedidoSinEnviar", icon: <LocalShippingIcon /> },
       { title: "Pedidos Enviados", url: "/pages/pedidoEnviado", icon: <LocalShippingIcon /> },
-      { title: "Cotizaciónes", url: "/pages/cotizacion", icon: <AttachMoneyIcon /> },
+      { title: "Cotizaciones", url: "/pages/cotizacion", icon: <AttachMoneyIcon /> },
     ],
   },
   {
@@ -211,34 +211,36 @@ const NavBar = () => {
             <IconButton color="inherit" onClick={handleOpen} sx={{ display: { xs: "flex", md: "none" } }}>
               <WidgetsIcon />
             </IconButton>
-            <Box sx={{ display: { xs: "none", md: "flex" }, width: "100%" }}>
-              {selectedPage ? (
-                <>
-                  <IconButton color="inherit" onClick={handleBackClick}>
-                    <ExitToAppIcon />
-                  </IconButton>
-                  {selectedPage.subPages.map((subPage) => (
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Box sx={{ display: { xs: "none", md: "flex" }, width: "100%" }}>
+                {selectedPage ? (
+                  <>
+                    <IconButton color="inherit" onClick={handleBackClick}>
+                      <ExitToAppIcon />
+                    </IconButton>
+                    {selectedPage.subPages.map((subPage) => (
+                      <Button
+                        color="inherit"
+                        key={subPage.title}
+                        LinkComponent={Link}
+                        href={subPage.url}
+                      >
+                        {subPage.title}
+                      </Button>
+                    ))}
+                  </>
+                ) : (
+                  pages.map((page) => (
                     <Button
                       color="inherit"
-                      key={subPage.title}
-                      LinkComponent={Link}
-                      href={subPage.url}
-                    >
-                      {subPage.title}
+                      key={page.title}
+                      onClick={() => handlePageClick(page)}>
+                      {page.title}
                     </Button>
-                  ))}
-                </>
-              ) : (
-                pages.map((page) => (
-                  <Button
-                    color="inherit"
-                    key={page.title}
-                    onClick={() => handlePageClick(page)}>
-                    {page.title}
-                  </Button>
-                ))
-              )}
-            <Button onClick={handleRefresh} color="inherit">Actualizar</Button>
+                  ))
+                )}
+              </Box>
+              <Button onClick={handleRefresh} color="inherit">Actualizar</Button>
             </Box>
             <Typography variant="h6" sx={{ flexGrow: 1 }}></Typography>
               <Button LinkComponent={Link} href="/pages" color="inherit">

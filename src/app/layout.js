@@ -1,6 +1,6 @@
 
 import "./globals.css";
-import { Roboto } from "next/font/google";
+import { Roboto, Montserrat } from "next/font/google";
 import AuthProvider from "@/context/authContext";
 import RegisterServiceWorkers from "./components/registerServiceWorkers";
 

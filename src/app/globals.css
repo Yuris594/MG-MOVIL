@@ -10,8 +10,12 @@
 }
 
 
-.swal-popup-zindex {
+.swal-custom-zindex {
   z-index: 1500 !important;
+}
+
+.swal2-container {
+  z-index: 1500
 }
 
 .saldo_vencido {
@@ -28,7 +32,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 .container {

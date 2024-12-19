@@ -114,15 +114,16 @@ const DatosPedido = ({ pedido, handleClose }) => {
   ];
 
   const handleDelete = (row) => {
-    handleClose();
-
     Swal.fire({
       title: "¿Seguro que desea eliminar el artículo?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Aceptar"
+      confirmButtonText: "Aceptar",
+      customClass: {
+        popup: 'swal-custom-zindex', 
+      },
     }).then((result) => {
       if (result.isConfirmed) {
         const updatedArticulos = articulosSeleccionados.filter((art) => art.PKcodigo !== row.PKcodigo);
@@ -140,6 +141,9 @@ const DatosPedido = ({ pedido, handleClose }) => {
           text: "Artículo eliminado correctamente.",
           icon: "success",
           timer: 2000,
+          customClass: {
+            popup: 'swal-custom-zindex', 
+          },
         });
       }
     });

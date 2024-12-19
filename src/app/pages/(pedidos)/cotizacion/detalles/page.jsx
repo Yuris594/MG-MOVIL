@@ -109,15 +109,16 @@ const DetallesPedido = ({ pedido, handleClose }) => {
   ];
 
   const handleDelete = (row) => {
-    handleClose();
-
     Swal.fire({
       title: "¿Seguro que desea eliminar el artículo?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Aceptar"
+      confirmButtonText: "Aceptar",
+      customClass: {
+        popup: 'swal-custom-zindex', 
+      },
     }).then((result) => {
       if (result.isConfirmed) {
         const updatedArticulos = articulosSeleccionados.filter((art) => art.PKcodigo !== row.PKcodigo);
@@ -135,6 +136,9 @@ const DetallesPedido = ({ pedido, handleClose }) => {
           text: "Artículo eliminado correctamente.",
           icon: "success",
           timer: 2000,
+          customClass: {
+            popup: 'swal-custom-zindex', 
+          },
         });
       }
     })
@@ -371,11 +375,11 @@ const DetallesPedido = ({ pedido, handleClose }) => {
       <Grid container spacing={2} direction={isSmallScreen ? "column" : "row"} alignItems="center" justifyContent="space-between">
         <Grid size={12}>
           <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center", gap: 2, marginBottom: 2 }}>
-            <h3><strong>PEDIDOS</strong></h3>
+            <h3><strong>EDITAR PEDIDOS</strong></h3>
             <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center", gap: 2,  marginLeft: isSmallScreen ? 0 : "auto", width: isSmallScreen ? "100%" : "auto" }}>
               <Button onClick={handleOpen} variant="contained" sx={{ margin: 1, backgroundColor:"#841dec", color: "white" }}>Articulos</Button>
-              <Button onClick={enviarPedido} variant="contained" sx={{ margin: 1, backgroundColor:"#25ba25", color: "white" }}>Pedido</Button>
-              <Button onClick={GuardarCambios} variant="contained" sx={{ margin: 1, backgroundColor:"#d92020", color: "white" }}>Cambios y Cerrar</Button>
+              <Button onClick={enviarPedido} variant="contained" sx={{ margin: 1, backgroundColor:"#25ba25", color: "white" }}>Convertir a Pedido</Button>
+              <Button onClick={GuardarCambios} variant="contained" sx={{ margin: 1, backgroundColor:"#d92020", color: "white" }}>Guardar y Cerrar</Button>
             </Box>
           </Box>
         </Grid>

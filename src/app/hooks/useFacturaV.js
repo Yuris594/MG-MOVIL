@@ -5,7 +5,7 @@ import jsPDF from "jspdf";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 
-const FacturaV = (clienteD, auth, articulos, total = {}, subTotal = {}) => {
+const FacturaV = (clienteD, auth, articulos, total = {}, subTotal = {}, impuesto = {}, descuento = {}) => {
   const [pdfDataUrl] = useState(null); 
   const [fecha, setFecha] = useState("");
   const [fechaActual] = useState(format(new Date(), "dd/MM/yyyy HH:mm:ss"));
@@ -99,12 +99,24 @@ const FacturaV = (clienteD, auth, articulos, total = {}, subTotal = {}) => {
       pdf.text(`No. FACTURA: `, 16, 125);
       pdf.text(`FECHA FACTURA: `, 200, 125);
       pdf.text(`DOCUMENTO1: ${clienteD?.Documento1}`, 400, 125);
-      pdf.setTextColor(255, 0, 0);
-      pdf.text(`SUBTOTAL: $${subTotal}`, 16, 145);
-      pdf.text(`TOTAL: $${total}`, 200, 145);
-      pdf.setTextColor(0, 0, 0);
-      pdf.text(`NOTAS: ${clienteD?.Notas}`, 16, 165);
+      pdf.text(`NOTAS: ${clienteD?.Notas}`, 16, 145);
     }
+
+    function agregarContenido() {
+      pdf.setFontSize(10);
+      pdf.setFont("times", "italic")
+      pdf.text(`TOTAL ITEMS:        ${articulos?.length}`, 350, pdf.autoTable.previous.finalY + 80);
+      pdf.text(`SubTotal:     $${subTotal}`, 470, pdf.autoTable.previous.finalY + 20);
+      pdf.text(`Desc:         $${descuento}  `,470,pdf.autoTable.previous.finalY + 40);
+      pdf.text(`IVA:          $${impuesto}   `, 470, pdf.autoTable.previous.finalY + 60);
+      pdf.text(`TOTAL:        $${total}`, 470,pdf.autoTable.previous.finalY + 80);
+
+      pdf.rect(10, pdf.autoTable.previous.finalY + 9, 450, 88);
+      pdf.rect(463, pdf.autoTable.previous.finalY + 9, 120, 88);
+    }
+
+    agregarContenido();
+
 
     pdf.output('dataurlnewwindow');
   };

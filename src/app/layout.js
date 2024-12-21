@@ -12,7 +12,7 @@ const inter = Roboto({
 
 export const metadata = {
   title: 'MG-MOVIL',
-  description: '.....',
+  description: '..',
   manifest: '/manifest.json'
 }
 

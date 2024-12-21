@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, InputBase, Typography, useMediaQuery  } from "@mui/material";
+import { Box, InputBase, useMediaQuery  } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useCallback, useEffect, useState } from "react";
 import NavBar from "@/app/components/navbar/nav";

@@ -432,10 +432,10 @@ const DetallesPedido = ({ pedido, handleClose }) => {
           />
     
           <Typography variant="body1">
-            SubTotal: <span style={{ color: "red" }}>${subTotal}</span>
+            SubTotal: <span style={{ color: "red" }}>{subTotal}</span>
           </Typography>
           <Typography variant="body1">
-            Total: <span style={{ color: "red" }}>${total}</span>
+            Total: <span style={{ color: "red" }}>{total}</span>
           </Typography>
         </Box>
       </Grid>

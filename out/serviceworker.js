@@ -49,18 +49,6 @@ self.addEventListener('fetch', (event) => {
                         })
                     })
                 })
-
-                return new Response(
-                    Swal.fire({
-                        icon: "error",
-                        title: "Sin conexión a Internet",
-                        text: "Esta página no está disponible sin conexión",
-                        confirmButtonText: "Aceptar",
-                        background: "#fefefe",
-                        color: "#333",
-                        footer: '<a href="/pages">Ir al Inicio</a>'
-                    })
-                )
             });
         })
     );

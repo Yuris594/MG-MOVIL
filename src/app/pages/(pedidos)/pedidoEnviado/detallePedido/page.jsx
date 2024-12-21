@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Grid from "@mui/material/Grid2";
 import { Global } from "@/conexion";
+import Swal from "sweetalert2";
 
 
 const columns = [
@@ -62,9 +63,11 @@ const DetallePedido = () => {
   const [total, setTotal] = useState("");
   const [fecha, setFecha] = useState("");
   const [subTotal, setSubTotal] = useState("");
+  const [impuesto, setImpuesto] = useState("");
+  const [descuento, setDescuento] = useState("");
   const [articulos, setArticulos] = useState([]);
   const [clienteD, setClienteD] = useState(null);
-  const { generarPDF } = FacturaV(clienteD, auth, articulos, total, subTotal);
+  const { generarPDF } = FacturaV(clienteD, auth, articulos, total, subTotal, impuesto, descuento);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
  
   useEffect(() => {
@@ -109,24 +112,32 @@ const DetallePedido = () => {
 
   useEffect(() => {
     if (articulos.length > 0) {
-    
-      const nuevoSubTotal = articulos.reduce((acumulador, articulo) => {
-        const precioUnitario = parseFloat(articulo.Precio);
-        const cantidad = parseFloat(articulo.Cantidad);
-        const descuento = parseFloat(articulo.Descuento) / 100; 
-        const precioConDescuento = precioUnitario * cantidad * (1 - descuento);
-        return acumulador + precioConDescuento;
-      }, 0);
-     
-      const nuevoTotal = articulos.reduce((acumulador, articulo) => {
-        const precioFinal = parseFloat(articulo.Total)
-        return acumulador + precioFinal 
-      }, 0);
 
-      const subTotalFormateado = Number(nuevoSubTotal.toFixed(0)).toLocaleString();
-      const totalFormateado = Number(nuevoTotal.toFixed(0)).toLocaleString();  
-      setSubTotal(subTotalFormateado); 
-      setTotal(totalFormateado);     
+      let total = 0;
+      let subTotal = 0;
+      let totalDescuento = 0;
+      let totalImpuesto = 0;
+    
+      articulos.forEach((art) => {
+        const cantidad = parseFloat(art.Cantidad) || 0;
+        const precio = parseFloat(art.Precio) || 0;
+        const descuento = (parseFloat(art.Descuento) || 0) / 100;
+        const iva = (parseFloat(art.Iva) || 0) / 100;
+
+        const totalArt = cantidad * precio;
+        const Descuento = totalArt * descuento;
+        const Iva = (totalArt - Descuento) * iva;
+
+        totalDescuento += precio * cantidad * descuento;
+        totalImpuesto += precio * cantidad * iva;
+        total += totalArt - Descuento + Iva;
+        subTotal += totalArt - Descuento;
+      });
+
+      setDescuento(Number(totalDescuento.toFixed(0)).toLocaleString());
+      setImpuesto(Number(totalImpuesto.toFixed(0)).toLocaleString());
+      setSubTotal(Number(subTotal.toFixed(0)).toLocaleString()); 
+      setTotal(Number(total.toFixed(0)).toLocaleString());     
     }
   }, [articulos]);
 
@@ -134,6 +145,41 @@ const DetallePedido = () => {
   const cerrar = () => {
     localStorage.removeItem("detallePedido");
     router.push("/pages/pedidoEnviado");
+  };
+
+  const enviarPdf = async () => {
+    try {
+      const response = await fetch(Global.url + '/pedidoPdf/enviar-pdf', {
+        method: "POST",
+        headers: { "Content-Type" : "application/json" },
+        body: JSON.stringify({ 
+          FKNUMPED: clienteD?.NUMPED,
+          total,
+          subTotal,
+          descuento,
+          impuesto,
+          auth: auth.UserFullName,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al enviar el PDF")
+      }
+
+      const data = await response.json();
+      Swal.fire({
+        icon: "success",
+        title: "Pedido enviado Correctamente.",
+        text: data.message,
+      })
+    } catch (error) {
+      console.error("Error:", error)
+      Swal.fire({
+        icon: "error",
+        title: "Error al Enviar el Correo.",
+        text: "Revisar el Email del Cliente, No fue posible enviar el Correo."
+      })
+    }
   };
 
   return (
@@ -149,6 +195,7 @@ const DetallePedido = () => {
           </Grid>
         </Grid>
         <Box sx={{ margin: 2 }}>
+          <Button onClick={enviarPdf} color="secondary">Enviar PDF al Cliente</Button>
           <Button onClick={generarPDF} color="success">Generar PDF</Button>
           <Button onClick={cerrar} color="error">Cerrar</Button>
         </Box>
@@ -172,10 +219,10 @@ const DetallePedido = () => {
             <strong>Fecha Factura: </strong>{clienteD?.Fecha_Factura || ""}
           </Grid>
           <Grid size={{ xs: 12, sm: 8, md: 4 }}>
-            <strong>SubTotal: </strong><span style={{ color: "red" }}>${subTotal}</span>
+            <strong>SubTotal: </strong><span style={{ color: "red" }}>{subTotal}</span>
           </Grid>
           <Grid size={{ xs: 12, sm: 8, md: 4 }}>
-            <strong>Total: </strong><span style={{ color: "red" }}>${total}</span>
+            <strong>Total: </strong><span style={{ color: "red" }}>{total}</span>
           </Grid>
           <Grid size={{ xs: 12, sm: 8, md: 4 }}>
             <strong>Documento1: </strong>{clienteD?.Documento1 || ""}

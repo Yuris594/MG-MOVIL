@@ -1,5 +1,16 @@
 import nextPWA from 'next-pwa';
 
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+    reactStrictMode: true,
+    swcMinify: true,
+    compiler: {
+        removeConsole: process.env.NODE_ENV !== 'development',
+    },
+    //output: "export",
+
+}
+
 const withPWA = nextPWA({
     dest: 'public',
     register: true,
@@ -8,19 +19,6 @@ const withPWA = nextPWA({
 });
 
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-    reactStrictMode: true,
-    swcMinify: true,
-    experimental: {
-        appDir: true,
-    },
-    compiler: {
-        removeConsole: process.env.NODE_ENV !== 'development',
-    },
-    //output: "export",
-
-}
 
 export default withPWA(nextConfig);
 
@@ -29,24 +27,3 @@ export default withPWA(nextConfig);
 
 
 
-
-
-
-
-
-
-
-
-/*
-
-
-/** @type {import('next').NextConfig} 
-const nextConfig = {
-    
-    //output: "export",
-
-}
-
-export default withPWA(nextConfig);
-
-*/

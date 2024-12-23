@@ -11,15 +11,12 @@ const inter = Roboto({
 export const metadata = {
   title: 'MG-MOVIL',
   description: '..',
-  
+  manifest: '/manifest.json'
 }
 
 function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="manifest" href="/manifest.json" />
-      </head>
       <body className={inter.className}>
         <AuthProvider>
           {children}

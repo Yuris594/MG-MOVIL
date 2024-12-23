@@ -103,7 +103,7 @@ const DatosPedido = ({ pedido, handleClose }) => {
         return `${parseFloat(descuento).toFixed(1)}`;
       }, editable: true, headerClassName: 'header-bold' 
     },
-    { field: 'cantped', headerName: 'CANT', width: 80, editable: true, headerClassName: 'header-bold' },
+    { field: 'cantped', headerName: 'CANT', width: 80, editable: true, type: "number", headerClassName: 'header-bold' },
     { field: 'Total', headerName: 'TOTAL', width: 90, 
       valueFormatter: (value) => {
         const precio = Number(value).toFixed(0);
@@ -379,6 +379,7 @@ const DatosPedido = ({ pedido, handleClose }) => {
       });
     }
   };
+ 
 
   return (
     <>

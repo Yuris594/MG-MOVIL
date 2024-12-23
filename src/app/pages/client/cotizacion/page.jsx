@@ -150,52 +150,68 @@ const Cotizar = () => {
 
 
   const cotizacionPedido = () => {
-    const pedidosGuardados = JSON.parse(localStorage.getItem("cotizacion")) || [];
-    
-    let ultimoId = 0;
-    if (pedidosGuardados.length > 0) {
-      ultimoId = Math.max(...pedidosGuardados.map(pedido => pedido.PKId));
-    }
-    const nuevoId = ultimoId + 1;
-
-    localStorage.setItem("ultimoFKidPedidos", nuevoId);
-
-    const pedido = {
-      PKId: nuevoId,
-      fecha: new Date().toISOString(),
-      nombreC: clienteV.RazonSocial,
-      nit: clienteV.NIT,
-      telefono: clienteV.Telefono,
-      direccion: clienteV.Direccion,
-      municipio: clienteV.CityName,
-      email: clienteV.Email,
-      total,
-      subTotal,
-      impuesto,
-      descuento,
-      idvend: auth.ID,
-      FKID_sellers: auth.IDSaler,
-      notas: notas,
-      NUMPED: "",
-      Documento1: documento, 
-      articulosSeleccionados: articulosSeleccionados.map(art => ({
-        ...art,
-        FKid_pedidos2: nuevoId
-      })),
-    };
-
-    pedidosGuardados.push(pedido);
-    localStorage.setItem("cotizacion", JSON.stringify(pedidosGuardados));
+    try {
+      if (articulosSeleccionados.length === 0) {
+        Swal.fire({
+          title: "Error al guardar la cotización.",
+          text: "La cotización debe incluir los articulos.",
+          icon: "error",
+        });
+        return;
+      }
+      const pedidosGuardados = JSON.parse(localStorage.getItem("cotizacion")) || [];
+      
+      let ultimoId = 0;
+      if (pedidosGuardados.length > 0) {
+        ultimoId = Math.max(...pedidosGuardados.map(pedido => pedido.PKId));
+      }
+      const nuevoId = ultimoId + 1;
   
-    router.push("../../pages/cotizacion");
-
-    Swal.fire({
-      title: "Se creo la Cotización",
-      text: "Cotización creada correctamente.",
-      icon: "success",
-      showConfirmButton: false,
-      timer: 3000
-    });
+      localStorage.setItem("ultimoFKidPedidos", nuevoId);
+  
+      const pedido = {
+        PKId: nuevoId,
+        fecha: new Date().toISOString(),
+        nombreC: clienteV.RazonSocial,
+        nit: clienteV.NIT,
+        telefono: clienteV.Telefono,
+        direccion: clienteV.Direccion,
+        municipio: clienteV.CityName,
+        email: clienteV.Email,
+        total,
+        subTotal,
+        impuesto,
+        descuento,
+        idvend: auth.ID,
+        FKID_sellers: auth.IDSaler,
+        notas: notas,
+        NUMPED: "",
+        Documento1: documento, 
+        articulosSeleccionados: articulosSeleccionados.map(art => ({
+          ...art,
+          FKid_pedidos2: nuevoId
+        })),
+      };
+  
+      pedidosGuardados.push(pedido);
+      localStorage.setItem("cotizacion", JSON.stringify(pedidosGuardados));
+    
+      router.push("../../pages/cotizacion");
+  
+      Swal.fire({
+        title: "Se creo la Cotización",
+        text: "Cotización creada correctamente.",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 3000
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error al guardar la Cotización",
+        text: "La cotizaón debe contener articulos.",
+      })
+    }
   };
 
 

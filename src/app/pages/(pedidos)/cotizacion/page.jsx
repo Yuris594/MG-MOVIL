@@ -7,6 +7,7 @@ import DetallesPedido from "./detalles/page";
 import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Grid from "@mui/material/Grid2";
+import { Global } from "@/conexion";
 import Swal from "sweetalert2";
 
 const style = {
@@ -25,7 +26,7 @@ const style = {
 
 
 const VerCotizacion = () => {
-  const { auth, setPedidosV  } = useAuth();
+  const { auth } = useAuth();
   const [open, setOpen] = useState(false);
   const [pedidos, setPedidos] = useState([]);
   const [busqueda, setBusqueda] = useState([]);

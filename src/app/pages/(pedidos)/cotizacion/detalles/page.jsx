@@ -79,11 +79,11 @@ const DetallesPedido = ({ pedido, handleClose }) => {
   const columns = [
     { field: 'PKcodigo', headerName: 'CODIGO', width: 100, headerClassName: 'header-bold' },
     { field: 'Nombre', headerName: 'REFERENCIA', width: 320, headerClassName: 'header-bold' },
-    { field: 'Unidad_Empaque', headerName: 'UUD', width: 80, headerClassName: 'header-bold' },
+    { field: 'Unidad_Empaque', headerName: 'UND', width: 80, headerClassName: 'header-bold' },
     { field: 'Precio', headerName: 'PRECIO', width: 100,
       valueFormatter: (value) => {
         const precio = parseFloat(value).toFixed(0);
-        return `${parseFloat(precio).toLocaleString("es-ES")}`;
+        return `${parseFloat(precio).toLocaleString()}`;
       }, headerClassName: 'header-bold'
     },
     { field: 'Iva', headerName: 'IVA', width: 80,

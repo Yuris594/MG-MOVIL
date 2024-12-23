@@ -23,7 +23,7 @@ const GestionCartera = () => {
   useEffect(() => {
     const obtenerDatos = async () => {
       try {
-        const response = await fetch(Global.url + `/gestioncartera/${auth.IDSaler}`, {
+        const response = await fetch(`http://localhost:3011/api/gestioncartera/${auth.IDSaler}`, {
           method: "GET",
           headers: { "Content-Type" : "application/json" }
         });

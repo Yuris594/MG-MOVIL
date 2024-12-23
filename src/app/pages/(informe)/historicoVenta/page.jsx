@@ -10,7 +10,9 @@ import { Global } from "@/conexion";
 
 
 const columns = [
-  { field: 'FechaDoc', headerName: 'FECHA', width: 150, headerClassName: 'header-bold' },
+  { field: 'FechaDoc', headerName: 'FECHA', width: 150, headerClassName: 'header-bold', 
+    sortComparator: (v1, v2) => new Date(v1) - new Date(v2),
+  },
   { field: 'Documento', headerName: 'DOCUMENTO', width: 100, headerClassName: 'header-bold' },
   { field: 'IdCliente', headerName: 'NIT', width: 150, headerClassName: 'header-bold' },
   { field: 'NombreCliente', headerName: 'NOMBRE', width: 400, headerClassName: 'header-bold' },
@@ -36,7 +38,7 @@ const HistoricoVenta = () => {
   useEffect(() => {
     const obtenerDatos = async () => {
       try {
-        const response = await fetch(Global.url + `/informes/${auth.IDSaler}`, {
+        const response = await fetch(`http://localhost:3011/api/informes/${auth.IDSaler}`, {
           method: "GET",
           headers: { "Content-Type" : "application/json" }
         });
@@ -46,8 +48,9 @@ const HistoricoVenta = () => {
         }
 
         const datos = await response.json();
-        setVentas(datos.data);
-        setTablaVentas(datos.data);
+        const datosOrdenados = datos.data.sort((a, b) => new Date(a.FechaDoc) - new Date(b.FechaDoc))
+        setVentas(datosOrdenados);
+        setTablaVentas(datosOrdenados);
         setCargando(false);
       } catch (error) {
         console.log("Error al obtener datos", error)

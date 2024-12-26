@@ -159,8 +159,8 @@ const NavBar = () => {
                 : [];
   
               await actualizarAlmacen("articles", articles, "id");
-              await actualizarAlmacen("cartera", cartera, "Documento");
-              await actualizarAlmacen("customers", filteredCustomers, "ID");
+              await actualizarAlmacen("cartera", cartera, "id");
+              await actualizarAlmacen("customers", filteredCustomers, "id");
   
               console.log("Datos actualizados en IndexedDB");
   

@@ -38,7 +38,7 @@ const HistoricoVenta = () => {
   useEffect(() => {
     const obtenerDatos = async () => {
       try {
-        const response = await fetch(`http://localhost:3011/api/informes/${auth.IDSaler}`, {
+        const response = await fetch(Global.url + `/informes/${auth.IDSaler}`, {
           method: "GET",
           headers: { "Content-Type" : "application/json" }
         });

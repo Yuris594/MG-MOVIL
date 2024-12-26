@@ -2,6 +2,7 @@
 import "./globals.css";
 import { Roboto } from "next/font/google";
 import AuthProvider from "@/context/authContext";
+import RegisterServiceWorkers from "./components/registerService";
 
 const inter = Roboto({ 
   subsets: ["latin"],
@@ -17,7 +18,11 @@ export const metadata = {
 function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+      </head>
       <body className={inter.className}>
+        <RegisterServiceWorkers />
         <AuthProvider>
           {children}
         </AuthProvider>

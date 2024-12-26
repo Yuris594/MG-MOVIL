@@ -4,10 +4,10 @@ import nextPWA from 'next-pwa';
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
-    compiler: {
+    /*compiler: {
         removeConsole: process.env.NODE_ENV !== 'development',
-    },
-    //output: "export",
+    },*/
+    output: "export",
 
 }
 
@@ -17,7 +17,6 @@ const withPWA = nextPWA({
     skipWaiting: true,
     disable: process.env.NODE_ENV === 'development',
 });
-
 
 
 export default withPWA(nextConfig);

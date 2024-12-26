@@ -57,7 +57,7 @@ const HistoricoVenta = () => {
       }
     };
     obtenerDatos();
-  }, []);
+  }, [auth?.IDSaler]);
 
   const handleChange = (e) => {
     setBusqueda(e.target.value);

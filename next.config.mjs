@@ -9,7 +9,7 @@ const nextConfig = {
     },
     output: "export",
 
-    runtimeCaching: [
+    /*runtimeCaching: [
         {
           urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\//,
           handler: 'CacheFirst', 
@@ -44,7 +44,7 @@ const nextConfig = {
             },
           },
         },
-    ],
+    ],*/
 }
 
 const withPWA = nextPWA({

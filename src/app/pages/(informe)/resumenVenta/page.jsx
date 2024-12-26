@@ -77,7 +77,7 @@ const GestionCartera = () => {
       }
     };
     obtenerDatos();
-  }, []);
+  }, [auth?.IDSaler]);
 
 
   const handleChange = (e) => {

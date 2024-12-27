@@ -139,11 +139,13 @@ const Cotizar = () => {
       totalImpuesto += precioBase * cantidad * iva;
 
       nuevoTotal += parseFloat(art.Total);
-    })
+    });
+
+    const descuentoTotal = nuevoSubtotal - totalDescuento;
 
     setDescuento(totalDescuento);
     setImpuesto(totalImpuesto);
-    setSubTotal(nuevoSubtotal);
+    setSubTotal(descuentoTotal.toFixed(0));
     setTotal(nuevoTotal);
     
   };

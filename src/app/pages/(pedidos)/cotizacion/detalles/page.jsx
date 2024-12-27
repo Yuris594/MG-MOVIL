@@ -74,7 +74,39 @@ const DetallesPedido = ({ pedido, handleClose }) => {
       const anio = fechaActual.getFullYear();
       
       return `${mesCapitalizado} ${dias}, ${anio}`;
-  }
+  };
+
+
+  const handleRowUpdate = (newRow) => {
+    const filaActualizada = articulosSeleccionados.map((row) => 
+      row.PKcodigo === newRow.PKcodigo 
+      ? { 
+        ...row, 
+        Precio: newRow.Precio,
+        Descuento: newRow.Descuento,
+        cantped: newRow.cantped,
+        Total: calcularTotalArticulo(newRow) 
+      } 
+      : row
+    );
+
+    setArticulosSeleccionados(filaActualizada);
+    calcularTotales(filaActualizada);
+    return newRow;
+  };
+
+  const calcularTotalArticulo = (articulo) => {
+    const cantidad = parseFloat(articulo.cantped) || 0;
+    const precio = parseFloat(articulo.Precio) || 0;
+    const iva = (parseFloat(articulo.Iva) || 0) / 100;
+    const descuento = (parseFloat(articulo.Descuento) || 0) / 100;
+
+    const totalArt = cantidad * precio;
+    const totalDescuento = totalArt * descuento;
+    const totalIva = (totalArt - totalDescuento) * iva;
+
+    return (totalArt - totalDescuento + totalIva).toFixed(0);
+  };
 
   const columns = [
     { field: 'PKcodigo', headerName: 'CODIGO', width: 100, headerClassName: 'header-bold' },
@@ -84,7 +116,7 @@ const DetallesPedido = ({ pedido, handleClose }) => {
       valueFormatter: (value) => {
         const precio = parseFloat(value).toFixed(0);
         return `${parseFloat(precio).toLocaleString()}`;
-      }, headerClassName: 'header-bold'
+      }, headerClassName: 'header-bold', editable: true,
     },
     { field: 'Iva', headerName: 'IVA', width: 80,
       valueFormatter: (value) => {
@@ -96,13 +128,15 @@ const DetallesPedido = ({ pedido, handleClose }) => {
       valueFormatter: (value) => {
         const desc = parseFloat(value).toLocaleString();
         return `${parseFloat(desc).toFixed(1)}`;
-      }, headerClassName: 'header-bold' 
+      }, headerClassName: 'header-bold', editable: true, 
     },
-    { field: 'cantped', headerName: 'CANT', width: 80, headerClassName: 'header-bold' },
+    { field: 'cantped', headerName: 'CANT', width: 80, 
+      headerClassName: 'header-bold', editable: true, 
+    },
     { field: 'Total', headerName: 'TOTAL', width: 90, 
       valueFormatter: (value) => {
-        const precio = parseFloat(value).toFixed(0);
-        return `${parseFloat(precio).toLocaleString("es-ES")}`;
+        const precio = Number(value).toFixed(0);
+        return `${parseFloat(precio).toLocaleString()}`;
       }, headerClassName: 'header-bold'
     },
     { field: 'actions', headerName: '', width: 70, 
@@ -199,35 +233,46 @@ const DetallesPedido = ({ pedido, handleClose }) => {
   };
 
   const GuardarCambios = () => {
-    const pedidosGuardados = JSON.parse(localStorage.getItem("cotizacion")) || [];
-    const pedidoIndex = pedidosGuardados.findIndex(p => p.PKId === pedido.PKId);
-
-    if (pedidoIndex !== -1) {
-      const updatedPedido = {
-        ...pedidosGuardados[pedidoIndex],
-        articulosSeleccionados: articulosSeleccionados,
-        impuesto,
-        descuento,
-        total,
-        subTotal,
-        notas: notas,
-        Documento1: documento,
+    try {
+      if (articulosSeleccionados.length === 0) {
+        Swal.fire({
+          title: "Oops...!",
+          text: "Error al guardar el pedido. Debe incluir articulos.",
+          icon: "error",
+        });
+        return;
       };
-
-      pedidosGuardados[pedidoIndex] = updatedPedido; 
-      localStorage.setItem("cotizacion", JSON.stringify(pedidosGuardados)); 
-
-      handleClose(); 
-
-      Swal.fire({
-        position: 'top-end',
-        title: 'Éxito',
-        text: 'Los cambios se han guardado correctamente.',
-        icon: 'success',
-        showConfirmButton: false,
-        timer: 2000
-      });
-    } else {
+      
+      const pedidosGuardados = JSON.parse(localStorage.getItem("cotizacion")) || [];
+      const pedidoIndex = pedidosGuardados.findIndex(p => p.PKId === pedido.PKId);
+  
+      if (pedidoIndex !== -1) {
+        const updatedPedido = {
+          ...pedidosGuardados[pedidoIndex],
+          articulosSeleccionados: articulosSeleccionados,
+          impuesto,
+          descuento,
+          total,
+          subTotal,
+          notas: notas,
+          Documento1: documento,
+        };
+  
+        pedidosGuardados[pedidoIndex] = updatedPedido; 
+        localStorage.setItem("cotizacion", JSON.stringify(pedidosGuardados)); 
+  
+        handleClose(); 
+  
+        Swal.fire({
+          position: 'top-end',
+          title: 'Éxito',
+          text: 'Los cambios se han guardado correctamente.',
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 2000
+        });
+      }
+    } catch (error) {
       Swal.fire({
         title: 'Error',
         text: 'No se encontró el pedido a actualizar.',
@@ -454,6 +499,11 @@ const DetallesPedido = ({ pedido, handleClose }) => {
                   pageSize: 10 
                 }
               } 
+            }}
+            processRowUpdate={(newRow) => handleRowUpdate(newRow)}
+            onProcessRowUpdateError={(error) => {
+              console.error('Error durante la actualización de la fila:', error);
+              alert('Ocurrió un error al actualizar la fila. Intenta nuevamente.');
             }}
           />
         </Box>

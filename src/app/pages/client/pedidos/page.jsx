@@ -120,27 +120,29 @@ const CrearPedido = () => {
 
   const calcularTotales = (articulos) => {
     let nuevoSubtotal = 0;
-    let nuevoTotal = 0;
     let totalDescuento = 0;
     let totalImpuesto = 0;
 
     articulos.forEach((art) => {
-      const precioBase = parseFloat(art.Precio);
-      const cantidad = parseFloat(art.cantped);
-      const descuento = parseFloat(art.Descuento) / 100;
-      const iva = parseFloat(art.Iva) / 100;
+      const precioBase = parseFloat(art.Precio) || 0;
+      const cantidad = parseFloat(art.cantped) || 0;
+      const descuento = parseFloat(art.Descuento) / 100 || 0;
+      const iva = parseFloat(art.Iva) / 100 || 0;
 
-      nuevoSubtotal += precioBase * cantidad;
+      const subTotalArticulo = precioBase * cantidad;
+      const descuentoArticulo = subTotalArticulo * descuento;
+      const impuestoArticulo = (subTotalArticulo - descuentoArticulo) * iva;
 
-      totalDescuento += precioBase * cantidad * descuento;
+      nuevoSubtotal += subTotalArticulo;
+      totalDescuento += descuentoArticulo;
+      totalImpuesto += impuestoArticulo;
+    });
 
-      totalImpuesto += precioBase * cantidad * iva;
+    const nuevoTotal = nuevoSubtotal - totalDescuento + totalImpuesto;
+    const subTotal = nuevoSubtotal - totalDescuento;
 
-      nuevoTotal += parseFloat(art.Total);
-    })
-
-    setSubTotal(nuevoSubtotal);
-    setTotal(nuevoTotal);
+    setSubTotal(subTotal.toFixed(0));
+    setTotal(nuevoTotal.toFixed(0));
   };
 
   const guardarPedido = () => {

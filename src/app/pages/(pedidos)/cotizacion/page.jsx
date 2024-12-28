@@ -106,6 +106,16 @@ const VerCotizacion = () => {
       });
       return; 
     }
+
+    const alertaCarga = Swal.fire ({
+      title: "Enviando...",
+      text: "Por favor, espere mientras se envía la cotización.",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     try {
       const response = await fetch(Global.url + "/cotizacion/enviarPdf", { 
         method: "POST",
@@ -113,14 +123,21 @@ const VerCotizacion = () => {
         body: JSON.stringify({ ...pedido }),
       });
 
-    if (response.ok) {
-      Swal.fire({
-        title: "¡Éxito!",
-        text: "La Cotización fue Enviada.",
-        icon: "success",
-        timer: 3000, 
-      });
-    }
+      if (response.ok) {
+        Swal.close();
+        Swal.fire({
+          title: "¡Éxito!",
+          text: "La Cotización fue Enviada.",
+          icon: "success",
+          timer: 3000, 
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops..!",
+          text: "Error al enviar el correo, comprobar el Email del Cliente."
+        });
+      }
     } catch (error) {
       console.error("Error generando el PDF:", error);
       Swal.fire({
@@ -386,56 +403,3 @@ const VerCotizacion = () => {
 export default VerCotizacion;
 
 
-
-
-/*
-"use client";
-
-
-import Swal from 'sweetalert2';
-import { Modal, Box, Button } from '@mui/material';
-import React, { useState } from 'react';
-
-export default function App() {
-  const [open, setOpen] = useState(false);
-
-  const handleOpenModal = () => setOpen(true);
-  const handleCloseModal = () => setOpen(false);
-
-  const showAlert = () => {
-    Swal.fire({
-      title: 'Alerta encima del modal',
-      text: 'Esta alerta ahora aparece correctamente.',
-      icon: 'success',
-      customClass: {
-        popup: 'swal-custom-zindex', 
-      },
-    });
-  };
-
-  return (
-    <div>
-      <Button onClick={handleOpenModal}>Abrir Modal</Button>
-      <Modal open={open} onClose={handleCloseModal} disableEnforceFocus>
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 400,
-            bgcolor: 'background.paper',
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
-          <h2>Este es un modal</h2>
-          <Button onClick={showAlert}>Mostrar Alerta</Button>
-        </Box>
-      </Modal>
-    </div>
-  );
-}
-
-
-*/

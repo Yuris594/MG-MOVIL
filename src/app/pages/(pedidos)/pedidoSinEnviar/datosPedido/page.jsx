@@ -103,10 +103,16 @@ const DatosPedido = ({ pedido, handleClose }) => {
   };
 
   const columns = [
-    { field: 'PKcodigo', headerName: 'CODIGO', width: 100, headerClassName: 'header-bold' },
-    { field: 'Nombre', headerName: 'REFERENCIA', width: 320, headerClassName: 'header-bold' },
-    { field: 'Unidad_Empaque', headerName: 'UND', width: 80, headerClassName: 'header-bold' },
-    { field: 'Precio', headerName: 'PECIO', width: 100,
+    { field: 'PKcodigo', headerName: 'CODIGO', width: 100, 
+      headerClassName: 'header-bold' 
+    },
+    { field: 'Nombre', headerName: 'REFERENCIA', width: 320, 
+      headerClassName: 'header-bold' 
+    },
+    { field: 'Unidad_Empaque', headerName: 'UND', width: 80, 
+      headerClassName: 'header-bold' 
+    },
+    { field: 'Precio', headerName: 'PRECIO', width: 100,
       valueFormatter: (value) => {
         const precio = parseFloat(value).toFixed(0);
         return `${parseFloat(precio).toLocaleString()}`;
@@ -400,7 +406,6 @@ const DatosPedido = ({ pedido, handleClose }) => {
         icon: "success",
         timer: 3000, 
       });
-
 
     } catch (error) {
       console.error("Error:", error);

@@ -1,3 +1,5 @@
+
+
 "use client";
 
 import { Box, Button, Divider, Modal, TextField, Typography, useMediaQuery } from "@mui/material";
@@ -210,8 +212,8 @@ const DetallesPedido = ({ pedido, handleClose }) => {
       subTotal += totalArt - Descuento;
     });
     
-    setTotal(total.toFixed(0));
-    setSubTotal(subTotal.toFixed(0));
+    setTotal(Number(total.toFixed(0)).toLocaleString());
+    setSubTotal(Number(subTotal.toFixed(0)).toLocaleString());
     setImpuesto(totalImpuesto.toFixed(0));
     setDescuento(totalDescuento.toFixed(0));
   };

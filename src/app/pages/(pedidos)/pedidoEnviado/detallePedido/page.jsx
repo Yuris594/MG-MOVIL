@@ -149,15 +149,6 @@ const DetallePedido = () => {
 
   const enviarPdf = async () => {
     try {
-      if(!clienteD.email) {
-        Swal.fire({
-          icon: "error",
-          title: "Error al Enviar el Correo.",
-          text: "El cliente no tiene un correo registrado.No fue posible enviar el PDF."
-        });
-        return;
-      }
-
       const response = await fetch(Global.url + '/pedidoPdf/enviar-pdf', {
         method: "POST",
         headers: { "Content-Type" : "application/json" },
@@ -170,13 +161,10 @@ const DetallePedido = () => {
           auth: auth.UserFullName,
         }),
       });
-
-      if (!response.ok) {
-        throw new Error("Error al enviar el PDF")
-      }
+      
+      const data = await response.json();
 
       if (response.ok) {
-        const data = await response.json();
         Swal.fire({
           icon: "success",
           title: "Pedido enviado Correctamente.",
@@ -185,8 +173,8 @@ const DetallePedido = () => {
       } else {
         Swal.fire({
           icon: "error",
-          title: "Error al Enviar el Correo.",
-          text: ""
+          title: "Error al enviar el correo.",
+          text: data.message
         })
       }
     } catch (error) {

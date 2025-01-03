@@ -123,6 +123,8 @@ const VerCotizacion = () => {
         body: JSON.stringify({ ...pedido }),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
         Swal.close();
         Swal.fire({
@@ -135,7 +137,7 @@ const VerCotizacion = () => {
         Swal.fire({
           icon: "error",
           title: "Oops..!",
-          text: "Error al enviar el correo, comprobar el Email del Cliente."
+          text: data.message
         });
       }
     } catch (error) {

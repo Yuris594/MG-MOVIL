@@ -201,8 +201,8 @@ const DatosPedido = ({ pedido, handleClose }) => {
       subTotal += totalArt - totalDescuento;
     });
 
-    setTotal(total.toFixed(0));
-    setSubTotal(subTotal.toFixed(0));
+    setTotal(Number(total.toFixed(0)).toLocaleString());
+    setSubTotal(Number(subTotal.toFixed(0)).toLocaleString());
   };
 
 

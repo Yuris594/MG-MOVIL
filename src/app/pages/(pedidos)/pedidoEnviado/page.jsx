@@ -78,7 +78,7 @@ const PedidoEnviado = () => {
   }, []);
   
   const filtrar = (terminoBusqueda) => {
-    const resultadoBusqueda = tablaPedido.filter((elemento) => {
+    const resultadoBusqueda = tablaPedido.filter((elemento) => { 
       const valores = Object.values(elemento).map((value) => value?.toString().toLowerCase() || "");
       return valores.some((valor) => valor.includes(terminoBusqueda.toLowerCase()));
     });

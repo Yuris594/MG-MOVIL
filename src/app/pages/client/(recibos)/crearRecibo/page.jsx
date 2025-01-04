@@ -399,9 +399,9 @@ const RealizarRecibo = () => {
       <Box>
         <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", justifyContent: "space-between", alignItems: "center", m: 2 }}>
           <Grid size={{ xs: 12, sm: 6 }}>
-            <h4><strong>Nit: {clienteV.NIT} </strong></h4>
-            <h4><strong>Razón Social: {clienteV.RazonSocial} </strong></h4>
-            <h4><strong>Email: {clienteV.Email} </strong></h4>
+            <h4>Nit: {clienteV.NIT} </h4>
+            <h4>Razón Social: {clienteV.RazonSocial} </h4>
+            <h4>Email: {clienteV.Email} </h4>
           </Grid>
 
           <Grid size={{ xs: 12, sm: "auto" }} container justifyContent={isSmallScreen ? "center" : "flex-end"}>

@@ -366,18 +366,20 @@ const VerCotizacion = () => {
     <>
       <NavBar />
       <Grid container direction="column" sx={{ minHeight: "100vh", backfroundColor: "#ffffff", padding: 3 }}>
-        <Grid size={12}>
-          <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center", justifyContent: "space-between", mb: 3 }}>
-            <h2><strong>COTIZACIÓN</strong></h2>
+        <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center", justifyContent: "space-between", mb: 3 }}>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <h2><strong>LISTA DE COTIZACIONES</strong></h2>
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <TextField 
               variant="outlined"
               value={busqueda}
               onChange={handleChange}
               label="Buscar" 
-              sx={{ width: isSmallScreen ? "100%" : 350, backgroundColor: "#fff", borderRadius: 2 }} 
+              sx={{ width: "100%", backgroundColor: "#fff" }} 
             />
-          </Box>
-        </Grid>
+          </Grid>
+        </Box>
           
         <Grid size={12} sx={{ flexGrow: 1 }}>
           <Box sx={{ width: "100%", heigth: isSmallScreen ? 500 : 750, borderRadius: 2 }}>
@@ -392,7 +394,7 @@ const VerCotizacion = () => {
                   },
                 },
               }}
-              pageSizeOptions={[5, 10, 15]}
+              pageSizeOptions={[10, 20, 30]}
             /> 
           </Box>
         </Grid>

@@ -100,17 +100,17 @@ const Articulos = () => {
 
 
         <Grid size={12} sx={{ flexGrow: 1, marginBottom: 2 }}>
-          <Box sx={{ width: "100%", height: isSmallScreen ? 500 : 750  }}>
+          <Box sx={{ width: "100%", height: isSmallScreen ? 500 : 650  }}>
             <DataGrid 
               rows={producto}
               columns={columns}
               getRowId={(row) => row.PKcodigo}
               initialState={{
                 pagination: {
-                  paginationModel: { pageSize: 20 }
+                  paginationModel: { pageSize: 10 }
                 }
               }}
-              pageSizeOptions={[20]}
+              pageSizeOptions={[10, 20, 30]}
               sx={{
                 "&.MuiDataGrid-columnHeader": { fontSize: isSmallScreen ? "0.75rem" : "1rem" },
                 "&.MuiDataGrid-cell": { fontSize: isSmallScreen ? "0.75rem" : "0.875rem" },

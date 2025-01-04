@@ -10,9 +10,7 @@ import { Global } from "@/conexion";
 
 
 const columns = [
-  { field: 'FechaDoc', headerName: 'FECHA', width: 150, headerClassName: 'header-bold', 
-    sortComparator: (v1, v2) => new Date(v1) - new Date(v2),
-  },
+  { field: 'FechaDoc', headerName: 'FECHA', width: 150, headerClassName: 'header-bold' },
   { field: 'Documento', headerName: 'DOCUMENTO', width: 100, headerClassName: 'header-bold' },
   { field: 'IdCliente', headerName: 'NIT', width: 150, headerClassName: 'header-bold' },
   { field: 'NombreCliente', headerName: 'NOMBRE', width: 400, headerClassName: 'header-bold' },
@@ -34,6 +32,7 @@ const HistoricoVenta = () => {
   const [cargando, setCargando] = useState(true); 
   const [tablaVentas, setTablaVentas] = useState([]);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
+
 
   useEffect(() => {
     const obtenerDatos = async () => {
@@ -59,10 +58,12 @@ const HistoricoVenta = () => {
     obtenerDatos();
   }, [auth?.IDSaler]);
 
+
   const handleChange = (e) => {
     setBusqueda(e.target.value);
     filtrar(e.target.value);
   };
+
 
   const filtrar = (terminoBusqueda) => {
     const resultadoBusqueda = tablaVentas.filter((elemento) => {
@@ -113,17 +114,17 @@ const HistoricoVenta = () => {
         </Grid>
 
         <Grid size={12} sx={{ flexGrow: 1, marginBottom: 2 }}>
-          <Box sx={{ width: '100%', height: isSmallScreen ? 500 : 755, }}>
+          <Box sx={{ width: '100%', height: isSmallScreen ? 500 : 650, }}>
             <DataGrid 
               rows={ventas}
               columns={columns}
               getRowId={(row) => row.IdArticulo}
               initialState={{
                   pagination: {
-                      paginationModel: { page: 0, pageSize: 12 }
+                      paginationModel: { page: 0, pageSize: 10 }
                   }
               }}
-              pageSizeOptions={[12]}
+              pageSizeOptions={[10, 20, 30]}
             />
           </Box>
         </Grid>

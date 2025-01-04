@@ -10,7 +10,7 @@ import { Global } from "@/conexion";
 
 
 const GestionCartera = () => {
-  const { auth } = useAuth('');
+  const { auth } = useAuth();
   const [open, setOpen] = useState(false);
   const [rutero, setRutero] = useState([]);
   const [busqueda, setBusqueda] = useState("");
@@ -41,10 +41,12 @@ const GestionCartera = () => {
         console.log("Error al obtener datos", error);
       }
     };
+
     if (auth?.IDSaler) {
       obtenerDatos();
     }
   }, [auth?.IDSaler]);
+
 
   const handleOpen = (cliente) => {
     setClienteSeleccionado(cliente); 
@@ -105,23 +107,24 @@ const GestionCartera = () => {
         </Grid>
 
         <Grid size={12} sx={{ flexGrow: 1, marginBottom: 2 }}>
-          <Box sx={{ width: '100%', height: isSmallScreen ? 500 : 755 }}>
+          <Box sx={{ width: '100%', height: isSmallScreen ? 500 : 650 }}>
             <DataGrid 
               rows={rutero}
               columns={columns}
               getRowId={(row) => row.PKid}
               initialState={{
                   pagination: {
-                      paginationModel: { page: 0, pageSize: 12 }
+                      paginationModel: { page: 0, pageSize: 10 }
                   }
               }}
-              pageSizeOptions={[12]}
+              pageSizeOptions={[10, 20, 30]}
               onRowClick={(params) => handleOpen(params.row)} 
             />
           </Box>
         </Grid>
       </Grid>
       )}
+
       <Modal
         open={open}
         onClose={handleClose}
@@ -132,19 +135,19 @@ const GestionCartera = () => {
           <>
             {clienteSeleccionado && (
               <Grid container rowSpacing={1.5} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ p: 1 }}>
-                <Grid size={{ xs: 36, sm: 24, md: 12 }}>
+                <Grid size={{ xs: 12, sm: 12, md: 12 }}>
                   <strong>Razón Social: </strong>{clienteSeleccionado.RazonSocial}
                 </Grid>
-                <Grid size={{ xs: 18, sm: 12, md: 6 }}>
+                <Grid size={{ xs: 12, sm: 12, md: 6 }}>
                   <strong>Realizada Por: </strong>{clienteSeleccionado.FKUsuario}
                 </Grid>
-                <Grid size={{ xs: 18, sm: 12, md: 6 }}>
+                <Grid size={{ xs: 12, sm: 12, md: 6 }}>
                   <strong>Tipo Gestión: </strong>{clienteSeleccionado.Tipo}
                 </Grid>
-                <Grid size={{ xs: 18, sm: 12, md: 6 }}>
+                <Grid size={{ xs: 12, sm: 12, md: 6 }}>
                   <strong>¿Realiza Pedido? </strong>{clienteSeleccionado.Realiza_pedido}
                 </Grid>
-                <Grid size={{ xs: 18, sm: 12, md: 6 }}>
+                <Grid size={{ xs: 12, sm: 12, md: 6 }}>
                   <strong>¿Cobró? </strong>{clienteSeleccionado.Cobro}
                 </Grid>
               </Grid>

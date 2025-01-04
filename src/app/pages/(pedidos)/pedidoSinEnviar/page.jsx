@@ -107,9 +107,11 @@ const PedidoSinEnviar = () => {
     <>
       <NavBar />
       <Grid container direction="column" sx={{ minHeight: "100vh", backfroundColor: "#ffffff", padding: 2 }}>
-        <Grid size={12}>
-          <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center" }}>
+        <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center" }}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <h2><strong>PEDIDOS SIN ENVIAR</strong></h2>
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center", marginLeft: isSmallScreen ? 0 : "auto", padding: 2  }}>
               <TextField
                 id="outlined-basic" 
@@ -117,11 +119,11 @@ const PedidoSinEnviar = () => {
                 value={busqueda}
                 onChange={handleChange}
                 placeholder="Buscar..." 
-                sx={{ width: 300 }} 
+                sx={{ width: "100%" }} 
               />
             </Box>
+          </Grid>
           </Box>
-        </Grid>
           
         <Grid size={12} sx={{ flexGrow: 1, marginBottom: 2 }}>
           <Box sx={{ width: "100%", heigth: isSmallScreen ? 500 : 750 }}>

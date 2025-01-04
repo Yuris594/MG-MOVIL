@@ -101,6 +101,15 @@ const ElaborarConsignacion = () => {
  
   const crearConsignacion = async () => {
 
+    if (!selectedBankId || !totalConsignacion ) {
+      Swal.fire({
+        icon: "warning",
+        title: "Datos Incompletos",
+        text: "Por favor complete los campos obligatorios para crear la consignación."
+      });
+      return;
+    }
+
     const detalle = {
       BankId:  selectedBankId,
       UserId: auth.IDSaler,
@@ -148,6 +157,8 @@ const ElaborarConsignacion = () => {
       });
     }
   };
+
+  
   
 
   return (

@@ -114,9 +114,11 @@ const PedidoEnviado = () => {
       ) : (
       <Box>
         <Grid container direction="column" sx={{ minHeight: "100vh", backfroundColor: "#ffffff", padding: 2 }}>
-          <Grid size={12}>
-            <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center" }}>
+          <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center" }}>
+            <Grid size={{ xs: 12, sm: 6 }} sx={{ padding: 2 }}>
               <h2><strong>PEDIDOS ENVIADOS</strong></h2>
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center", marginLeft: isSmallScreen ? 0 : "auto", padding: 2  }}>
                 <TextField
                   type="text"
@@ -125,14 +127,14 @@ const PedidoEnviado = () => {
                   value={busqueda}
                   onChange={handleChange}
                   placeholder="Buscar..."
-                  sx={{ width: 500 }}
+                  sx={{ width: "100%" }}
                 />
               </Box>
+            </Grid>
             </Box>
-          </Grid>
 
           <Grid size={12} sx={{ flexGrow: 1, marginBottom: 2 }}>
-            <Box sx={{ width: "100%", heigth: isSmallScreen ? 500 : 750 }}> 
+            <Box sx={{ width: "100%", heigth: isSmallScreen ? 500 : 650 }}> 
               <DataGrid
                 rows={pedido}
                 columns={columns}

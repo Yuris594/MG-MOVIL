@@ -127,17 +127,17 @@ const Consignacion = () => {
         </Grid>
 
         <Grid size={12} sx={{ flexGrow: 1, marginBottom: 2 }}>
-          <Box sx={{ width: "100%", height: isSmallScreen ? 500 : 755 }}>
+          <Box sx={{ width: "100%", height: isSmallScreen ? 500 : 650 }}>
             <DataGrid 
               rows={monto}
               columns={columns}
               getRowId={(row) => row.ID}
               initialState={{
                 pagination: {
-                  paginationModel: { pageSize: 20 }
+                  paginationModel: { pageSize: 10 }
                 }
               }}
-              pageSizeOptions={[20]}
+              pageSizeOptions={[10, 20, 30]}
               onRowClick={(params) => handleOpen(params.row)} 
             />
           </Box>

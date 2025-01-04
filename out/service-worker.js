@@ -15,6 +15,7 @@ self.addEventListener('install', (event) => {
             return cache.addAll(urlsToCache);
         })
     );
+    self.skipWaiting();
 });
 
 
@@ -30,6 +31,7 @@ self.addEventListener('active', (event) => {
             );
         })
     );
+    self.clients.claim();
 });
 
 
@@ -41,13 +43,15 @@ self.addEventListener('fetch', (event) => {
             }
 
             return fetch(event.request).catch(() => {
-                self.clients.matchAll().then(clients => {
-                    clients.forEach(client => {
-                        client.postMessage({
-                            type: 'offline',
-                        })
-                    })
-                })
+                if (event.request.destination === 'document') {
+                    return caches.match('/');
+                }
+                
+                return new Response('Offline content unavailable', {
+                    status: 503,
+                    statusText: 'Service Unavailable',
+                    headers: { 'Content-Type' : 'text/plain' },
+                });
             });
         })
     );

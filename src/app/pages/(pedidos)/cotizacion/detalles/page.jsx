@@ -333,7 +333,7 @@ const DetallesPedido = ({ pedido, handleClose }) => {
     }
   
     try {
-      const pedidosGuardados = JSON.parse(localStorage.getItem("pedidos")) || [];
+      const pedidosGuardados = JSON.parse(localStorage.getItem("cotizacion")) || [];
       const pedidoGuardado = pedidosGuardados.find(pedido => pedido.PKId === pedido.PKId);
 
       if (!pedidoGuardado) {
@@ -359,8 +359,8 @@ const DetallesPedido = ({ pedido, handleClose }) => {
       
       const pedido = {
         FKID_sellers: pedidoGuardado.FKID_sellers,
-        Notas: pedidoGuardado.Notas,
-        FKId_clientes: pedidoGuardado.FKId_clientes,
+        Notas: pedidoGuardado.notas,
+        FKId_clientes: pedidoGuardado.nit,
         NUMPED,
         Documento1: pedidoGuardado.Documento1,
       };
@@ -380,12 +380,12 @@ const DetallesPedido = ({ pedido, handleClose }) => {
       console.log("Pedido creado correctamente");
 
       const detallePedido = articulosSeleccionados.map(art => ({
-        FKid_pedidos2: art.FKid_pedidos2.toString(), 
+        FKid_pedidos2: art.FKid_pedidos2, 
         FKcodigo_articles: art.PKcodigo,
         Cantidad: art.cantped,
-        Precio: art.Precio.toString(),
-        Descuento: art.Descuento.toString(),
-        Iva: art.Iva.toString(),
+        Precio: art.Precio,
+        Descuento: art.Descuento,
+        Iva: art.Iva,
         Total: art.Total, 
         FKNUMPED: NUMPED,
         BODEGA: art.BODEGA
@@ -407,7 +407,7 @@ const DetallesPedido = ({ pedido, handleClose }) => {
       console.log("Detalle del pedido creado correctamente");
 
       const pedidosRestantes = pedidosGuardados.filter(p => p.PKId !== pedidoGuardado.PKId);
-      localStorage.setItem("pedidos", JSON.stringify(pedidosRestantes));
+      localStorage.setItem("cotizacion", JSON.stringify(pedidosRestantes));
 
       Swal.fire({
         title: "¡Éxito!",
@@ -415,8 +415,6 @@ const DetallesPedido = ({ pedido, handleClose }) => {
         icon: "success",
         timer: 3000, 
       });
-
-
     } catch (error) {
       console.error("Error:", error);
       Swal.fire({

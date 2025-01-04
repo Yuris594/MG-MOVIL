@@ -38,11 +38,7 @@ const GestionCartera = () => {
         setTablaVentas(datos.data);
         setCargando(false);
       } catch (error) {
-        if (!navigator.onLine) {
-          alert("No hay conexion. Verifica tu red");
-        } else {
-          console.log("Error al obtener datos", error);
-        }
+        console.log("Error al obtener datos", error);
       }
     };
     if (auth?.IDSaler) {

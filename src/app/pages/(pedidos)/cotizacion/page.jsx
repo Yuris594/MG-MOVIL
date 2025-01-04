@@ -32,6 +32,7 @@ const VerCotizacion = () => {
   const [busqueda, setBusqueda] = useState([]);
   const [tablaPedido, setTablaPedido] = useState([]);
   const [seleccionarPedido, setSeleccionarPedido] = useState(null);
+  const [articulosSeleccionados, setArticulosSeleccionados] = useState([]);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const handleOpen = (pedido) => {
@@ -52,6 +53,9 @@ const VerCotizacion = () => {
     }));
     setPedidos(pedidosConFechaFormateada); 
     setTablaPedido(pedidosConFechaFormateada);
+
+    const articulos = pedidosGuardados.length > 0 ? pedidosGuardados[0].articulosSeleccionados || [] : []
+    setArticulosSeleccionados(articulos);
     
   }, []);
 
@@ -87,6 +91,15 @@ const VerCotizacion = () => {
 
 
   const enviarPDF = async (pedido) => {
+    if (!navigator.onLine) {
+      Swal.fire({
+        icon: "info",
+        title: "Sin Conexión",
+        text: "Revisar la conexión a Internet o conectar a la VPN."
+      });
+      return;
+    }
+    
     const resultado = await Swal.fire({
       title: "Enviar PDF!",
       text: "¿Desea Enviar la Cotización al Cliente?",
@@ -199,7 +212,7 @@ const VerCotizacion = () => {
     }
   
     try {
-      const pedidosGuardados = JSON.parse(localStorage.getItem("pedidos")) || [];
+      const pedidosGuardados = JSON.parse(localStorage.getItem("cotizacion")) || [];
       const pedidoGuardado = pedidosGuardados.find(pedido => pedido.PKId === pedido.PKId);
 
       if (!pedidoGuardado) {
@@ -225,8 +238,8 @@ const VerCotizacion = () => {
       
       const pedido = {
         FKID_sellers: pedidoGuardado.FKID_sellers,
-        Notas: pedidoGuardado.Notas,
-        FKId_clientes: pedidoGuardado.FKId_clientes,
+        Notas: pedidoGuardado.notas,
+        FKId_clientes: pedidoGuardado.nit,
         NUMPED,
         Documento1: pedidoGuardado.Documento1,
       };
@@ -273,7 +286,7 @@ const VerCotizacion = () => {
       console.log("Detalle del pedido creado correctamente");
 
       const pedidosRestantes = pedidosGuardados.filter(p => p.PKId !== pedidoGuardado.PKId);
-      localStorage.setItem("pedidos", JSON.stringify(pedidosRestantes));
+      localStorage.setItem("cotizacion", JSON.stringify(pedidosRestantes));
 
       Swal.fire({
         title: "¡Éxito!",

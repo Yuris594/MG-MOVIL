@@ -7,7 +7,6 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid2";
 
-
 const Articulos = () => {
   const [producto, setProducto] = useState([]);
   const [busqueda, setBusqueda] = useState([]);
@@ -95,7 +94,7 @@ const Articulos = () => {
               value={busqueda}
               onChange={handleChange}
               sx={{ width: "100%", marginBottom: 2 }}
-              />
+            />
         </Grid>
       </Box>
 

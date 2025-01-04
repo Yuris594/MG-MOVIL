@@ -3,6 +3,7 @@ import "./globals.css";
 import { Roboto } from "next/font/google";
 import AuthProvider from "@/context/authContext";
 import RegisterServiceWorkers from "./components/registerService";
+import AlertInternet from "./components/internet";
 
 const inter = Roboto({ 
   subsets: ["latin"],
@@ -23,6 +24,7 @@ function RootLayout({ children }) {
       </head>
       <body className={inter.className}>
         <RegisterServiceWorkers />
+        <AlertInternet />
         <AuthProvider>
           {children}
         </AuthProvider>

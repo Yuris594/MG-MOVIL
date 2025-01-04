@@ -103,6 +103,15 @@ const NavBar = () => {
 
   const handleRefresh = () => {
     router.push("/pages");
+
+    if (!navigator.onLine) {
+      Swal.fire({
+        icon: "info",
+        title: "Sin Conexión",
+        text: "Verificar la conexión con la Empresa o no tiene Internet."
+      });
+      return;
+    }
     
     Swal.fire({
       title: "¿Deseas Actualizar?",

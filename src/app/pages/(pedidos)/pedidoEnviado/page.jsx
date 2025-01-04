@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, InputBase, useMediaQuery  } from "@mui/material";
+import { Box, TextField, useMediaQuery  } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useCallback, useEffect, useState } from "react";
 import NavBar from "@/app/components/navbar/nav";
@@ -118,12 +118,14 @@ const PedidoEnviado = () => {
             <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center" }}>
               <h2><strong>PEDIDOS ENVIADOS</strong></h2>
               <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center", marginLeft: isSmallScreen ? 0 : "auto", padding: 2  }}>
-                <InputBase
+                <TextField
                   type="text"
+                  id="outlined-basic" 
+                  variant="outlined"
                   value={busqueda}
                   onChange={handleChange}
                   placeholder="Buscar..."
-                  sx={{ width: 300, border: "2px solid black" }}
+                  sx={{ width: 500 }}
                 />
               </Box>
             </Box>

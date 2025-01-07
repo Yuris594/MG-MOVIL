@@ -34,7 +34,6 @@ const GestionCartera = () => {
 
         const datos = await response.json();
         setRutero(datos.data);
-        setClienteSeleccionado(datos.data);
         setTablaVentas(datos.data);
         setCargando(false);
       } catch (error) {

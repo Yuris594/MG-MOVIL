@@ -335,9 +335,11 @@ const CrearPedido = () => {
         text: "Pedido Fue Almacenado Correctamente.",
         icon: "success",
         timer: 3000, 
+        showConfirmButton: false,
       });
 
-      router.push("../../pages/pedidoSinEnviar");
+      router.push("../../pages/pedidoEnviado");
+      
     } catch (error) {
       console.error("Error:", error.message);
       console.error("Detalles del error:", error); 

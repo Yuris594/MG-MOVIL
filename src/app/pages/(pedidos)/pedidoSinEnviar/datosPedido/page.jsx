@@ -407,9 +407,10 @@ const DatosPedido = ({ pedido, handleClose }) => {
         text: "Pedido Fue Almacenado Correctamente.",
         icon: "success",
         timer: 3000, 
+        showConfirmButton: false,
       });
 
-      router.push("././pedidoEnviado");
+      router.push("../pages/pedidoEnviado");
 
     } catch (error) {
       console.error("Error:", error);

@@ -6,6 +6,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import { useAuth } from "@/context/authContext";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { IconButton } from '@mui/material';
 import Grid from "@mui/material/Grid2"; 
 import { Global } from "@/conexion";
@@ -28,6 +29,7 @@ const style = {
 
 const DatosPedido = ({ pedido, handleClose }) => {
   const { auth } = useAuth();
+  const router = useRouter();
   const [nit, setNit] = useState("");
   const [notas, setNotas] = useState("");
   const [total, setTotal] = useState("");
@@ -406,6 +408,8 @@ const DatosPedido = ({ pedido, handleClose }) => {
         icon: "success",
         timer: 3000, 
       });
+
+      router.push("././pedidoEnviado");
 
     } catch (error) {
       console.error("Error:", error);

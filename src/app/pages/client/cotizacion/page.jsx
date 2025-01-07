@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { IconButton } from '@mui/material';
 import Grid from "@mui/material/Grid2";
-import { Global } from "@/conexion";
 import Swal from "sweetalert2";
 import Link from "next/link";
 
@@ -49,9 +48,15 @@ const Cotizar = () => {
 
 
   const columns = [
-    { field: 'PKcodigo', headerName: 'CODIGO', width: 150, headerClassName: 'header-bold' },
-    { field: 'Nombre', headerName: 'REFERENCIA', width: 350, headerClassName: 'header-bold' },
-    { field: 'Unidad_Empaque', headerName: 'UND EMPAQUE', width: 100, headerClassName: 'header-bold' },
+    { field: 'PKcodigo', headerName: 'CODIGO', width: 150, 
+      headerClassName: 'header-bold' 
+    },
+    { field: 'Nombre', headerName: 'REFERENCIA', width: 350, 
+      headerClassName: 'header-bold' 
+    },
+    { field: 'Unidad_Empaque', headerName: 'UND EMPAQUE', width: 100, 
+      headerClassName: 'header-bold' 
+    },
     { field: 'Precio', headerName: 'PRECIO', width: 100,
       valueFormatter: (value) => {
         const precio = parseFloat(value).toFixed(0);
@@ -70,7 +75,9 @@ const Cotizar = () => {
         return `${parseFloat(descuento).toFixed(1)}`;
       }, headerClassName: 'header-bold' 
     },
-    { field: 'cantped', headerName: 'CANT', width: 90, headerClassName: 'header-bold' },
+    { field: 'cantped', headerName: 'CANT', width: 90, 
+      headerClassName: 'header-bold' 
+    },
     { field: 'Total', headerName: 'TOTAL', width: 100, 
       valueFormatter: (value) => {
         const precio = parseFloat(value).toFixed(0);
@@ -155,18 +162,16 @@ const Cotizar = () => {
     try {
       if (articulosSeleccionados.length === 0) {
         Swal.fire({
-          title: "Error al guardar la cotización.",
-          text: "La cotización debe incluir los articulos.",
+          title: "Error al guardar.",
+          text: "No se puede guardar la cotización. La cotización debe incluir articulos.",
           icon: "error",
         });
         return;
       }
       const pedidosGuardados = JSON.parse(localStorage.getItem("cotizacion")) || [];
       
-      let ultimoId = 0;
-      if (pedidosGuardados.length > 0) {
-        ultimoId = Math.max(...pedidosGuardados.map(pedido => pedido.PKId));
-      }
+      let ultimoId = parseInt(localStorage.getItem("ultimoFKidPedidos")) || [];
+     
       const nuevoId = ultimoId + 1;
   
       localStorage.setItem("ultimoFKidPedidos", nuevoId);
@@ -201,7 +206,7 @@ const Cotizar = () => {
       router.push("../../pages/cotizacion");
   
       Swal.fire({
-        title: "Se creo la Cotización",
+        title: "Cotización Exitosa.",
         text: "Cotización creada correctamente.",
         icon: "success",
         showConfirmButton: false,
@@ -216,144 +221,6 @@ const Cotizar = () => {
     }
   };
 
-
-  const obtenerConse = async () => {
-    try {
-      const response = await fetch(Global.url + `/pedidos/${auth.IDSaler}`, {
-        method: "GET",
-        headers: { "Content-Type" : "application/json" },
-      });
-      
-      if (!response.ok) {
-        throw new Error(`Error al obtener el consecutivo: ${response.status} ${response.statusText}`);
-      }
-
-      const datos = await response.json();
-      if (!datos[0].consecutivo || !datos[0].Prefijo) {
-        throw new Error("Los campos 'consecutivo' o 'Prefijo' no se encontraron en la respuesta.");
-      }
-
-      return datos[0];
-    } catch (error) {
-      console.error("Error al obtener el consecutivo:", error);
-      throw error;
-    }
-  };
-
-
-  const enviarPedido = async () => {
-
-    const resultado = await Swal.fire({
-      title: "Almacenar!",
-      text: "¿Desea almacenar el Pedido?",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Aceptar",
-      cancelButtonText: "Cancelar",
-    }); 
-    
-    if(!resultado.isConfirmed) {
-      Swal.fire({
-        text: "El Pedido no se almacenó.",
-        icon: "info",
-        timer: 3000, 
-      });
-      return; 
-    }
-
-    try {
-      const datosConse = await obtenerConse();
-      const conseActualizado = datosConse.consecutivo + 1;
-      const NUMPED = `${datosConse.Prefijo}${conseActualizado}`; 
-
-      const response = await fetch(Global.url + `/pedidos/PEDIDOS/${auth.IDSaler}`, {
-        method: "PUT",
-        headers: { "Content-Type" : "application/json" },
-        body: JSON.stringify({ Consecutivo: conseActualizado })
-      }); 
-
-      if (!response.ok) {
-        console.log("Error al actualizar el consecutivo:", response.statusText);
-        throw new Error("Error al actualizar el consecutivo");
-      } else {
-        console.log("Consecutivo actualizado correctamente");
-      }
-      
-      const pedido = {
-        FKID_sellers: auth.IDSaler,
-        Notas: notas,
-        FKId_clientes: clienteV.NIT,
-        NUMPED,
-        Documento1: documento,
-      };
-
-      const encabezadoResponse = await fetch(Global.url + '/pedidos/', {
-        method: "POST",
-        headers: { "Content-Type" : "application/json" },
-        body: JSON.stringify(pedido),
-      });
-  
-      if (!encabezadoResponse.ok) {
-        const errorResponse = await encabezadoResponse.json();
-        console.error("Error al crear el pedido", errorResponse);
-        throw new Error("Error al crear el encabezado del pedido");
-      } 
-        
-      console.log("Pedido creado correctamente");               
-      
-      const ultimoFKidPedidos = parseInt(localStorage.getItem("ultimoFKidPedidos"), 10) || 0;
-      const nuevoFKidPedidos = ultimoFKidPedidos + 1;
-
-      const detallePedido = articulosSeleccionados.map(art => ({
-        FKid_pedidos2: nuevoFKidPedidos,
-        FKcodigo_articles: art.PKcodigo,
-        Cantidad: art.cantped,
-        Precio: art.Precio,
-        Descuento: art.Descuento,
-        Iva: art.Iva,
-        Total: art.Total,
-        FKNUMPED: NUMPED,
-        BODEGA: art.BODEGA
-      }));
-      
-      for (const detalle of detallePedido) {
-        const detalleResponse = await fetch(Global.url + `/pedidos/${NUMPED}`, {
-          method: "POST",
-          headers: { "Content-Type" : "application/json" },        
-          body: JSON.stringify(detalle),
-        });
-      
-        if (!detalleResponse.ok) {
-          const errorResponse = await detalleResponse.json(); 
-          console.error("Error al crear el detalle del pedido:", errorResponse);
-          throw new Error(`Error al crear el detalle del pedido: ${detalleResponse.status} - ${detalleResponse.statusText}`);
-        }
-      }
-      
-      console.log("Detalle del pedido creado correctamente");
-      localStorage.setItem("ultimoFKidPedidos", nuevoFKidPedidos);
-    
-      Swal.fire({
-        title: "¡Éxito!",
-        text: "Pedido Fue Almacenado Correctamente.",
-        icon: "success",
-        timer: 3000, 
-      });
-
-      router.push("../../pages/pedidoSinEnviar");
-    } catch (error) {
-      console.error("Error:", error.message);
-      console.error("Detalles del error:", error); 
-      Swal.fire({
-        title: "Oops...!",
-        text: "Hubo un problema al enviar el pedido.",
-        icon: "error",
-      });
-    }    
-  };
-  
   
   useEffect(() => {
     const obtenerFechaActual = () => {
@@ -378,8 +245,7 @@ const Cotizar = () => {
         <Grid size={{ xs: 12, sm: 8 }} sx={{ padding: 2 }}>
           <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", justifyContent: "center", alignItems: "center" }}>
             <Button onClick={handleOpen} variant="contained" sx={{ margin: 1, backgroundColor:"#4eeacb", color: "white" }}>Articulos</Button>
-            <Button onClick={enviarPedido} variant="contained" sx={{ margin: 1, backgroundColor: '#17bfe9', color: "white" }}>Convertir a Pedido</Button>
-            <Button onClick={cotizacionPedido} variant="contained" sx={{ margin: 1, backgroundColor: '#67e947', color: "white" }}>Guardar</Button>
+            <Button onClick={cotizacionPedido} variant="contained" sx={{ margin: 1, backgroundColor: '#67e947', color: "white" }}>Guardar Cotizacion</Button>
             <Button variant="contained" sx={{ ml: 1, mr: 2 }} color="error" LinkComponent={Link} href="../client">Cerrar</Button>
           </Box>
         </Grid>

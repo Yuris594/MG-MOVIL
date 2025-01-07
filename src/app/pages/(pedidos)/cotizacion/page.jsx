@@ -6,6 +6,7 @@ import { useAuth } from "@/context/authContext";
 import DetallesPedido from "./detalles/page";
 import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
+import { useRouter } from "next/navigation";
 import Grid from "@mui/material/Grid2";
 import { Global } from "@/conexion";
 import Swal from "sweetalert2";
@@ -27,12 +28,12 @@ const style = {
 
 const VerCotizacion = () => {
   const { auth } = useAuth();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [pedidos, setPedidos] = useState([]);
   const [busqueda, setBusqueda] = useState([]);
   const [tablaPedido, setTablaPedido] = useState([]);
   const [seleccionarPedido, setSeleccionarPedido] = useState(null);
-  const [articulosSeleccionados, setArticulosSeleccionados] = useState([]);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   const handleOpen = (pedido) => {
@@ -53,9 +54,6 @@ const VerCotizacion = () => {
     }));
     setPedidos(pedidosConFechaFormateada); 
     setTablaPedido(pedidosConFechaFormateada);
-
-    const articulos = pedidosGuardados.length > 0 ? pedidosGuardados[0].articulosSeleccionados || [] : []
-    setArticulosSeleccionados(articulos);
     
   }, []);
 
@@ -164,147 +162,94 @@ const VerCotizacion = () => {
   };
 
 
-  const obtenerConse = async () => {
-    try {
-      const response = await fetch(Global.url + `/pedidos/${auth.IDSaler}`, {
-        method: "GET",
-        headers: { "Content-Type" : "application/json" },
-      });
-      
-      if (!response.ok) {
-        throw new Error(`Error al obtener el consecutivo: ${response.status} ${response.statusText}`);
-      }
-
-      const datos = await response.json();
-      if (!datos[0].consecutivo || !datos[0].Prefijo) {
-        throw new Error("Los campos 'consecutivo' o 'Prefijo' no se encontraron en la respuesta.");
-      }
-
-      return datos[0];
-    } catch (error) {
-      console.error("Error al obtener el consecutivo:", error);
-      throw error;
-    }
-  };
-
   const enviarPedido = async () => {
-
-    handleClose(); 
-
     const resultado = await Swal.fire({
-      title: "Almacenar!",
-      text: "¿Desea almacenar el Pedido?",
-      icon: "question",
+      title: "¿Estás Seguro?",
+      text: "El pedido será movido de Cotizaciones a Pedidos Por Enviar.",
+      icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Aceptar",
+      confirmButtonText: "Sí, mover",
       cancelButtonText: "Cancelar",
     }); 
     
     if(!resultado.isConfirmed) {
       Swal.fire({
-        text: "El Pedido no se almacenó.",
+        text: "El Pedido no se movió y permance en Cotizaciones.",
         icon: "info",
         timer: 3000, 
+        showConfirmButton: false,
       });
       return; 
     }
-  
+
     try {
-      const pedidosGuardados = JSON.parse(localStorage.getItem("cotizacion")) || [];
-      const pedidoGuardado = pedidosGuardados.find(pedido => pedido.PKId === pedido.PKId);
+      const pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
+      const cotizaciones = JSON.parse(localStorage.getItem("cotizacion")) || [];
+
+      const pedidoGuardado = cotizaciones.find(pedido => pedido.PKId === pedido.PKId);
 
       if (!pedidoGuardado) {
-        throw new Error("El pedido no se encontró en el almacenamiento local.")
+        Swal.fire({
+          title: "Pedido no encontrado",
+          text: "No se pudo localizar el pedido en las cotizaciones. Por favor, revisa nuevamente.",
+          icon: "error",
+        });
+        return;
       }
 
-      const datosConse = await obtenerConse();
-      const conseActualizado = datosConse.consecutivo + 1;
-      const NUMPED = `${datosConse.Prefijo}${conseActualizado}`; 
-
-      const response = await fetch(Global.url + `/pedidos/PEDIDOS/${auth.IDSaler}`, {
-        method: "PUT",
-        headers: { "Content-Type" : "application/json" },
-        body: JSON.stringify({ Consecutivo: conseActualizado })
-      }); 
-
-      if (!response.ok) {
-        console.log("Error al actualizar el consecutivo:", response.statusText);
-        throw new Error("Error al actualizar el consecutivo");
-      } 
-
-      console.log("Consecutivo actualizado correctamente");
-      
       const pedido = {
+        PKId: pedidoGuardado.PKId,
+        Fecha: pedidoGuardado.fecha,
+        nombreC: pedidoGuardado.nombreC,
+        NitC: pedidoGuardado.nit,
+        total: pedidoGuardado.total,
+        NombreV: auth.UserFullName,
         FKID_sellers: pedidoGuardado.FKID_sellers,
         Notas: pedidoGuardado.notas,
+        NUMPED: "",
+        Documento1: pedidoGuardado.Documento1, 
+        pkid: pedidoGuardado.PKId,
         FKId_clientes: pedidoGuardado.nit,
-        NUMPED,
-        Documento1: pedidoGuardado.Documento1,
+        articulos: pedidoGuardado.articulosSeleccionados
       };
 
-      const encabezadoResponse = await fetch(Global.url + '/pedidos/', {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(pedido),
-      });
-  
-      if(!encabezadoResponse.ok) {
-        const errorResponse = await encabezadoResponse.json();
-        console.error("Error al crear el pedido", errorResponse);
-        throw new Error("Error al crear el encabezado del pedido");
-      } 
-        
-      console.log("Pedido creado correctamente");
+      const pedidoExiste = pedidos.some(p => p.PKId === pedido.PKId);
 
-      const detallePedido = articulosSeleccionados.map(art => ({
-        FKid_pedidos2: art.FKid_pedidos2.toString(), 
-        FKcodigo_articles: art.PKcodigo,
-        Cantidad: art.cantped,
-        Precio: art.Precio.toString(),
-        Descuento: art.Descuento.toString(),
-        Iva: art.Iva.toString(),
-        Total: art.Total, 
-        FKNUMPED: NUMPED,
-        BODEGA: art.BODEGA
-      }));
-      
-      for (const detalle of detallePedido) {
-        const detalleResponse = await fetch(Global.url + `/pedidos/${NUMPED}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(detalle)
+      if (!pedidoExiste) {
+        pedidos.push(pedido);
+        
+        localStorage.setItem("pedidos", JSON.stringify(pedidos));
+        
+        const pedidosRestantes = cotizaciones.filter(p => p.PKId !== pedidoGuardado.PKId);
+        localStorage.setItem("cotizacion", JSON.stringify(pedidosRestantes));
+        
+        await Swal.fire({
+          title: "¡Movimiento Exitoso!",
+          text: "El pedido ha sido guardado correctamente en Pedidos Por Enviar.",
+          icon: "success",
+          timer: 3000, 
+          showConfirmButton: false,
         });
-        
-        if (!detalleResponse.ok) {
-          const errorResponse = await detalleResponse.text(); 
-          console.error("Error al crear el detalle del pedido:", errorResponse);
-          throw new Error(`Error al crear el detalle del pedido: ${detalleResponse.status} - ${detalleResponse.statusText}`);
-        }
+  
+        router.push("./pedidoSinEnviar")
+      } else {
+        Swal.fire({
+          title: "Pedido dupliado",
+          text: "El pedido ya fue movido anteriormente a Pedidos Por Enviar.",
+          icon: "info",
+        });
       }
-      console.log("Detalle del pedido creado correctamente");
-
-      const pedidosRestantes = pedidosGuardados.filter(p => p.PKId !== pedidoGuardado.PKId);
-      localStorage.setItem("cotizacion", JSON.stringify(pedidosRestantes));
-
-      Swal.fire({
-        title: "¡Éxito!",
-        text: "Pedido Fue Almacenado Correctamente.",
-        icon: "success",
-        timer: 3000, 
-      });
-
-
     } catch (error) {
       console.error("Error:", error);
       Swal.fire({
         title: "Oops...!",
-        text: "Hubo un Problema al Enviar el Pedido.",
+        text: "Ocurrió un problema al intentar guardar el pedido. Intenta nuevamente.",
         icon: "error",
       });
     }
-  };
+  }
 
 
   const columns = [
@@ -418,5 +363,4 @@ const VerCotizacion = () => {
 };
 
 export default VerCotizacion;
-
 

@@ -109,7 +109,7 @@ const PedidoSinEnviar = () => {
       <Grid container direction="column" sx={{ minHeight: "100vh", backfroundColor: "#ffffff", padding: 2 }}>
         <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center" }}>
           <Grid size={{ xs: 12, sm: 6 }}>
-            <h2><strong>PEDIDOS SIN ENVIAR</strong></h2>
+            <h2><strong>PEDIDOS POR ENVIAR</strong></h2>
           </Grid>
           <Grid size={{ xs: 12, sm: 6 }}>
             <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center", marginLeft: isSmallScreen ? 0 : "auto", padding: 2  }}>

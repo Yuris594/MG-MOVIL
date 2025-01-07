@@ -47,9 +47,15 @@ const CrearPedido = () => {
 
 
   const columns = [
-    { field: 'PKcodigo', headerName: 'CODIGO', width: 150, headerClassName: 'header-bold' },
-    { field: 'Nombre', headerName: 'REFERENCIA', width: 350, headerClassName: 'header-bold' },
-    { field: 'Unidad_Empaque', headerName: 'UND EMPAQUE', width: 100, headerClassName: 'header-bold' },
+    { field: 'PKcodigo', headerName: 'CODIGO', width: 150, 
+      headerClassName: 'header-bold' 
+    },
+    { field: 'Nombre', headerName: 'REFERENCIA', width: 350, 
+      headerClassName: 'header-bold' 
+    },
+    { field: 'Unidad_Empaque', headerName: 'UND EMPAQUE', width: 100, 
+      headerClassName: 'header-bold' 
+    },
     { field: 'Precio', headerName: 'PRECIO', width: 100,
       valueFormatter: (value) => {
         const precio = parseFloat(value).toFixed(0);
@@ -68,7 +74,9 @@ const CrearPedido = () => {
         return `${parseFloat(descuento).toFixed(1)}`;
       }, headerClassName: 'header-bold' 
     },
-    { field: 'cantped', headerName: 'CANT', width: 90, headerClassName: 'header-bold' },
+    { field: 'cantped', headerName: 'CANT', width: 90, 
+      headerClassName: 'header-bold' 
+    },
     { field: 'Total', headerName: 'TOTAL', width: 100, 
       valueFormatter: (value) => {
         const precio = parseFloat(value).toFixed(0);
@@ -141,8 +149,8 @@ const CrearPedido = () => {
     const nuevoTotal = nuevoSubtotal - totalDescuento + totalImpuesto;
     const subTotal = nuevoSubtotal - totalDescuento;
 
-    setSubTotal(subTotal.toFixed(0));
-    setTotal(nuevoTotal.toFixed(0));
+    setSubTotal(Number(subTotal.toFixed(0)).toLocaleString());
+    setTotal(Number(nuevoTotal.toFixed(0)).toLocaleString());
   };
 
   const guardarPedido = () => {
@@ -158,10 +166,8 @@ const CrearPedido = () => {
 
       const pedidosGuardados = JSON.parse(localStorage.getItem("pedidos")) || [];
       
-      let ultimoId = 0;
-      if (pedidosGuardados.length > 0) {
-        ultimoId = Math.max(...pedidosGuardados.map(pedido => pedido.PKId));
-      }
+      let ultimoId = parseInt(localStorage.getItem("ultimoFKidPedidos")) || [];
+      
       const nuevoId = ultimoId + 1;
   
       localStorage.setItem("ultimoFKidPedidos", nuevoId);

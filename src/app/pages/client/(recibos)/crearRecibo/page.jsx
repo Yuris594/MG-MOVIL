@@ -408,7 +408,7 @@ const RealizarRecibo = () => {
             <IconButton onClick={crearRecibo} color="success" disabled={!boton}>
               <CheckCircleIcon sx={{ fontSize: 40 }} />
             </IconButton>
-            <IconButton color="error" LinkComponent={Link} href="../client">
+            <IconButton color="error" LinkComponent={Link} href="../">
               <CancelIcon sx={{ fontSize: 40 }} />
             </IconButton>
           </Grid>

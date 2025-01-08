@@ -17,11 +17,13 @@ import { initDB } from "@/app/components/base/db";
 import { Global } from "@/conexion";
 import Grid from "@mui/material/Grid2";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 
 
 const CarteraCliente = () => {
-  const { auth, setClienteV } = useAuth();
+  const { setClienteV } = useAuth();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [openE, setOpenE] = useState(false);
   const [openA, setOpenA] = useState(false);
@@ -260,7 +262,6 @@ const CarteraCliente = () => {
                   {clienteSeleccionado.TotalCartera}
                 </Typography>
               </Grid>
-              
               <Grid size={{ xs: 9, sm: 6, md: 3 }}>
                 <strong>Teléfono</strong>
                 <Typography sx={{ mb: 1.5, display: "flex"}}>
@@ -317,12 +318,12 @@ const CarteraCliente = () => {
 
         <Divider sx={{ margin: 2 }}  />
           <Stack direction="row" spacing={2} sx={{ flexWrap: "wrap", justifyContent: "center", p: 2 }}>
-            <Button variant="outlined" startIcon={<AssignmentIcon />} sx={{ color: "#29e5ad", margin: "5px" }} component={Link} href="./client/pedidos">Pedidos</Button>
-            <Button variant="outlined" startIcon={<DirectionsRunIcon />} sx={{ color: "#e52990", margin: "5px" }} component={Link} href="./client/rutero">Realizar Rutero</Button>
-            <Button variant="outlined" startIcon={<AssignmentIcon />} sx={{ color: "#f07d30", margin: "5px" }} LinkComponent={Link} href="./client/cotizacion">Cotización</Button>
-            <Button variant="outlined" startIcon={<ReceiptIcon />} sx={{ margin: "5px" }} color="secondary" component={Link} href="./client/recibo">Ver Recibos</Button>
+            <Button variant="outlined" startIcon={<AssignmentIcon />} sx={{ color: "#29e5ad", margin: "5px" }} onClick={() => router.push("../client/pedidos/")}>Pedidos</Button>
+            <Button variant="outlined" startIcon={<DirectionsRunIcon />} sx={{ color: "#e52990", margin: "5px" }} component={Link} href="../client/rutero/">Realizar Rutero</Button>
+            <Button variant="outlined" startIcon={<AssignmentIcon />} sx={{ color: "#f07d30", margin: "5px" }} component={Link} href="../client/cotizacion/">Cotización</Button>
+            <Button variant="outlined" startIcon={<ReceiptIcon />} sx={{ margin: "5px" }} color="secondary" component={Link} href="../client/recibo/">Ver Recibos</Button>
             <Button variant="outlined" startIcon={<EmailIcon />} sx={{ margin: "5px" }} color="success" onClick={handleOpenE}>Actualizar Correo</Button>
-            <Button variant="outlined" startIcon={<ReceiptLongIcon />} sx={{ color: "#2948e5", margin: "5px" }} LinkComponent={Link} href="./client/crearRecibo">Realizar Recibo</Button>
+            <Button variant="outlined" startIcon={<ReceiptLongIcon />} sx={{ color: "#2948e5", margin: "5px" }} component={Link} href="../client/crearRecibo/">Realizar Recibo</Button>
             <Button variant="contained" startIcon={<CloseIcon />} sx={{ margin: "5px" }} color="error" onClick={handleClose}>Cerrar</Button>
           </Stack>
         </Box>

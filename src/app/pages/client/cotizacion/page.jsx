@@ -203,7 +203,7 @@ const Cotizar = () => {
       pedidosGuardados.push(pedido);
       localStorage.setItem("cotizacion", JSON.stringify(pedidosGuardados));
     
-      router.push("../../pages/cotizacion");
+      router.push("../../cotizacion/");
   
       Swal.fire({
         title: "Cotización Exitosa.",
@@ -246,7 +246,7 @@ const Cotizar = () => {
           <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", justifyContent: "center", alignItems: "center" }}>
             <Button onClick={handleOpen} variant="contained" sx={{ margin: 1, backgroundColor:"#4eeacb", color: "white" }}>Articulos</Button>
             <Button onClick={cotizacionPedido} variant="contained" sx={{ margin: 1, backgroundColor: '#67e947', color: "white" }}>Guardar Cotizacion</Button>
-            <Button variant="contained" sx={{ ml: 1, mr: 2 }} color="error" LinkComponent={Link} href="../client">Cerrar</Button>
+            <Button variant="contained" sx={{ ml: 1, mr: 2 }} color="error" LinkComponent={Link} href="../">Cerrar</Button>
           </Box>
         </Grid>
       </Grid>

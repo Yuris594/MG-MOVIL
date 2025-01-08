@@ -8,6 +8,7 @@ const nextConfig = {
         removeConsole: process.env.NODE_ENV !== 'development',
     },*/
     output: "export",
+    trailingSlash: true,
 
 }
 

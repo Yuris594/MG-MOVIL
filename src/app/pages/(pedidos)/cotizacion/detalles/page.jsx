@@ -6,6 +6,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import { useAuth } from "@/context/authContext";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { IconButton } from '@mui/material';
 import Grid from "@mui/material/Grid2"; 
 import Swal from "sweetalert2";
@@ -27,6 +28,7 @@ const style = {
 
 const DetallesPedido = ({ pedido, handleClose }) => {
   const { auth } = useAuth();
+  const router = useRouter();
   const [nit, setNit] = useState("");
   const [notas, setNotas] = useState("");
   const [total, setTotal] = useState("");
@@ -356,7 +358,7 @@ const DetallesPedido = ({ pedido, handleClose }) => {
           showConfirmButton: false,
         });
   
-        router.push("./pedidoSinEnviar")
+        router.push("../pedidoSinEnviar/")
       } else {
         Swal.fire({
           title: "Pedido dupliado",

@@ -1,7 +1,7 @@
 "use client";
 
 
-import { Box, Button, Divider, Modal, Stack, Typography, TextField, IconButton, InputBase, useMediaQuery } from "@mui/material";
+import { Box, Button, Divider, Modal, Stack, Typography, TextField, IconButton, useMediaQuery } from "@mui/material";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -19,6 +19,8 @@ import Grid from "@mui/material/Grid2";
 import { Global } from "@/conexion";
 import Swal from "sweetalert2";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 
 
 const columns = [
@@ -31,7 +33,8 @@ const columns = [
 ];
 
 const ClienteVendedor = () => {
-  const { auth, setClienteV } = useAuth();
+  const { setClienteV } = useAuth();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [openE, setOpenE] = useState(false);
   const [clientes, setClientes] = useState([]); 
@@ -40,7 +43,6 @@ const ClienteVendedor = () => {
   const [clienteSeleccionado, setClienteSeleccionado] = useState(null);
   const [correo, setCorreo] = useState(clienteSeleccionado ? clienteSeleccionado.Email : "");
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
-
 
   const handleOpen = (cliente) => {
     setClienteSeleccionado(cliente); 
@@ -270,11 +272,11 @@ const ClienteVendedor = () => {
           <Divider sx={{ margin: 2 }}  />
 
           <Stack direction="row" spacing={2} sx={{ flexWrap: "wrap", justifyContent: "center", p: 2 }}>
-            <Button variant="outlined" startIcon={<AssignmentIcon />} sx={{ color: "#29e5ad", margin: "5px" }} LinkComponent={Link} href="./client/pedidos">Pedidos</Button>
-            <Button variant="outlined" startIcon={<DirectionsRunIcon />} sx={{ color: "#e52990", margin: "5px" }} LinkComponent={Link} href="./client/rutero">Realizar Rutero</Button>
-            <Button variant="outlined" startIcon={<AssignmentIcon />} sx={{ color: "#f07d30", margin: "5px" }} LinkComponent={Link} href="./client/cotizacion">Cotización</Button>
-            <Button variant="outlined" startIcon={<ReceiptIcon />} sx={{ margin: "5px" }} color="secondary" LinkComponent={Link} href="./client/recibo">Ver Recibos</Button>
-            <Button variant="outlined" startIcon={<ReceiptLongIcon />} sx={{ color: "#2948e5", margin: "5px" }} LinkComponent={Link} href="./client/crearRecibo">Realizar Recibo</Button>
+            <Button variant="outlined" startIcon={<AssignmentIcon />} sx={{ color: "#29e5ad", margin: "5px" }} onClick={() => router.push("./pedidos/")}>Pedidos</Button>
+            <Button variant="outlined" startIcon={<DirectionsRunIcon />} sx={{ color: "#e52990", margin: "5px" }} onClick={() => router.push("./rutero/")}>Realizar Rutero</Button>
+            <Button variant="outlined" startIcon={<AssignmentIcon />} sx={{ color: "#f07d30", margin: "5px" }} onClick={() => router.push("./cotizacion/")}>Cotización</Button>
+            <Button variant="outlined" startIcon={<ReceiptIcon />} sx={{ margin: "5px" }} color="secondary" onClick={() => router.push("./recibo/")}>Ver Recibos</Button>
+            <Button variant="outlined" startIcon={<ReceiptLongIcon />} sx={{ color: "#2948e5", margin: "5px" }} onClick={() => router.push("./crearRecibo/")}>Realizar Recibo</Button>
             <Button variant="outlined" startIcon={<EmailIcon />} sx={{ margin: "5px" }} color="success" onClick={handleOpenE}>Actualizar Correo</Button>
             <Button variant="contained" startIcon={<CloseIcon />} sx={{ margin: "5px" }} color="error" onClick={handleClose}>Cerrar</Button>
           </Stack>

@@ -6,14 +6,26 @@ const urlsToCache = [
     '/LOGO.png',
     '/logoMG.png',
     '/logo_miguelgomez.png',
-    
+    '/globals.css',
+    '/pages/',
 ];
 
 self.addEventListener('install', (event) => {
     event.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => {
-            return cache.addAll(urlsToCache);
-        })
+        (async () => {
+            try {
+                const cache = await caches.open(CACHE_NAME)
+                  for (const url of urlsToCache) {
+                    try {
+                        await cache.add(url);
+                    } catch (error) {
+                        console.error(`Failed to cache ${url}:`, error)
+                    }
+                  }
+            } catch (error) {
+                console.error('Failed to cache resources', error);
+            }
+        })()
     );
     self.skipWaiting();
 });

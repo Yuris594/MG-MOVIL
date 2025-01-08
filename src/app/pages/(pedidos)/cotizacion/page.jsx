@@ -233,7 +233,7 @@ const VerCotizacion = () => {
           showConfirmButton: false,
         });
   
-        router.push("./pedidoSinEnviar")
+        router.push("../pedidoSinEnviar/")
       } else {
         Swal.fire({
           title: "Pedido dupliado",

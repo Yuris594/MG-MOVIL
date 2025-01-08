@@ -4,6 +4,7 @@ import { AppBar, Box, Button, CssBaseline, IconButton, Menu, Toolbar, Typography
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
+import { clearDatabase, initDB } from "@/app/components/base/db";
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import InventoryIcon from '@mui/icons-material/Inventory';
@@ -13,7 +14,6 @@ import ReceiptIcon from '@mui/icons-material/Receipt';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import ArticleIcon from '@mui/icons-material/Article';
 import PersonIcon from '@mui/icons-material/Person';
-import { clearDatabase, initDB } from "@/app/components/base/db";
 import { useAuth } from "@/context/authContext";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -28,33 +28,33 @@ const pages = [
   {
     title: "VENTAS",
     subPages: [
-      { title: "Clientes", url: "/pages/client", icon: <PersonIcon /> },
-      { title: "Pedidos Por Enviar", url: "/pages/pedidoSinEnviar", icon: <LocalShippingIcon /> },
-      { title: "Pedidos Enviados", url: "/pages/pedidoEnviado", icon: <LocalShippingIcon /> },
-      { title: "Cotizaciones", url: "/pages/cotizacion", icon: <AttachMoneyIcon /> },
+      { title: "Clientes", url: "/pages/client/", icon: <PersonIcon /> },
+      { title: "Pedidos Por Enviar", url: "/pages/pedidoSinEnviar/", icon: <LocalShippingIcon /> },
+      { title: "Pedidos Enviados", url: "/pages/pedidoEnviado/", icon: <LocalShippingIcon /> },
+      { title: "Cotizaciones", url: "/pages/cotizacion/", icon: <AttachMoneyIcon /> },
     ],
   },
   {
     title: "CARTERA",
     subPages: [
-      { title: "Cartera Clientes", url: "/pages/cartera", icon: <AccountBalanceIcon /> },
-      { title: "Recibos", url: "/pages/cartera/recibo", icon: <ReceiptIcon /> },
-      { title: "Consultar Consignaciones", url: "/pages/cartera/consignacion", icon: <AccountBalanceIcon /> },
-      { title: "Elaborar Consignaciones", url: "/pages/cartera/elaborarCo", icon: <ArticleIcon /> },
+      { title: "Cartera Clientes", url: "/pages/cartera/", icon: <AccountBalanceIcon /> },
+      { title: "Recibos", url: "/pages/cartera/recibo/", icon: <ReceiptIcon /> },
+      { title: "Consultar Consignaciones", url: "/pages/cartera/consignacion/", icon: <AccountBalanceIcon /> },
+      { title: "Elaborar Consignaciones", url: "/pages/cartera/elaborarCo/", icon: <ArticleIcon /> },
     ],
   },
   {
     title: "INFORMES",
     subPages: [
-      { title: "Ruteros Enviados", url: "/pages/gestionCartera", icon: <DirectionsRunIcon /> },
-      { title: "Historico de Ventas", url: "/pages/historicoVenta", icon: <ReceiptIcon /> },
-      { title: "Resumen Ventas Actual", url: "/pages/resumenVenta", icon: <ReceiptLongIcon /> },
+      { title: "Ruteros Enviados", url: "/pages/gestionCartera/", icon: <DirectionsRunIcon /> },
+      { title: "Historico de Ventas", url: "/pages/historicoVenta/", icon: <ReceiptIcon /> },
+      { title: "Resumen Ventas Actual", url: "/pages/resumenVenta/", icon: <ReceiptLongIcon /> },
     ],
   },
   {
     title: "INVENTARIOS",
     subPages: [
-      { title: "Consultar Articulos", url: "/pages/inventario", icon: <InventoryIcon /> },
+      { title: "Consultar Articulos", url: "/pages/inventario/", icon: <InventoryIcon /> },
     ],
   },
 ];
@@ -77,7 +77,7 @@ const NavBar = () => {
         const data = await response.json();
         console.log("Existe Conexion: ", true);
       } catch (error) {
-        console.log("No Existe Conexion: ", false);
+        console.log("Existe Conexion: ", false);
       }
     }
     verificar();
@@ -254,7 +254,7 @@ const NavBar = () => {
               <Button onClick={handleRefresh} color="inherit">Actualizar</Button>
             </Box>
             <Typography variant="h6" sx={{ flexGrow: 1 }}></Typography>
-              <Button LinkComponent={Link} href="/pages" color="inherit">
+              <Button LinkComponent={Link} href="/pages/" color="inherit">
                 <ArrowBackIcon />
               </Button>
               <Button color="inherit" sx={{ width: "15%" }}>{auth && auth.UserFullName}</Button>

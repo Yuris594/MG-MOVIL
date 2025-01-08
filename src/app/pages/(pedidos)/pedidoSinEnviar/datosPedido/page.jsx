@@ -410,7 +410,7 @@ const DatosPedido = ({ pedido, handleClose }) => {
         showConfirmButton: false,
       });
 
-      router.push("../pages/pedidoEnviado");
+      router.push("../pedidoEnviado/");
 
     } catch (error) {
       console.error("Error:", error);

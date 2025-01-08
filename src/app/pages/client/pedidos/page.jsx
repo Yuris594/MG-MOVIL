@@ -194,7 +194,7 @@ const CrearPedido = () => {
       pedidosGuardados.push(pedido);
       localStorage.setItem("pedidos", JSON.stringify(pedidosGuardados));
     
-      router.push("../../pages/pedidoSinEnviar");
+      router.push("../../pedidoSinEnviar/");
   
       Swal.fire({
         title: "Pedido guardado",
@@ -338,7 +338,7 @@ const CrearPedido = () => {
         showConfirmButton: false,
       });
 
-      router.push("../../pages/pedidoEnviado");
+      router.push("../../pedidoEnviado/");
       
     } catch (error) {
       console.error("Error:", error.message);
@@ -384,7 +384,7 @@ const CrearPedido = () => {
               <Button onClick={handleOpen} variant="contained" sx={{ margin: 1, backgroundColor:"#4eeacb", color: "white" }}>Articulos</Button>
               <Button onClick={guardarPedido} variant="contained" sx={{ margin: 1, backgroundColor: '#8334f0', color: 'white' }}>Guardar</Button>
               <Button onClick={enviarPedido} variant="contained" sx={{ margin: 1 }} color="success">Enviar</Button>
-              <Button variant="contained" sx={{ ml: 1, mr: 2 }} color="error" LinkComponent={Link} href="../client">Cerrar</Button>
+              <Button variant="contained" sx={{ ml: 1, mr: 2 }} color="error" LinkComponent={Link} href="../">Cerrar</Button>
             </Box>
           </Grid>
         </Grid>

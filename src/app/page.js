@@ -66,7 +66,7 @@ function Login() {
           setOpen(true);
           const token = resultado
           login(token);
-          router.push("../pages");
+          router.push("../pages/");
         }
     } catch (error) {
           setError(true);

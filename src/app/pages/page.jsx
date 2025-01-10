@@ -24,12 +24,9 @@ const Inicio = () => {
         </Box>
       </Box>
 
-      <div className="container">
-        <img 
-          src="/LOGO.png"
-          alt="LOGO"
-        />
-      </div>
+      <Box component="div" sx={{ width: "75vw", maxWidth: "1500px", minWidth: "320px", margin: "auto" }}>
+        <img src="/LOGO.png" alt="LOGO" />
+      </Box>
 
       <Copyright sx={{ mt: 3, mb: 3 }} />
     </>

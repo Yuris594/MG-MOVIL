@@ -144,7 +144,7 @@ const DetallePedido = () => {
 
   const cerrar = () => {
     localStorage.removeItem("detallePedido");
-    router.push("/pages/pedidoEnviado");
+    router.push("/pages/pedidoEnviado/");
   };
 
   const enviarPdf = async () => {

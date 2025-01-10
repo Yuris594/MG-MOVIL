@@ -63,24 +63,42 @@ const pages = [
 const NavBar = () => {
   const [selectedPage, setSelectedPage] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [internet, setInternet] = useState(false);
   const { auth, logout } = useAuth();
   const router = useRouter();
-
+  
   useEffect(() => {
-    const verificar = async () => {
+    const verificarConexion = async () => {
       try {
         const response = await fetch(Global.url + '/users/verificar', {
           method: "GET",
           headers: { "Content-Type" : "application/json" },
         });
+  
+        if (response.ok) {
+          const data = await response.json()
 
-        const data = await response.json();
-        console.log("Existe Conexion: ", true);
+          if (data.conectado === true) {
+            setInternet(true);
+            console.log("Conexión autorizada:", true);
+          } else {
+            setInternet(false);
+            console.log("Conexión no autorizada:", false);
+            Swal.fire({
+              title: "Sin conexion",
+              text: "No se ha podido establecer una conexión, revisar el Internet.",
+              icon: "error"
+            });
+          }
+        } else {
+          throw new Error ("Error en la respuesta del servidor");
+        }
       } catch (error) {
-        console.log("Existe Conexion: ", false);
+        setInternet(false);
+        console.log("Conexion sin autorizada:", false);
       }
-    }
-    verificar();
+    };
+    verificarConexion();
   }, []);
 
   const handlePageClick = (page) => {
@@ -101,18 +119,18 @@ const NavBar = () => {
     setAnchorEl(null); 
   };
 
-  const handleRefresh = () => {
+  const handleRefresh = async () => { 
     router.push("/pages");
 
-    if (!navigator.onLine) {
+    if (!internet) {
       Swal.fire({
-        icon: "info",
-        title: "Sin Conexión",
-        text: "Verificar la conexión con la Empresa o no tiene Internet."
+        title: "Sin Conexión.",
+        text: "Revisar la conexión con la empresa o no tiene internet.",
+        icon: "error",
       });
       return;
     }
-    
+
     Swal.fire({
       title: "¿Deseas Actualizar?",
       text: "Se actualizará la base de datos local!",

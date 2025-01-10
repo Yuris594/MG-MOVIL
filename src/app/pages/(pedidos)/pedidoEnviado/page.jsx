@@ -98,7 +98,7 @@ const PedidoEnviado = () => {
       });
         localStorage.setItem("detallePedido", JSON.stringify(resultadosFiltrados));
         setClienteV(resultadosFiltrados);
-        router.push("./pedidoEnviado/detallePedido");
+        router.push("./detallePedido/");
     }
   }, [pedido]);
 

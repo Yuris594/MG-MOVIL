@@ -3,7 +3,7 @@
 import { Global } from "@/conexion";
 import Grid from "@mui/material/Grid2";
 import { DataGrid } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
+import { useEffect,  useState } from "react";
 import { useAuth } from "@/context/authContext";
 import NavBar from "@/app/components/navbar/nav";
 import { Box, TextField, useMediaQuery } from "@mui/material";
@@ -105,12 +105,12 @@ const GestionCartera = () => {
             <h2><strong>RESUMEN VENTA ACTUAL</strong></h2>
             <Box sx={{ display: "flex", flexDirection: isSmallScreen ? "column" : "row", alignItems: "center", marginLeft: isSmallScreen ? 0 : "auto", padding: 2  }}>
               <TextField
-              id="outlined-basic" 
-              type="text"
-              value={busqueda}
-              onChange={handleChange} 
-              placeholder="Buscar..."
-              sx={{ width: isSmallScreen ? 300 : 500 }}
+                id="outlined-basic" 
+                type="text"
+                value={busqueda}
+                onChange={handleChange} 
+                placeholder="Buscar..."
+                sx={{ width: isSmallScreen ? 300 : 500 }}
               />
             </Box>
           </Box>
@@ -123,9 +123,9 @@ const GestionCartera = () => {
               columns={columns}
               getRowId={(row) => row.TIPO}
               initialState={{
-                  pagination: {
-                      paginationModel: { page: 0, pageSize: 12 }
-                  }
+                pagination: {
+                    paginationModel: { page: 0, pageSize: 12 }
+                }
               }}
               pageSizeOptions={[12]}
             />

@@ -1,7 +1,7 @@
 {
   "name": "MG-MOVIL WEB",
   "short_name": "WEB APP",
-  "start_url": "MG-MOVIL",
+  "start_url": "/", 
   "display": "standalone",
   "description": "App web con PWA",
   "dir": "auto",
@@ -35,3 +35,4 @@
     }
   ]
 }
+

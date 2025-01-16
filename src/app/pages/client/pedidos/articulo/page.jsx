@@ -85,19 +85,19 @@ const Articulos = ({ handleClose, onAgregarArticulo }) => {
     { field: "Unidad_Empaque", headerName: "EMP", width: 80, headerClassName: 'header-bold' },
     { field: "Precio", headerName: "PRECIO", width: 90, editable: true, 
       valueFormatter: (value) => {
-        const precio = parseFloat(value).toFixed(0);
+        const precio = Number(value).toFixed(0);
         return `${parseFloat(precio).toLocaleString()}`;
       }, headerClassName: 'header-bold'
     },
     { field: "Iva", headerName: "IVA", width: 80,
       valueFormatter: (value) => {
-        const iva = parseFloat(value).toLocaleString();
+        const iva = Number(value).toLocaleString();
         return `${parseFloat(iva).toFixed(1)}`;
       }, headerClassName: 'header-bold' 
     },
     { field: "Descuento", headerName: "DESC", width: 80, 
       valueFormatter: (value) => {
-        const descuento = parseFloat(value).toLocaleString();
+        const descuento = Number(value).toLocaleString();
         return `${parseFloat(descuento).toFixed(1)}`;
       }, editable: true, headerClassName: 'header-bold' 
     },
@@ -120,13 +120,13 @@ const Articulos = ({ handleClose, onAgregarArticulo }) => {
     },
     { field: "Precio_Neto", headerName: "NETO", width: 80, 
       valueFormatter: (value) => {
-        const precio = parseFloat(value).toFixed(0);
+        const precio = Number(value).toFixed(0);
         return `${parseFloat(precio).toLocaleString()}`;
       }, headerClassName: 'header-bold'
     },
     { field: "Disp", headerName: "DISP", width: 80,
       valueFormatter: (value) => {
-        const disp = parseFloat(value).toFixed(0);
+        const disp = Number(value).toFixed(0);
         return `${parseFloat(disp).toLocaleString()}`;
       }, headerClassName: 'header-bold' 
     },
@@ -184,4 +184,3 @@ const Articulos = ({ handleClose, onAgregarArticulo }) => {
 
 export default Articulos;
 
-//Debo agregar el precio total al array de los articulos

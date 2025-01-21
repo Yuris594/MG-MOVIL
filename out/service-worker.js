@@ -1,7 +1,5 @@
 const CACHE_NAME = 'MG-MOVIL';
 const STATIC_ASSETS = [
-    '/',
-    '/index.html/',
     '/pages.html/',
     '/client.html/',
     '/client/pedidos.html/',

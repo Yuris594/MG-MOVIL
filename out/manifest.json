@@ -1,0 +1,39 @@
+{
+  "name": "MG-MOVIL WEB",
+  "short_name": "WEB APP",
+  "scope": "./",
+  "start_url": "./", 
+  "display": "standalone",
+  "description": "App web con PWA",
+  "dir": "auto",
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/icons/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
+

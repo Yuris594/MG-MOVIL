@@ -2,7 +2,6 @@
 import "./globals.css";
 import { Roboto } from "next/font/google";
 import AuthProvider from "@/context/authContext";
-import RegisterServiceWorkers from "./components/registerService";
 
 const inter = Roboto({ 
   subsets: ["latin"],
@@ -15,6 +14,15 @@ export const metadata = {
   manifest: '/manifest.json'
 }
 
+if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/sw.js')
+      .then(reg => console.log('Service Worker registrado:', reg))
+      .catch(err => console.error('Error al registrar el Service Worker:', err));
+  });
+}
+
 function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -22,7 +30,6 @@ function RootLayout({ children }) {
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body className={inter.className}>
-        <RegisterServiceWorkers />
         <AuthProvider>
           {children}
         </AuthProvider>

@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-import nextPWA from 'next-pwa';
+//import nextPWA from 'next-pwa';
 //import { GenerateSW } from 'workbox-webpack-plugin';
 
 //const production = process.env.NODE_ENV === 'production';
@@ -7,7 +7,7 @@ import nextPWA from 'next-pwa';
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
-    //output: "export",
+    output: "export",
     trailingSlash: true,
 
     /*webpack(config, { isServer }) {
@@ -51,15 +51,15 @@ const nextConfig = {
 
 };
 
-const withPWA = nextPWA({
+/*const withPWA = nextPWA({
     dest: 'public',
     register: true,
     skipWaiting: true,
     disable: process.env.NODE_ENV === 'development',
 });
+*/
 
-
-export default withPWA(nextConfig);
+export default nextConfig;
 
 
 

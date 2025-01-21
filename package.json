@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && workbox generateSW",
     "start": "next start",
     "lint": "next lint"
   },
@@ -37,4 +37,6 @@
     "eslint": "8.57.1",
     "eslint-config-next": "15.1.2"
   }
+
+  
 }

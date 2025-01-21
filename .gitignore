@@ -15,7 +15,7 @@
 
 # production
 /build/
-conexion.js
+#conexion.js
 
 
 # misc

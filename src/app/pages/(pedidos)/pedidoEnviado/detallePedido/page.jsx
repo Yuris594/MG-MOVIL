@@ -10,6 +10,12 @@ import { DataGrid } from "@mui/x-data-grid";
 import Grid from "@mui/material/Grid2";
 import { Global } from "@/conexion";
 import Swal from "sweetalert2";
+import ShareIcon from '@mui/icons-material/Share';
+import PrintIcon  from "@mui/icons-material/Print";
+import CloseIcon from '@mui/icons-material/Close';
+import SpeedDial from '@mui/material/SpeedDial';
+import SpeedDialIcon from '@mui/material/SpeedDialIcon';
+import SpeedDialAction from '@mui/material/SpeedDialAction';
 
 
 const columns = [
@@ -55,6 +61,12 @@ const obtenerDatos = async(clienteD) => {
     }
     return response.json();
 };
+
+const actions = [
+  { icon: <ShareIcon />, name: 'Compartir' },
+  { icon: <PrintIcon />, name: 'Pdf' },
+  { icon: <CloseIcon />, name: 'Cerrar' },
+];
 
 
 const DetallePedido = () => {

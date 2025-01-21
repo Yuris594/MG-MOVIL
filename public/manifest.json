@@ -1,7 +1,8 @@
 {
   "name": "MG-MOVIL WEB",
   "short_name": "WEB APP",
-  "start_url": "/", 
+  "scope": "./",
+  "start_url": "./", 
   "display": "standalone",
   "description": "App web con PWA",
   "dir": "auto",

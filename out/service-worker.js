@@ -1,2 +1,73 @@
-if(!self.define){let e,t={};const s=(s,n)=>(s=new URL(s+".js",n).href,t[s]||new Promise((t=>{if("document"in self){const e=document.createElement("script");e.src=s,e.onload=t,document.head.appendChild(e)}else e=s,importScripts(s),t()})).then((()=>{let e=t[s];if(!e)throw new Error(`Module ${s} didn’t register its module`);return e})));self.define=(n,o)=>{const r=e||("document"in self?document.currentScript.src:"")||location.href;if(t[r])return;let i={};const u=e=>s(e,r),c={module:{uri:r},exports:i,require:u};t[r]=Promise.all(n.map((e=>c[e]||u(e)))).then((e=>(o(...e),i)))}}define(["./workbox-203bf004"],(function(e){"use strict";self.addEventListener("message",(e=>{e.data&&"SKIP_WAITING"===e.data.type&&self.skipWaiting()})),e.registerRoute((({request:e})=>"document"===e.destination),new e.NetworkFirst,"GET"),e.registerRoute((({request:e})=>"image"===e.destination),new e.CacheFirst,"GET")}));
-//# sourceMappingURL=service-worker.js.map
+const CACHE_NAME = 'MG-MOVIL';
+const STATIC_ASSETS = [
+    '/pages/',
+    '/pages/client/',
+    '/pages/client/pedidos/',
+    '/pages/pedidoSinEnviar/',
+    '/pages/cartera/',
+    '/pages/inventario/',
+    '/pages/client/cotizacion/',
+    '/pages/cotizacion/',
+    '/favicon.ico',
+    '/LOGO.png',
+    '/globals.css',
+];
+
+self.addEventListener('install', (event) => {
+    console.log('Service Worker: Instalado');
+    event.waitUntil(
+        caches.open(CACHE_NAME).then((cache) => {
+            console.log('Archivos en caché');
+            return cache.addAll(STATIC_ASSETS);
+        }).catch((error) => {
+            console.error('Error al agregar archivos al caché:', error);
+        })
+    );
+});
+
+self.addEventListener('activate', (event) => {
+    console.log('Service Worker: Activado');
+    event.waitUntil(
+        caches.keys().then((cacheNames) => {
+            return Promise.all(
+                cacheNames.map((cache) => {
+                    if (cache !== CACHE_NAME) {
+                        console.log('Service Worker: Eliminando caché antigua', cache);
+                        return caches.delete(cache);
+                    }
+                })
+            );
+        })
+    );
+});
+
+self.addEventListener('fetch', (event) => {
+    console.log('Interceptando solicitud:', event.request.url);
+
+    event.respondWith(
+        caches.match(event.request).then((cachedResponse) => {
+            if (cachedResponse) {
+                return cachedResponse;
+            }
+
+            return fetch(event.request)
+                .then((response) => {
+                    if (!response || response.status !== 200 || response.type !== 'basic') {
+                        return response;
+                    }
+
+                    const responseClone = response.clone();
+                    caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(event.request, responseClone);
+                    });
+
+                    return response;
+                })
+                .catch(() => {
+                    if (event.request.headers.get('accept')?.includes('text/html')) {
+                        return caches.match('/');
+                    }
+                });
+        })
+    );
+});

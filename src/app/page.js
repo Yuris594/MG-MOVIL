@@ -129,7 +129,7 @@ function Login() {
                 onChange={(e) => setClave(e.target.value)}
               />
 
-              <Button type="submit" fullWidth  sx={{ mt: 2, backgroundColor: "#11eb6c", color: "white", "$:hover": { backgroundColor: "#35eb11" } }}>
+              <Button type="submit" fullWidth  sx={{ mt: 2, backgroundColor: "#0B600B", color: "white", "$:hover": { backgroundColor: "#35eb11" } }}>
                 Iniciar sesión
               </Button>
             </Box>

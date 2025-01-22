@@ -117,7 +117,7 @@ const GestionCartera = () => {
         </Grid>
 
         <Grid size={12} sx={{ flexGrow: 1, marginBottom: 2 }}>
-          <Box sx={{ width: '100%', heigth: isSmallScreen ? 500 : 750 }}>
+          <Box sx={{ width: '100%', heigth: "auto" }}>
             <DataGrid 
               rows={resumen}
               columns={columns}

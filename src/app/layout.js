@@ -18,9 +18,9 @@ export const metadata = {
 function RootLayout({ children }) {
   return (
     <html lang="en">
-      <Head>
+      <head>
         <link rel="manifest" href="/manifest.json" />
-      </Head>
+      </head>
       <body className={inter.className}>
         <RegisterServiceWorkers />
         <AuthProvider>

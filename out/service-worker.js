@@ -1,5 +1,11 @@
 const CACHE_NAME = 'MG-MOVIL';
 const STATIC_ASSETS = [
+    '/globals.css',
+    '/favicon.ico',
+    '/LOGO.png',
+
+
+    '/',
     '/pages/',
     '/pages/client/',
     '/pages/client/pedidos/',
@@ -8,9 +14,6 @@ const STATIC_ASSETS = [
     '/pages/inventario/',
     '/pages/client/cotizacion/',
     '/pages/cotizacion/',
-    '/favicon.ico',
-    '/LOGO.png',
-    '/globals.css',
 ];
 
 self.addEventListener('install', (event) => {
@@ -47,7 +50,7 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
         caches.match(event.request).then((cachedResponse) => {
             if (cachedResponse) {
-                return cachedResponse;
+                return cachedResponse;  
             }
 
             return fetch(event.request)
@@ -64,10 +67,27 @@ self.addEventListener('fetch', (event) => {
                     return response;
                 })
                 .catch(() => {
-                    if (event.request.headers.get('accept')?.includes('text/html')) {
-                        return caches.match('/');
-                    }
-                });
+                    if (!navigator.onLine) {
+                    event.respondWith(
+                    caches.match(event.request).then((response) => {
+                        if (response) {
+                        return response;
+                        } else {
+                        return caches.open(CACHE_NAME).then((cache) => {
+                            return cache.match(event.request);
+                        });
+                        
+                        }
+                    })
+                    );
+                    self.clients.matchAll().then((clients) => {
+                        clients.forEach((client) => {
+                            client.postMessage({ type: 'NO_INTERNET' });
+                        });
+                    });
+                    return caches.match('/pages');
+                } 
+            });
         })
     );
 });

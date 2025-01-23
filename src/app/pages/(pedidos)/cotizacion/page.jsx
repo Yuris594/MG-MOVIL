@@ -349,11 +349,9 @@ const VerCotizacion = () => {
       <Modal 
         open={open} 
         onClose={handleClose} 
-        BackdropProps={{
-          onClick: (event) => event.stopPropagation()
-        }}
         aria-labelledby="modal-modal-title" 
-        aria-describedby="modal-modal-description">
+        aria-describedby="modal-modal-description"
+      >
         <Box sx={style}>
          <DetallesPedido pedido={seleccionarPedido} handleClose={handleClose} />
         </Box>
